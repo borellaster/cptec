@@ -1,8 +1,6 @@
 var app = require('express')(),
-  authors = require('./server/controllers/authors'),
   countries = require('./server/controllers/countries'),
-  bodyParser = require('body-parser'),
-  books = require('./server/controllers/books');
+  bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
