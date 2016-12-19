@@ -1,4 +1,8 @@
 Country = require('../models/').Country;
+var Sequelize = require('sequelize');
+var env       = process.env.NODE_ENV || 'development';
+var config    = require(__dirname + '/../config/config')[env];
+var sequelize = new Sequelize(config.url, config);
 
 module.exports= {
   index(req, res) {
@@ -10,6 +14,14 @@ module.exports= {
         res.status(500).json(error);
       });
   },
+
+  raw(req, res) {
+    sequelize.query("SELECT id, name, abbreviation FROM \"Countries\" where id = 2", { type:Sequelize.QueryTypes.SELECT}).then(function(countries) {
+      var result = {data: []};      
+      result.data = countries
+      res.json(result)
+    });
+  },  
 
   show(req, res) {
     Country.findById(req.params.id)
