@@ -8,13 +8,12 @@ var async = require('async');
 module.exports = {
 
   index(req, res) {
-    var result, selectErr;
+    /*var result, selectErr;
     result = {data: [], count: 0, page: 1, pages: 1};
     async.series({
       select: function(next) {
         country.findAll().then(function (countries) {
           result.data = countries;
-          console.log(result);
           next();
         }).catch(function (error) {
           selectErr = error;
@@ -25,16 +24,41 @@ module.exports = {
           result.count = count;
           result.page = 1;
           result.pages = Math.ceil(count / opts.size);
-          console.log(result);
           next();
         }).catch(function (error) {
           selectErr = error;
         });
       },
-      back: function(next) {
-        res.json(result);
-      }      
-    });
+      back: function(err, results) {
+        var duvido = {data: [], count: 0, page: 1, pages: 1};
+        duvido.data = results.select; 
+        return duvido;
+      }     
+    });*/
+
+
+    async.series({
+      select: function(next) {
+        country.findAll().then(function (countries) {
+          result.data = countries;
+          next();
+        }).catch(function (error) {
+          selectErr = error;
+        });
+      },
+      count: function(next) {
+        country.findAll({attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'id']]}).then(function (count) {
+          result.count = count;
+          result.page = 1;
+          result.pages = Math.ceil(count / opts.size);
+          next();
+        }).catch(function (error) {
+          selectErr = error;
+        });
+      }
+    }, function(err, results) {
+        res.status(200).json(results);
+    });    
 
   },
 
