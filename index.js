@@ -10,7 +10,7 @@ app.get('/rest/countries/:id', countries.show);
 app.post('/rest/countries', countries.create);
 app.put('/rest/countries/:id', countries.update);
 app.delete('/rest/countries/:id', countries.delete);
-app.get('/rest/countries/raw/json', countries.raw);
+//app.get('/rest/countries/raw/json', countries.raw);
 
 app.set('port', process.env.PORT || 8000);
 app.listen(app.get('port'), function () {

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('Countries', {
+    return queryInterface.createTable('country', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,9 +11,12 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      abbreviation: {
+      nickname: {
         type: Sequelize.STRING
       },
+      geoid: {
+        type: Sequelize.STRING
+      },      
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
@@ -25,6 +28,6 @@ module.exports = {
     });
   },
   down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('Countries');
+    return queryInterface.dropTable('country');
   }
 };

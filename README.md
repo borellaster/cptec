@@ -1,4 +1,4 @@
-# Projeto INPE/CPTEC - Aplicação Servidor NodeJS e MongoDB
+# Projeto INPE/CPTEC - Aplicação Servidor NodeJS e PostgreSQL/PostGIS
 
 ## Requisitos
 

@@ -1,8 +1,9 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Country = sequelize.define('Country', {
+  var country = sequelize.define('country', {
     name: DataTypes.STRING,
-    abbreviation: DataTypes.STRING
+    nickname: DataTypes.STRING,
+    geoid: DataTypes.STRING
   }, {
     underscored: true,
     classMethods: {
@@ -10,5 +11,5 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
-  return Country;
+  return country;
 };

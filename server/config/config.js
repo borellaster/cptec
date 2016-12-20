@@ -1,6 +1,6 @@
 module.exports = {
 	development: {
-  	url: 'postgres://pba:pba@localhost:5432/bookmark',
+  	url: 'postgres://postgres:postgres@localhost:5432/cptec',
   	dialect: 'postgres'
   },
 	production: {
@@ -12,7 +12,7 @@ module.exports = {
   	dialect: 'postgres'
   },
 	test: {
-  	url: process.env.DATABASE_URL || 'postgres://pba:pba@localhost:5432/bookmark_test',
+  	url: process.env.DATABASE_URL,
   	dialect: 'postgres'
   }
 };
