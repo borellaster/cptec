@@ -1,12 +1,11 @@
+state = require('../models/').state;
 country = require('../models/').country;
-var Sequelize = require('sequelize');
-var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/../config/config')[env];
-var sequelize = new Sequelize(config.url, config);
 
 module.exports= {
   index(req, res) {
-    country.findAll()
+    state.findAll({
+      include: country
+    })
     .then(function (countries) {
       res.status(200).json(countries);
     })
@@ -15,19 +14,12 @@ module.exports= {
     });
   },
 
-  /*raw(req, res) {
-    sequelize.query("SELECT id, name, abbreviation FROM \"Countries\" ", { 
-      type:Sequelize.QueryTypes.SELECT}).then(function(countries) {
-        var result = {data: []};      
-        result.data = countries
-        res.json(result)
-    });
-  }, */ 
-
   show(req, res) {
-    country.findById(req.params.id)
-    .then(function (country) {
-      res.status(200).json(country);
+    state.findById(req.params.id, {
+      include: country
+    })
+    .then(function (state) {
+      res.status(200).json(state);
     })
     .catch(function (error){
       res.status(500).json(error);
@@ -35,7 +27,7 @@ module.exports= {
   },
 
   create(req, res) {
-    country.create(req.body)
+    state.create(req.body)
       .then(function (object) {
         res.status(200).json(object);
       })
@@ -45,7 +37,7 @@ module.exports= {
   },
 
   update(req, res) {    
-    country.update(req.body, {
+    state.update(req.body, {
       where: {
         id: req.params.id
       }
@@ -59,7 +51,7 @@ module.exports= {
   },
 
   delete(req, res) {
-    country.destroy({
+    state.destroy({
       where: {
         id: req.params.id
       }

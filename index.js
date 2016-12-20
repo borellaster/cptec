@@ -1,5 +1,6 @@
 var app = require('express')(),
   countries = require('./server/controllers/countries'),
+  states = require('./server/controllers/states'),
   bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
@@ -10,7 +11,16 @@ app.get('/rest/countries/:id', countries.show);
 app.post('/rest/countries', countries.create);
 app.put('/rest/countries/:id', countries.update);
 app.delete('/rest/countries/:id', countries.delete);
+
+
+app.get('/rest/states', states.index);
+app.get('/rest/states/:id', states.show);
+app.post('/rest/states', states.create);
+app.put('/rest/states/:id', states.update);
+app.delete('/rest/states/:id', states.delete);
+
 //app.get('/rest/countries/raw/json', countries.raw);
+//usado para sql nativo...
 
 app.set('port', process.env.PORT || 8000);
 app.listen(app.get('port'), function () {

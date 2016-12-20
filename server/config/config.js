@@ -1,6 +1,6 @@
 module.exports = {
 	development: {
-  	url: 'postgres://postgres:postgres@localhost:5432/cptec',
+  	url: 'postgres://cptec:Cptec10@localhost:5432/cptec',
   	dialect: 'postgres'
   },
 	production: {

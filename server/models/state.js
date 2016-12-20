@@ -1,16 +1,16 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var country = sequelize.define('country', {
+  var state = sequelize.define('state', {
     name: DataTypes.STRING,
     nickname: DataTypes.STRING,
-    geoid: DataTypes.STRING
+    geoid: DataTypes.STRING   
   }, {
     underscored: true,
     classMethods: {
       associate: function(models) {
-        
+        state.belongsTo(models.country, { foreignKey: 'country_id'})
       }
     }
   });
-  return country;
+  return state;
 };
