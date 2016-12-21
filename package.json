@@ -8,6 +8,11 @@
     "start": "node index.js"
   },
   "author": "Felipe Borella",
+  "collaborators": [
+    "Carlos Amaral Holbig <holbig@upf.br>",    
+    "Willingthon Pavan <pavan@upf.br>",
+    "Angela Mazzonetto <angelamazzonettofw@gmail.com>"
+  ],  
   "license": "ISC",
   "dependencies": {
     "async": "^2.1.4",
