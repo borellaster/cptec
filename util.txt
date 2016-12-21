@@ -1,0 +1,10 @@
+sql nativo..
+
+  raw(req, res) {
+    sequelize.query("SELECT id, name, abbreviation FROM \"Countries\" ", { 
+      type:Sequelize.QueryTypes.SELECT}).then(function(countries) {
+        var result = {data: []};      
+        result.data = countries
+        res.json(result)
+    });
+  },

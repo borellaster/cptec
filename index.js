@@ -7,19 +7,22 @@ var app = require('express')(),
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/rest/countries', countries.index);
-app.get('/rest/countries/:id', countries.show);
-app.post('/rest/countries', countries.create);
+/*countries api*/
+app.get('/rest/countries', countries.findAll);
+app.get('/rest/countries/:id', countries.findById);
+app.get('/rest/countries/pag/count', countries.count);
+app.post('/rest/countries', countries.save);
 app.put('/rest/countries/:id', countries.update);
 app.delete('/rest/countries/:id', countries.delete);
 
-
+/*states api*/
 app.get('/rest/states', states.index);
 app.get('/rest/states/:id', states.show);
 app.post('/rest/states', states.create);
 app.put('/rest/states/:id', states.update);
 app.delete('/rest/states/:id', states.delete);
 
+/*cities api*/
 app.get('/rest/cities', cities.index);
 app.get('/rest/cities/:id', cities.show);
 app.post('/rest/cities', cities.create);
