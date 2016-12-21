@@ -1,4 +1,10 @@
-# Projeto INPE/CPTEC - Aplicação Servidor NodeJS e PostgreSQL/PostGIS
+# Projeto CPTEC/INPE - Aplicação Servidor NodeJS e PostgreSQL/PostGIS
+
+#Projeções das mudanças climáticas para estudos de impactos sobre a disponibilidade hídrica no país com implicações na segurança alimentar e energética.
+
+##Este projeto tem por objetivo gerar projeções de mudanças climáticas regionalizadas e avaliar os impactos sobre a disponibilidade hídrica no país, em diferentes cenários de emissão, em alta resolução espacial, com implicações na segurança alimentar e energética.. 
+Situação: Em andamento; Natureza: Pesquisa.
+
 
 ## Requisitos
 
