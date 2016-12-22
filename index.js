@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 /*countries api*/
 app.get('/rest/countries/:page/:size', countries.findAll);
+app.get('/rest/countries/search/:page/:size/:name', countries.search);
 app.get('/rest/countries/:id', countries.findById);
 app.post('/rest/countries', countries.save);
 app.put('/rest/countries/:id', countries.update);
