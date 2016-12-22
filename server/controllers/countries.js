@@ -7,18 +7,21 @@ var sequelize = new Sequelize(config.url, config);
 module.exports = {
 
   findAll(req, res) {
-    var result = {data: []};
-    country.findAll().then(function (countries) {
+    var result = {data: [], count: 0, page: 1, pages: 1};
+    if(req.params.page <= 0) {
+      req.params.page = 1;
+    }
+    country.findAll({offset: req.params.size * (req.params.page-1), 
+                    limit: req.params.size}).then(function (countries) {
+                      
       result.data = countries;
-      res.status(200).json(result);
-    }).catch(function (error) {
-      res.status(500).json(error);
-    });
-  },
-
-  count(req, res) {
-    country.findAll({attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'count']]}).then(function (count) {
-      res.status(200).json(count);
+      sequelize.query("select count(id) from \"countries\" ", { 
+                type:Sequelize.QueryTypes.SELECT}).then(function(count) {
+        result.count = count[0].count;
+        result.page = req.params.page;
+        result.pages = Math.ceil(result.count / req.params.size);  
+        res.status(200).json(result);
+      });      
     }).catch(function (error) {
       res.status(500).json(error);
     });

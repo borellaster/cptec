@@ -8,9 +8,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 /*countries api*/
-app.get('/rest/countries', countries.findAll);
+app.get('/rest/countries/:page/:size', countries.findAll);
 app.get('/rest/countries/:id', countries.findById);
-app.get('/rest/countries/pag/count', countries.count);
 app.post('/rest/countries', countries.save);
 app.put('/rest/countries/:id', countries.update);
 app.delete('/rest/countries/:id', countries.delete);
@@ -32,7 +31,12 @@ app.delete('/rest/cities/:id', cities.delete);
 //app.get('/rest/countries/raw/json', countries.raw);
 //usado para sql nativo...
 
+//set default port
 app.set('port', process.env.PORT || 8000);
+
+//set default size for pagination
+app.set('size', 10);
+
 app.listen(app.get('port'), function () {
   console.log("CPTEC Node Server started on port", app.get('port'));
 });

@@ -8,3 +8,13 @@ sql nativo..
         res.json(result)
     });
   },
+
+
+
+  select count(id) from countries
+
+
+      $q.all([loadTable(page)]).then(function(values) {
+        vm.result = values[0];
+        calculaTotal();
+      });  
