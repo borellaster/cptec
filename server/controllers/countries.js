@@ -17,9 +17,9 @@ module.exports = {
       result.data = countries;
       sequelize.query("select count(id) from \"countries\" ", { 
                 type:Sequelize.QueryTypes.SELECT}).then(function(count) {
-        result.count = count[0].count;
-        result.page = req.params.page;
-        result.pages = Math.ceil(result.count / req.params.size);  
+        result.count = parseInt(count[0].count);
+        result.page = parseInt(req.params.page);
+        result.pages = parseInt(Math.ceil(result.count / req.params.size));  
         res.status(200).json(result);
       });      
     }).catch(function (error) {
