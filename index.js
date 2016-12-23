@@ -26,6 +26,9 @@ app.delete('/rest/states/:id', states.delete);
 /*cities api*/
 
 
+/*Native Queries*/
+app.get('/rest/native/countries/wrapper', countries.combo);
+
 
 //app.get('/rest/countries/raw/json', countries.raw);
 //usado para sql nativo...

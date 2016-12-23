@@ -56,7 +56,18 @@ module.exports = {
     }).catch(function (error) {
       res.status(500).json(error);
     });
-  },  
+  }, 
+
+  combo(req, res) {
+    var result = {data: []};
+    sequelize.query("select id, name from \"countries\" order by name ", { 
+                type:Sequelize.QueryTypes.SELECT}).then(function(countries) {
+        result.data = countries;  
+        res.status(200).json(result);
+    }).catch(function (error) {
+      res.status(500).json(error);
+    });
+  },   
 
   findById(req, res) {
     country.findById(req.params.id).then(function (country) {
