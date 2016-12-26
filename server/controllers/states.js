@@ -1,4 +1,6 @@
 state = require('../models/').state;
+country = require('../models/').country;
+
 var Sequelize = require('sequelize');
 var env       = process.env.NODE_ENV || 'development';
 var config    = require(__dirname + '/../config/config')[env];
@@ -13,7 +15,7 @@ module.exports = {
     }
     state.findAll({offset: req.params.size * (req.params.page-1), 
                      limit: req.params.size, 
-                     order: 'name'
+                     order: 'name',
                      }).then(function (states) {
                       
       result.data = states;
