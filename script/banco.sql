@@ -54,3 +54,21 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE cities OWNER TO cptec;
+
+
+/*Country variables*/
+CREATE TABLE variables
+(
+  id bigserial NOT NULL,
+  description text NOT NULL,
+  nickname character varying(5),
+  unit character varying(20),
+  color_map json,
+  created_at date,
+  updated_at date,
+  CONSTRAINT variables_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE variables OWNER TO cptec;

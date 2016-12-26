@@ -2,6 +2,7 @@ var app = require('express')(),
   countries = require('./server/controllers/countries'),
   states = require('./server/controllers/states'),
   cities = require('./server/controllers/cities'),
+  variables = require('./server/controllers/variables'),
   bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
@@ -25,6 +26,13 @@ app.delete('/rest/states/:id', states.delete);
 
 /*cities api*/
 
+/*variables api*/
+app.get('/rest/variables/:page/:size', variables.findAll);
+app.get('/rest/variables/search/:page/:size/:name', variables.search);
+app.get('/rest/variables/:id', variables.findById);
+app.post('/rest/variables', variables.save);
+app.put('/rest/variables/:id', variables.update);
+app.delete('/rest/variables/:id', variables.delete);
 
 /*Native Queries*/
 app.get('/rest/native/countries/wrapper', countries.combo);
