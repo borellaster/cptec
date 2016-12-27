@@ -1,12 +1,27 @@
 var app = require('express')(),
-  countries = require('./server/controllers/countries'),
-  states = require('./server/controllers/states'),
-  cities = require('./server/controllers/cities'),
-  variables = require('./server/controllers/variables'),
-  bodyParser = require('body-parser');
+ 	session = require('express-session'),
+	cookieParser = require('cookie-parser'),
+	flash = require('connect-flash'),
+	http = require('http'),
+	path = require('path'),
+	passport = require('passport'),
+	bodyParser = require('body-parser'),
+
+	/*API*/
+  	countries = require('./server/controllers/countries'),
+  	states = require('./server/controllers/states'),
+  	cities = require('./server/controllers/cities'),
+  	variables = require('./server/controllers/variables');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cookieParser());
+
+
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 /*countries api*/
 app.get('/rest/countries/:page/:size', countries.findAll);
