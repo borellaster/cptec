@@ -56,7 +56,7 @@ WITH (
 ALTER TABLE cities OWNER TO cptec;
 
 
-/*Country variables*/
+/*Variable variables*/
 CREATE TABLE variables
 (
   id bigserial NOT NULL,
@@ -72,3 +72,19 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE variables OWNER TO cptec;
+
+/*User table*/
+CREATE TABLE users
+(
+  id bigserial NOT NULL,
+  name text NOT NULL,
+  username character varying(100),
+  password character varying(100),
+  created_at date,
+  updated_at date,
+  CONSTRAINT users_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE users OWNER TO cptec;

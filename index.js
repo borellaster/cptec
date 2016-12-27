@@ -11,7 +11,8 @@ var app = require('express')(),
   	countries = require('./server/controllers/countries'),
   	states = require('./server/controllers/states'),
   	cities = require('./server/controllers/cities'),
-  	variables = require('./server/controllers/variables');
+  	variables = require('./server/controllers/variables'),
+  	users = require('./server/controllers/users');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -54,6 +55,14 @@ app.get('/rest/variables/:id', variables.findById);
 app.post('/rest/variables', variables.save);
 app.put('/rest/variables/:id', variables.update);
 app.delete('/rest/variables/:id', variables.delete);
+
+/*users api*/
+app.get('/rest/users/:page/:size', users.findAll);
+app.get('/rest/users/search/:page/:size/:name', users.search);
+app.get('/rest/users/:id', users.findById);
+app.post('/rest/users', users.save);
+app.put('/rest/users/:id', users.update);
+app.delete('/rest/users/:id', users.delete);
 
 /*Native Queries*/
 app.get('/rest/native/countries/wrapper', countries.combo);
