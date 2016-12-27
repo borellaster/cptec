@@ -16,6 +16,7 @@ module.exports = {
     state.findAll({offset: req.params.size * (req.params.page-1), 
                      limit: req.params.size, 
                      order: 'name',
+                     include: country 
                      }).then(function (states) {
                       
       result.data = states;
@@ -44,7 +45,8 @@ module.exports = {
     state.findAll({offset: req.params.size * (req.params.page-1), 
                      limit: req.params.size, 
                      order: 'name',
-                     where: {name: {$iLike: '%'+name+'%'}}
+                     where: {name: {$iLike: '%'+name+'%'}},
+                     include: country
                      }).then(function (states) {
                       
       result.data = states;
@@ -58,10 +60,21 @@ module.exports = {
     }).catch(function (error) {
       res.status(500).json(error);
     });
-  },  
+  },
+
+  combo(req, res) {
+    var result = {data: []};
+    sequelize.query("select id, name from \"states\" order by name ", { 
+                type:Sequelize.QueryTypes.SELECT}).then(function(states) {
+        result.data = states;  
+        res.status(200).json(result);
+    }).catch(function (error) {
+      res.status(500).json(error);
+    });
+  },     
 
   findById(req, res) {
-    state.findById(req.params.id).then(function (state) {
+    state.findById(req.params.id, {include: country}).then(function (state) {
       res.status(200).json(state);
     }).catch(function (error){
       res.status(500).json(error);

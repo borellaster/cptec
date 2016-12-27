@@ -25,6 +25,12 @@ app.put('/rest/states/:id', states.update);
 app.delete('/rest/states/:id', states.delete);
 
 /*cities api*/
+app.get('/rest/cities/:page/:size', cities.findAll);
+app.get('/rest/cities/search/:page/:size/:name', cities.search);
+app.get('/rest/cities/:id', cities.findById);
+app.post('/rest/cities', cities.save);
+app.put('/rest/cities/:id', cities.update);
+app.delete('/rest/cities/:id', cities.delete);
 
 /*variables api*/
 app.get('/rest/variables/:page/:size', variables.findAll);
@@ -36,6 +42,7 @@ app.delete('/rest/variables/:id', variables.delete);
 
 /*Native Queries*/
 app.get('/rest/native/countries/wrapper', countries.combo);
+app.get('/rest/native/states/wrapper', states.combo);
 
 
 //app.get('/rest/countries/raw/json', countries.raw);
