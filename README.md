@@ -54,8 +54,9 @@ npm install
 
 
 ## Padrão Raster
-###v1_01_20101001_0000.tif
+###v1_001_20101001_0000_MRU.tif
 * 1-version
 * 2-variable (01 ao 42, se passa de 100, temos que iniciar com 001 ao 042).
 * 3-date
 * 4-time
+* 5-city
