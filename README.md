@@ -51,3 +51,11 @@ npm install
 * **DELETE** - remover entidade por id
 
   * [.../api/entidade/{id}]() 
+
+
+## Padrão Raster
+###v1_01_20101001_0000.tif
+* **1-version
+* **2-variable
+* **3-date
+* **4-time
