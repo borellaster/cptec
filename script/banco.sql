@@ -73,6 +73,24 @@ WITH (
 );
 ALTER TABLE variables OWNER TO cptec;
 
+/*raster data*/
+CREATE TABLE raster_data
+(
+  id bigserial NOT NULL,
+  date date,
+  time time,
+  rast raster,
+  filename text,
+  variable_id bigserial NOT NULL,
+  CONSTRAINT raster_data_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_raster_data_variable FOREIGN KEY (variable_id) REFERENCES variables (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE cities OWNER TO cptec;
+
 /*User table*/
 CREATE TABLE users
 (
