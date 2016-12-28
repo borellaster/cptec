@@ -106,3 +106,18 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE users OWNER TO cptec;
+
+/*types table*/
+CREATE TABLE types
+(
+  id bigserial NOT NULL,
+  name text NOT NULL,
+  extension character varying(10),
+  created_at date,
+  updated_at date,
+  CONSTRAINT types_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE types OWNER TO cptec;

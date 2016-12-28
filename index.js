@@ -12,6 +12,7 @@ var app = require('express')(),
   	states = require('./server/controllers/states'),
   	cities = require('./server/controllers/cities'),
   	variables = require('./server/controllers/variables'),
+  	types = require('./server/controllers/types'),
   	users = require('./server/controllers/users');
 
 app.use(bodyParser.json());
@@ -63,6 +64,14 @@ app.get('/rest/users/:id', users.findById);
 app.post('/rest/users', users.save);
 app.put('/rest/users/:id', users.update);
 app.delete('/rest/users/:id', users.delete);
+
+/*types api*/
+app.get('/rest/types/:page/:size', types.findAll);
+app.get('/rest/types/search/:page/:size/:name', types.search);
+app.get('/rest/types/:id', types.findById);
+app.post('/rest/types', types.save);
+app.put('/rest/types/:id', types.update);
+app.delete('/rest/types/:id', types.delete);
 
 /*Native Queries*/
 app.get('/rest/native/countries/wrapper', countries.combo);
