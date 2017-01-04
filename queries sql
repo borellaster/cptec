@@ -15,3 +15,9 @@ select ST_Value(your_raster, ST_Transform(ST_SetSRID(ST_MakePoint(lon,lat),4326)
 select st_value(rast, st_transform(st_setsrid(st_makepoint(-63.45, -23.5), 4326),4326)) from raster_temp limit 1
 
 select st_srid(rast) from raster_temp limit 1
+
+
+
+Seleciona de um ponto, uma variável específica e uma data..
+
+select id, st_value(rast, st_setsrid(st_makepoint (-63,-19), 4326)), date from raster_data where ST_Intersects (rast, st_setsrid(st_makepoint (-63, -19), 4326)) and variable = 'tp2m';
