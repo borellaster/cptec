@@ -58,7 +58,7 @@ npm install
 * 1-Model
 * 2-Model resolution
 * 3-Ensemble (forecast, historical, ensemble model)
-* 4-Interval (daily, montly and hourly)
+* 4-Interval (daily, monthly and hourly)
 * 5-Model variable
 * 6-date
 * 7-time
