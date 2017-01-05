@@ -54,9 +54,11 @@ npm install
 
 
 ## Padrão Raster
-###v1_001_20101001_0000_MRU.tif
-* 1-version
-* 2-variable (01 ao 42, se passa de 100, temos que iniciar com 001 ao 042).
-* 3-date
-* 4-time
-* 5-city
+###ETA_15_HOURLY_V1_TP2M_20101001_0000.tif
+* 1-Model
+* 2-Model resolution
+* 3-Interval (diaio, mensal e horario.)
+* 4-version
+* 5-Model variable
+* 6-date
+* 7-time
