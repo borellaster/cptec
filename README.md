@@ -54,12 +54,12 @@ npm install
 
 
 ## Padrão Raster
-###ETA_15_RCP4.5_HOURLY_V1_TP2M_20101001_0000.tif
+###ETA_15_RCP4.5_HOURLY_TP2M_20101001_0000_V1.tif
 * 1-Model
 * 2-Model resolution
 * 3-Ensemble (forecast, historical, ensemble model)
-* 4-Interval (diaio, mensal e horario.)
-* 5-version
-* 6-Model variable
-* 7-date
-* 8-time
+* 4-Interval (daily, montly and hourly)
+* 5-Model variable
+* 6-date
+* 7-time
+* 8-version
