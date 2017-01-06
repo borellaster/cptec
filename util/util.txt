@@ -1,0 +1,28 @@
+sql nativo..
+
+  raw(req, res) {
+    sequelize.query("SELECT id, name, abbreviation FROM \"Countries\" ", { 
+      type:Sequelize.QueryTypes.SELECT}).then(function(countries) {
+        var result = {data: []};      
+        result.data = countries
+        res.json(result)
+    });
+  },
+
+
+
+  select count(id) from countries
+
+
+      $q.all([loadTable(page)]).then(function(values) {
+        vm.result = values[0];
+        calculaTotal();
+      });  
+
+
+meu
+raster2pgsql -s 4236 -I -C -M C:\cptec_tp2m_2.tif -F -t 250x250 public.raster_data | psql -U USUARIO -d NOMEBANCO -h localhost -p 5432
+
+
+angela
+raster2pgsql -s 4326 -I -M C:\cptec_tp2m_2.tif -F -t 250x250 -a public.raster_data | psql -U cptec -d cptec -d 5432

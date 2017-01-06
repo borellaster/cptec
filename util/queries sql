@@ -1,0 +1,23 @@
+descobrir valor por bandda
+SELECT ST_Value(rast, 1 , ST_Transform(ST_SetSRID(ST_MakePoint(-53.10875,-28.10125),4326),4326) ) from raster_temp where id = 1
+
+ver quantas bandas tem o arquivo
+select  ST_NumBands(rast) from raster_temp where id = 1
+
+ ver altura do pixel
+select st_height(rast) from raster_temp where id = 1;
+
+pega todas as coordenadas do arquivo
+SELECT  ST_AsText(geom) FROM (SELECT (ST_PixelAsCentroids(rast, 1)).* FROM raster_temp WHERE id = 1) foo;
+
+select ST_Value(your_raster, ST_Transform(ST_SetSRID(ST_MakePoint(lon,lat),4326),3035))
+
+select st_value(rast, st_transform(st_setsrid(st_makepoint(-63.45, -23.5), 4326),4326)) from raster_temp limit 1
+
+select st_srid(rast) from raster_temp limit 1
+
+
+
+Seleciona de um ponto, uma variável específica e uma data..
+
+select id, st_value(rast, st_setsrid(st_makepoint (-63,-19), 4326)), date from raster_data where ST_Intersects (rast, st_setsrid(st_makepoint (-63, -19), 4326)) and variable = 'tp2m';

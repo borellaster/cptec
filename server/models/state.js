@@ -3,7 +3,10 @@ module.exports = function(sequelize, DataTypes) {
   var state = sequelize.define('state', {
     name: DataTypes.STRING,
     nickname: DataTypes.STRING,
-    geoid: DataTypes.STRING   
+    area: DataTypes.DOUBLE,
+    latitude: DataTypes.DOUBLE,
+    longitude: DataTypes.DOUBLE,
+    zoom: DataTypes.INTEGER   
   }, {
     underscored: true,
     classMethods: {

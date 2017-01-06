@@ -2,11 +2,11 @@
 module.exports = function(sequelize, DataTypes) {
   var city = sequelize.define('city', {
     name: DataTypes.STRING,
-    nickname: DataTypes.STRING,
-    geoid: DataTypes.STRING,
     latitude: DataTypes.DOUBLE,   
     longitude: DataTypes.DOUBLE,
-    altitude: DataTypes.DOUBLE
+    area: DataTypes.DOUBLE,
+    status: DataTypes.INTEGER,
+    sts: DataTypes.INTEGER
   }, {
     underscored: true,
     classMethods: {
