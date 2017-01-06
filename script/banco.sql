@@ -5733,3 +5733,37 @@ INSERT INTO CITIES(ID, AREA, LATITUDE, LONGITUDE, NAME, STATUS, STS, STATE_ID) V
 INSERT INTO CITIES(ID, AREA, LATITUDE, LONGITUDE, NAME, STATUS, STS, STATE_ID) VALUES (2114007, 2413.7510000000002, -3.2429999999999999, -45.823999999999998, 'ZÉ DOCA', 0, 0, 21);
 INSERT INTO CITIES(ID, AREA, LATITUDE, LONGITUDE, NAME, STATUS, STS, STATE_ID) VALUES (4219853, 190.149, -27.451000000000001, -51.555, 'ZORTÉA', 0, 0, 42);
 INSERT INTO CITIES(ID, AREA, LATITUDE, LONGITUDE, NAME, STATUS, STS, STATE_ID) VALUES (5200050, 146.44999999999999, 16.75, 49.43, 'ABADIA DE GOIÁS', 0, 0, 52);
+
+
+/*Triggers*/
+create or replace function raster_data_BI()returns trigger as $$
+declare 
+v_date text;
+v_time text;
+v_version text;
+Begin
+  new.model=split_part(new.filename,'_',1);
+  new.model_resolution=split_part(new.filename,'_',2);
+  new.ensemble=split_part(new.filename,'_',3);
+  new.interval=split_part(new.filename,'_',4);
+  new.variable=split_part(new.filename,'_',5);
+  v_date=split_part(new.filename,'_',6);
+  v_date=substring(v_date,1,4) || '-' || substring(v_date,5,2) || '-' || substring(v_date,7,2); 
+  new.date= cast(v_date as date); 
+  v_time = split_part(new.filename,'_',7);
+  if (v_time <> '') then
+  v_time=substring(v_time,1,2) || ':' || substring(v_time,3,2) || ':00';
+  new.time=cast(v_time as time);
+  v_version=split_part(new.filename,'_',8);
+  new.version=substring(v_version,0,3);
+  end if; 
+  return new;
+end;
+$$ language 'plpgsql';
+
+
+create trigger raster_data_BI
+before insert
+on raster_data
+for each row
+execute procedure raster_data_BI();
