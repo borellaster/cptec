@@ -1,0 +1,1 @@
+raster2pgsql -s 4326 -I -M *.tif -F -t 250x250 -a public.raster_data | psql -U postgres -d cptec -p 5433
