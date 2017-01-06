@@ -1,1 +1,1 @@
-raster2pgsql -s 4326 -I -M *.tif -F -t 250x250 -a public.raster_data | psql -U postgres -d cptec -p 5433
+raster2pgsql -s 4236 -I -C -M /home/mosaico/Eta_15_forecast_daily_OCIS_20170116_1100_v1.tif -F -t 250x250 public.raster_data | psql -U cptec -d cptec -h localhost -p 5432
