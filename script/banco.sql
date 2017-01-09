@@ -5767,3 +5767,9 @@ before insert
 on raster_data
 for each row
 execute procedure raster_data_BI();
+
+
+ALTER TABLE raster_data OWNER TO cptec;
+ALTER TABLE spatial_ref_sys OWNER TO cptec;
+ALTER FUNCTION public.raster_data_bi() OWNER TO cptec;
+
