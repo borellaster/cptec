@@ -76,6 +76,7 @@ app.delete('/rest/types/:id', types.delete);
 /*Native Queries*/
 app.get('/rest/native/countries/wrapper', countries.combo);
 app.get('/rest/native/states/wrapper', states.combo);
+app.get('/rest/native/variables/wrapper', variables.combo);
 
 
 //app.get('/rest/countries/raw/json', countries.raw);

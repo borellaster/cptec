@@ -72,8 +72,7 @@ CREATE TABLE VARIABLES
   ID BIGSERIAL NOT NULL,
   DESCRIPTION TEXT NOT NULL,
   NICKNAME CHARACTER VARYING(5),
-  UNIT CHARACTER VARYING(20),
-  COLOR_MAP JSON,
+  TYPE CHARACTER VARYING(10),
   CREATED_AT DATE,
   UPDATED_AT DATE,
   CONSTRAINT VARIABLES_PKEY PRIMARY KEY (ID)
@@ -5733,6 +5732,55 @@ INSERT INTO CITIES(ID, AREA, LATITUDE, LONGITUDE, NAME, STATUS, STS, STATE_ID) V
 INSERT INTO CITIES(ID, AREA, LATITUDE, LONGITUDE, NAME, STATUS, STS, STATE_ID) VALUES (2114007, 2413.7510000000002, -3.2429999999999999, -45.823999999999998, 'ZÉ DOCA', 0, 0, 21);
 INSERT INTO CITIES(ID, AREA, LATITUDE, LONGITUDE, NAME, STATUS, STS, STATE_ID) VALUES (4219853, 190.149, -27.451000000000001, -51.555, 'ZORTÉA', 0, 0, 42);
 INSERT INTO CITIES(ID, AREA, LATITUDE, LONGITUDE, NAME, STATUS, STS, STATE_ID) VALUES (5200050, 146.44999999999999, 16.75, 49.43, 'ABADIA DE GOIÁS', 0, 0, 52);
+
+/*Variables*/
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (1, 'Pressão ao Nível Médio do Mar', 'PSLM', 'hPa', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (2, 'Pressão à Superfície', 'PSLC', 'hPa', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (3, 'Componente Meridional do Vento a 10 m da Superfície', 'V10M', 'm/s', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (4, 'Componente Zonal do Vento a 10 m da Superfície', 'U10M', 'm/s', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (5, 'Temperatura a 2 m da Superfície', 'TP2M', 'K', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (6, 'Temperatura Máxima', 'MXTP', 'K', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (7, 'Temperatura Mínima', 'MNTP', 'K', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (8, 'Temperatura do Ponto de Orvalho', 'DP2M', 'K', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (9, 'Componente Zonal do Vento a 100 m da Superfície', 'U100', 'm/s', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (10, 'Componente Meridional do Vento a 100 m da Superfície', 'V100', 'm/s', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (11, 'Precipitação Total', 'PREC', 'm/3h', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (12, 'Precipitação Convectiva', 'PRCV', 'm/3h', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (13, 'Precipitação Estratiforme', 'PRGE', 'm/3h', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (14, 'Neve', 'NEVE', 'm/3h', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (15, 'Fluxo de Calor Latente à Superfície', 'CLSF', 'W/m²', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (16, 'Fluxo de Calor Sensível à Superfície', 'CSSF', 'W/m²', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (17, 'Fluxo de Calor no Solo', 'GHFL', 'W/m²', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (18, 'Temperatura à Superfície', 'TSFC', 'K', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (19, 'Temperatura do Solo na Camada de 0-10 cm da Superfície', 'TGSC', 'K', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (20, 'Temperatura do Solo na Camada de 10-40 cm da Superfície', 'TGRZ', 'K', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (21, 'Umidade do Solo na Camada de 0-10 cm da Superfície', 'USSL', '0-1', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (22, 'Umidade do Solo na Camada de 10-40 cm da Superfície', 'UZRS', '0-1', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (23, 'Conteúdo de Água Disponível no Solo', 'SMAV', '0-1', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (24, 'Escoamento Superficial', 'RNOF', 'm/3h', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (25, 'Escoamento Subsuperficial', 'RNSG', 'm/3h', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (26, 'Evapotranspiração Potencial à Superfície', 'EVPP', 'm/3h', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (27, 'Cobertura de Nuvens Baixas', 'LWNV', '0-1', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (28, 'Cobertura de Nuvens Médias', 'MDNV', '0-1', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (29, 'Cobertura de Nuvens Altas', 'HINV', '0-1', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (30, 'Radiação de Onda Curta Incidente à Superfície', 'OCIS', 'W/m²', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (31, 'Radiação de Onda Longa Incidente à Superfície', 'OLIS', 'W/m²', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (32, 'Radiação de Onda Curta Emergente à Superfície', 'OCES', 'W/m²', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (33, 'Radiação de Onda Longa Emergente à Superfície', 'OLES', 'W/m²', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (34, 'Radiação de Onda Curta Emergente no Topo da Atmosfera', 'ROCE', 'W/m²', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (35, 'Radiação de Onda Longa Emergente no Topo da Atmosfera', 'ROLE', 'W/m²', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (36, 'Albedo Superficial', 'ALBE', '0-100', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (37, 'Energia Potencial Disponível para Convecção', 'CAPE', 'J/kg', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (38, 'Água Precipitável', 'AGPL', 'mm/3h', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (39, 'Altura Geopotencial', 'ZGEO', 'm', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (40, 'Componente Zonal do Vento', 'UVEL', 'm/s', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (41, 'Componente Meridional do Vento', 'VVEL', 'm/s', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (42, 'Temperatura Absoluta', 'TEMP', 'K', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (43, 'Umidade Relativa', 'UMRL', '%', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (44, 'Movimento Vertical', 'OMEG', 'hPa/s', '2017-01-09', '2017-01-09');
+INSERT INTO variables (id, description, nickname, type, created_at, updated_at) VALUES (45, 'Umidade Específica', 'UMES', 'kg/kg', '2017-01-09', '2017-01-09');
+
+
 
 
 /*Triggers*/
