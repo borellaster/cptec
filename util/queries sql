@@ -21,3 +21,7 @@ select st_srid(rast) from raster_temp limit 1
 Seleciona de um ponto, uma variável específica e uma data..
 
 select id, st_value(rast, st_setsrid(st_makepoint (-63,-19), 4326)), date from raster_data where ST_Intersects (rast, st_setsrid(st_makepoint (-63, -19), 4326)) and variable = 'tp2m';
+
+
+
+select st_value(rast, st_setsrid(st_makepoint (-15.1, -48.2), 4236)), date from raster_data where date='20170111' and time='040000' and variable='OCIS';
