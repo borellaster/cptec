@@ -30,3 +30,11 @@ select st_value(rast, st_setsrid(st_makepoint (-15.1, -48.2), 4236)), date from 
 retorna somente o valor do ponto:
 
 select st_value(rast, st_setsrid(st_makepoint (-63, -19), 4236)) from raster_data where date='20170111' and time='040000' and variable='OCIS';
+
+
+retorna somente um valor do ponto, recebe 2 datas e pode receber mais de uma variavel
+
+select st_value(rast, st_setsrid(st_makepoint (-63, -19), 4236))
+from raster_data 
+WHERE (date + time) BETWEEN (date '2017-01-11' + time '04:00:00') AND (date '2017-01-11' + time '04:00:00')
+and variable in ('OCIS');
