@@ -38,3 +38,13 @@ select st_value(rast, st_setsrid(st_makepoint (-63, -19), 4236))
 from raster_data 
 WHERE (date + time) BETWEEN (date '2017-01-11' + time '04:00:00') AND (date '2017-01-11' + time '04:00:00')
 and variable in ('OCIS');
+
+RETORNA O PONTO MAIS PRÓXIMO!!!
+SELECT 
+	st_value((select rast from raster_data where id = 1), geom)
+FROM (select (ST_PixelAsCentroids(rast)).* from raster_data where id = 1) as red
+WHERE GeometryType(ST_Centroid(geom)) = 'POINT'
+    AND ST_Distance_Sphere( ST_Point(ST_X(ST_Centroid(geom)), ST_Y(ST_Centroid(geom))),
+    (ST_MakePoint(-46.680484, -23.647571))) <= 7.5 * 1609.34 
+
+
