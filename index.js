@@ -13,7 +13,8 @@ var app = require('express')(),
   	cities = require('./server/controllers/cities'),
   	variables = require('./server/controllers/variables'),
   	types = require('./server/controllers/types'),
-  	users = require('./server/controllers/users');
+  	users = require('./server/controllers/users'),
+  	public = require('./server/controllers/public');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -79,8 +80,7 @@ app.get('/rest/native/states/wrapper', states.combo);
 app.get('/rest/native/variables/wrapper', variables.combo);
 
 
-//app.get('/rest/countries/raw/json', countries.raw);
-//usado para sql nativo...
+app.get('/rest/public/json/:longitude/:latitude', public.raw);
 
 //set default port
 app.set('port', process.env.PORT || 8000);
