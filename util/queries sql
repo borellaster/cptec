@@ -25,3 +25,8 @@ select id, st_value(rast, st_setsrid(st_makepoint (-63,-19), 4326)), date from r
 
 
 select st_value(rast, st_setsrid(st_makepoint (-15.1, -48.2), 4236)), date from raster_data where date='20170111' and time='040000' and variable='OCIS';
+
+
+retorna somente o valor do ponto:
+
+select st_value(rast, st_setsrid(st_makepoint (-63, -19), 4236)) from raster_data where date='20170111' and time='040000' and variable='OCIS';
