@@ -2,6 +2,7 @@ var Sequelize = require('sequelize');
 var env       = process.env.NODE_ENV || 'development';
 var config    = require(__dirname + '/../config/config')[env];
 var sequelize = new Sequelize(config.url, config);
+var functions = require(__dirname + '/../../util/functions');
 
 module.exports = {
 
@@ -18,6 +19,12 @@ module.exports = {
         res.json(result)
     });
   },
+
+  testeFunc(req, res) {
+    var result = {value: []};
+    result.value = functions.soma(10,25)
+    res.json(result);
+  },  
 
 };
 
