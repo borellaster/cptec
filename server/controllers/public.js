@@ -21,8 +21,8 @@ module.exports = {
   },
 
   testeFunc(req, res) {
-    var result = {value: []};
-    result.value = functions.soma(10,25)
+    var result = {};
+    result = functions.findQuadrant(-23.647571,-46.680484);
     res.json(result);
   },  
 
