@@ -81,7 +81,6 @@ app.get('/rest/native/variables/wrapper', variables.combo);
 
 
 app.get('/rest/public/json/:longitude/:latitude', public.raw);
-app.get('/rest/public/json/testedafuncao', public.testeFunc);
 
 //set default port
 app.set('port', process.env.PORT || 8000);
