@@ -82,6 +82,10 @@ app.get('/rest/native/variables/wrapper', variables.combo);
 
 app.get('/rest/public/json/:longitude/:latitude', public.raw);
 
+/*API Apps*/
+app.get('/rest/public/app/v1/:longitude/:latitude', public.findByCity);
+
+
 //set default port
 app.set('port', process.env.PORT || 8000);
 
