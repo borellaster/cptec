@@ -80,10 +80,10 @@ app.get('/rest/native/states/wrapper', states.combo);
 app.get('/rest/native/variables/wrapper', variables.combo);
 
 
-app.get('/rest/public/json/:longitude/:latitude', public.raw);
-
+//app.get('/rest/public/json/:longitude/:latitude/:variables', public.uniquePoint);
+//{lat: -40.23487, lng: -20.00003},
 /*API Apps*/
-app.get('/rest/public/app/v1/:longitude/:latitude', public.findByCity);
+app.get('/rest/public/json/:longitude/:latitude/:variables', public.findByCoordinates);
 
 
 //set default port
