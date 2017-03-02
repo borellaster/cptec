@@ -14,6 +14,7 @@ var app = require('express')(),
   	variables = require('./server/controllers/variables'),
   	types = require('./server/controllers/types'),
   	users = require('./server/controllers/users'),
+    requests = require('./server/controllers/requests'),
   	public = require('./server/controllers/public');
 
 app.use(bodyParser.json());
@@ -73,6 +74,14 @@ app.get('/rest/types/:id', types.findById);
 app.post('/rest/types', types.save);
 app.put('/rest/types/:id', types.update);
 app.delete('/rest/types/:id', types.delete);
+
+/*types api*/
+app.get('/rest/requests/:page/:size', requests.findAll);
+app.get('/rest/requests/search/:page/:size/:name', requests.search);
+app.get('/rest/requests/:id', requests.findById);
+app.post('/rest/requests', requests.save);
+app.put('/rest/requests/:id', requests.update);
+app.delete('/rest/requests/:id', requests.delete);
 
 /*Native Queries*/
 app.get('/rest/native/countries/wrapper', countries.combo);
