@@ -24,6 +24,7 @@
     "gulp": "^3.9.1",
     "gulp-jade": "^1.1.0",
     "morgan": "^1.7.0",
+    "node-schedule": "^1.2.0",
     "passport": "^0.3.2",
     "pg": "^6.1.0",
     "pg-hstore": "^2.3.2",
