@@ -16,6 +16,8 @@ var app = require('express')(),
   	users = require('./server/controllers/users'),
     requests = require('./server/controllers/requests'),
   	public = require('./server/controllers/public');
+    /*Request Timer*/
+    require('./server/controllers/requestProcessing');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
