@@ -87,6 +87,7 @@ app.delete('/rest/requests/:id', requests.delete);
 
 /*Native Queries*/
 app.get('/rest/native/countries/wrapper', countries.combo);
+app.get('/rest/native/cities/wrapper/:name', cities.combo);
 app.get('/rest/native/states/wrapper', states.combo);
 app.get('/rest/native/variables/wrapper', variables.combo);
 

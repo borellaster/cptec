@@ -60,7 +60,27 @@ module.exports = {
     }).catch(function (error) {
       res.status(500).json(error);
     });
-  },  
+  }, 
+
+  combo(req, res) {
+    var result = {data: []};
+    var name="%", where="";
+    if(req.params.name != undefined){
+      name = req.params.name;
+      where = " where name ilike '%"+name+"%' "; 
+    }
+    city.findAll({limit: 50, 
+                     order: 'name',
+                     where: {name: {$iLike: '%'+name+'%'}},
+                     include: state
+                     }).then(function (cities) {
+                      
+      result.data = cities;
+      res.status(200).json(result);
+    }).catch(function (error) {
+      res.status(500).json(error);
+    });
+  },   
 
   findById(req, res) {
     city.findById(req.params.id, {include: state}).then(function (city) {

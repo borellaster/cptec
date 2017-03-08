@@ -6,7 +6,8 @@ module.exports = function(sequelize, DataTypes) {
     longitude: DataTypes.DOUBLE,
     area: DataTypes.DOUBLE,
     status: DataTypes.INTEGER,
-    sts: DataTypes.INTEGER
+    sts: DataTypes.INTEGER,
+    state_id: DataTypes.INTEGER
   }, {
     underscored: true,
     classMethods: {
