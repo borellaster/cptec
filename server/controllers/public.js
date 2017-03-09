@@ -11,6 +11,7 @@ module.exports = {
     var latitude = adjusted.lat;
     var longitude = adjusted.lng;
     var variables = req.params.variables;
+    console.log(adjusted);
     var query = " select ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
                 " cast(date as date), time, variable "+
                 " from RASTER_DATA "+

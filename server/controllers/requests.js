@@ -1,5 +1,6 @@
 request = require('../models/').request;
 type = require('../models/').type;
+requestPoint = require('../models/').requestPoint;
 
 var Sequelize = require('sequelize');
 var env       = process.env.NODE_ENV || 'development';
@@ -16,7 +17,7 @@ module.exports = {
     request.findAll({offset: req.params.size * (req.params.page-1), 
                      limit: req.params.size, 
                      order: 'name',
-                     include: type 
+                     include: type
                      }).then(function (requests) {
                       
       result.data = requests;
