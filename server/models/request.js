@@ -10,7 +10,10 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         request.belongsTo(models.type, { 
           foreignKey: 'type_id'}
-        )
+        ),
+        request.hasMany(models.point, {
+          onDelete: 'cascade'
+        });
       }
     }
   });
