@@ -1,6 +1,5 @@
 request = require('../models/').request;
 type = require('../models/').type;
-requestPoint = require('../models/').requestPoint;
 
 var Sequelize = require('sequelize');
 var env       = process.env.NODE_ENV || 'development';
