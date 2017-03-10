@@ -96,6 +96,7 @@ app.get('/rest/native/variables/wrapper', variables.combo);
 //{lat: -40.23487, lng: -20.00003},
 /*API Apps*/
 app.get('/rest/public/json/:longitude/:latitude/:variables', public.findByCoordinates);
+app.get('/rest/public/json/:longitude/:latitude/:variables/:page/:size', public.findByCoordinatesPag);
 
 
 //set default port
