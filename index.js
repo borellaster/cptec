@@ -52,6 +52,7 @@ app.get('/rest/cities/:id', cities.findById);
 app.post('/rest/cities', cities.save);
 app.put('/rest/cities/:id', cities.update);
 app.delete('/rest/cities/:id', cities.delete);
+//app.get('/rest/cities/borella/teste/json2csv', cities.testeJson2Csv);
 
 /*variables api*/
 app.get('/rest/variables/:page/:size', variables.findAll);

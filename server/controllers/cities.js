@@ -5,6 +5,8 @@ var Sequelize = require('sequelize');
 var env       = process.env.NODE_ENV || 'development';
 var config    = require(__dirname + '/../config/config')[env];
 var sequelize = new Sequelize(config.url, config);
+var json2csv = require('json2csv');
+var fs = require('fs');
 
 module.exports = {
 
@@ -112,7 +114,28 @@ module.exports = {
     }).catch(function (error){
       res.status(500).json(error);
     });
-  }
+  },
+
+  /*testeJson2Csv(req, res) {
+    var fields = ['id', 'name', 'latitude', 'longitude', 'state.name'];
+    var result = {data: []};
+    city.findAll({include:state}).then(function (cities) {
+      result.data = cities;
+      var csv = json2csv({ data: result.data, fields: fields });
+      fs.writeFile('C:/file.csv', csv, function(err) {
+        if (err) throw err;
+        console.log('CSV file saved');
+      });  
+      var jsonData = JSON.stringify(result.data);
+      fs.writeFile('C:/file.json', jsonData, function(err) {
+        if (err) throw err;
+        console.log('JSON file saved');
+      });           
+      res.status(200).json(result);      
+    }).catch(function (error) {
+      res.status(500).json(error);
+    });
+  },*/
 
 
 };
