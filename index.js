@@ -1,4 +1,5 @@
 var app = require('express')(),
+	express = require("express"),
  	session = require('express-session'),
 	cookieParser = require('cookie-parser'),
 	flash = require('connect-flash'),
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cookieParser());
+app.use(express.static('public'));
 
 
 app.use(flash());
@@ -96,6 +98,19 @@ app.get('/rest/native/variables/wrapper', variables.combo);
 //app.get('/rest/public/json/:longitude/:latitude/:variables', public.uniquePoint);
 //{lat: -40.23487, lng: -20.00003},
 /*API Apps*/
+/**
+ * @api {put} /pagamento/:codigo Pagamento com código de barras
+ * @apiGroup Pagamentos
+ *
+ * @apiSuccess {String} status Mensagem de dados atualizados
+ * 
+ * @apiSuccessExample {json} Sucesso
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "status": "Dados atualizados!"
+ *    }
+ *
+ */
 app.get('/rest/public/json/:longitude/:latitude/:variables', public.findByCoordinates);
 app.get('/rest/public/json/:longitude/:latitude/:variables/:page/:size', public.findByCoordinatesPag);
 
