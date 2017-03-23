@@ -32,87 +32,74 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 /*countries api*/
-app.get('/rest/countries/:page/:size', countries.findAll);
-app.get('/rest/countries/search/:page/:size/:name', countries.search);
-app.get('/rest/countries/:id', countries.findById);
-app.post('/rest/countries', countries.save);
-app.put('/rest/countries/:id', countries.update);
-app.delete('/rest/countries/:id', countries.delete);
+app.get('/api/v1/countries/:page/:size', countries.findAll);
+app.get('/api/v1/countries/search/:page/:size/:name', countries.search);
+app.get('/api/v1/countries/:id', countries.findById);
+app.post('/api/v1/countries', countries.save);
+app.put('/api/v1/countries/:id', countries.update);
+app.delete('/api/v1/countries/:id', countries.delete);
 
 /*states api*/
-app.get('/rest/states/:page/:size', states.findAll);
-app.get('/rest/states/search/:page/:size/:name', states.search);
-app.get('/rest/states/:id', states.findById);
-app.post('/rest/states', states.save);
-app.put('/rest/states/:id', states.update);
-app.delete('/rest/states/:id', states.delete);
+app.get('/api/v1/states/:page/:size', states.findAll);
+app.get('/api/v1/states/search/:page/:size/:name', states.search);
+app.get('/api/v1/states/:id', states.findById);
+app.post('/api/v1/states', states.save);
+app.put('/api/v1/states/:id', states.update);
+app.delete('/api/v1/states/:id', states.delete);
 
 /*cities api*/
-app.get('/rest/cities/:page/:size', cities.findAll);
-app.get('/rest/cities/search/:page/:size/:name', cities.search);
-app.get('/rest/cities/:id', cities.findById);
-app.post('/rest/cities', cities.save);
-app.put('/rest/cities/:id', cities.update);
-app.delete('/rest/cities/:id', cities.delete);
-//app.get('/rest/cities/borella/teste/json2csv', cities.testeJson2Csv);
+app.get('/api/v1/cities/:page/:size', cities.findAll);
+app.get('/api/v1/cities/search/:page/:size/:name', cities.search);
+app.get('/api/v1/cities/:id', cities.findById);
+app.post('/api/v1/cities', cities.save);
+app.put('/api/v1/cities/:id', cities.update);
+app.delete('/api/v1/cities/:id', cities.delete);
+//app.get('/api/v1/cities/borella/teste/json2csv', cities.testeJson2Csv);
 
 /*variables api*/
-app.get('/rest/variables/:page/:size', variables.findAll);
-app.get('/rest/variables/search/:page/:size/:name', variables.search);
-app.get('/rest/variables/:id', variables.findById);
-app.post('/rest/variables', variables.save);
-app.put('/rest/variables/:id', variables.update);
-app.delete('/rest/variables/:id', variables.delete);
+app.get('/api/v1/variables/:page/:size', variables.findAll);
+app.get('/api/v1/variables/search/:page/:size/:name', variables.search);
+app.get('/api/v1/variables/:id', variables.findById);
+app.post('/api/v1/variables', variables.save);
+app.put('/api/v1/variables/:id', variables.update);
+app.delete('/api/v1/variables/:id', variables.delete);
 
 /*users api*/
-app.get('/rest/users/:page/:size', users.findAll);
-app.get('/rest/users/search/:page/:size/:name', users.search);
-app.get('/rest/users/:id', users.findById);
-app.post('/rest/users', users.save);
-app.put('/rest/users/:id', users.update);
-app.delete('/rest/users/:id', users.delete);
+app.get('/api/v1/users/:page/:size', users.findAll);
+app.get('/api/v1/users/search/:page/:size/:name', users.search);
+app.get('/api/v1/users/:id', users.findById);
+app.post('/api/v1/users', users.save);
+app.put('/api/v1/users/:id', users.update);
+app.delete('/api/v1/users/:id', users.delete);
 
 /*types api*/
-app.get('/rest/types/:page/:size', types.findAll);
-app.get('/rest/types/search/:page/:size/:name', types.search);
-app.get('/rest/types/:id', types.findById);
-app.post('/rest/types', types.save);
-app.put('/rest/types/:id', types.update);
-app.delete('/rest/types/:id', types.delete);
+app.get('/api/v1/types/:page/:size', types.findAll);
+app.get('/api/v1/types/search/:page/:size/:name', types.search);
+app.get('/api/v1/types/:id', types.findById);
+app.post('/api/v1/types', types.save);
+app.put('/api/v1/types/:id', types.update);
+app.delete('/api/v1/types/:id', types.delete);
 
 /*types api*/
-app.get('/rest/requests/:page/:size', requests.findAll);
-app.get('/rest/requests/search/:page/:size/:name', requests.search);
-app.get('/rest/requests/:id', requests.findById);
-app.post('/rest/requests', requests.save);
-app.put('/rest/requests/:id', requests.update);
-app.delete('/rest/requests/:id', requests.delete);
+app.get('/api/v1/requests/:page/:size', requests.findAll);
+app.get('/api/v1/requests/search/:page/:size/:name', requests.search);
+app.get('/api/v1/requests/:id', requests.findById);
+app.post('/api/v1/requests', requests.save);
+app.put('/api/v1/requests/:id', requests.update);
+app.delete('/api/v1/requests/:id', requests.delete);
 
 /*Native Queries*/
-app.get('/rest/native/countries/wrapper', countries.combo);
-app.get('/rest/native/cities/wrapper/:name', cities.combo);
-app.get('/rest/native/states/wrapper', states.combo);
-app.get('/rest/native/variables/wrapper', variables.combo);
+app.get('/api/v1/native/countries/wrapper', countries.combo);
+app.get('/api/v1/native/cities/wrapper/:name', cities.combo);
+app.get('/api/v1/native/states/wrapper', states.combo);
+app.get('/api/v1/native/variables/wrapper', variables.combo);
 
 
-//app.get('/rest/public/json/:longitude/:latitude/:variables', public.uniquePoint);
+//app.get('/api/v1/public/json/:longitude/:latitude/:variables', public.uniquePoint);
 //{lat: -40.23487, lng: -20.00003},
-/*API Apps*/
-/**
- * @api {put} /pagamento/:codigo Pagamento com código de barras
- * @apiGroup Pagamentos
- *
- * @apiSuccess {String} status Mensagem de dados atualizados
- * 
- * @apiSuccessExample {json} Sucesso
- *    HTTP/1.1 200 OK
- *    {
- *      "status": "Dados atualizados!"
- *    }
- *
- */
-app.get('/rest/public/json/:longitude/:latitude/:variables', public.findByCoordinates);
-app.get('/rest/public/json/:longitude/:latitude/:variables/:page/:size', public.findByCoordinatesPag);
+
+app.get('/api/v1/public/json/:longitude/:latitude/:variables', public.findByCoordinates);
+app.get('/api/v1/public/json/:longitude/:latitude/:variables/:page/:size', public.findByCoordinatesPag);
 
 
 //set default port
