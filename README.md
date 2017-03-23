@@ -54,12 +54,13 @@ npm install
 
 
 ## Padrão Raster
-###ETA_15_forecast_HOURLY_TP2M_20101001_0000_V1.tif
+###ETA_MIROC5_15_forecast_HOURLY_TP2M_20101001_0000_V1.tif
 * 1-Model
-* 2-Model resolution
-* 3-Ensemble (forecast, historical, ensemble model)
-* 4-Interval (daily, monthly and hourly)
-* 5-Model variable
-* 6-date
-* 7-time
-* 8-version
+* 2-Model copupled
+* 3-Model resolution
+* 4-Ensemble (forecast, historical, ensemble model)
+* 5-Interval (daily, monthly and hourly)
+* 6-Model variable
+* 7-date
+* 8-time
+* 9-version
