@@ -1,3 +1,8 @@
+consulta atual e funcional:
+select st_value(rast, st_setsrid(st_makepoint (-63, -19), 4326)) from raster_data where date='19620114' and variable='PREC';
+
+
+
 descobrir valor por bandda
 SELECT ST_Value(rast, 1 , ST_Transform(ST_SetSRID(ST_MakePoint(-53.10875,-28.10125),4326),4326) ) from raster_temp where id = 1
 
