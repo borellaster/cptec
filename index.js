@@ -95,12 +95,8 @@ app.get('/api/v1/native/states/wrapper', states.combo);
 app.get('/api/v1/native/variables/wrapper', variables.combo);
 
 
-//app.get('/api/v1/public/json/:longitude/:latitude/:variables', public.uniquePoint);
-//{lat: -40.23487, lng: -20.00003},
-
-app.get('/api/v1/public/json/:longitude/:latitude/:variables', public.findByCoordinates);
-app.get('/api/v1/public/json/:longitude/:latitude/:variables/:page/:size', public.findByCoordinatesPag);
-
+app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/', public.findByCoordinates);
+app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/:page/:size', public.findByCoordinatesPag);
 
 //set default port
 app.set('port', process.env.PORT || 8000);

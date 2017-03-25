@@ -11,39 +11,48 @@ module.exports = {
     var latitude = adjusted.lat;
     var longitude = adjusted.lng;
     var variables = req.params.variables;
-
+    var startdate = req.params.startdate;
+    var enddate = req.params.enddate;
     var query = " select ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
                 " cast(date as date), time, variable "+
                 " from RASTER_DATA "+
-                " where date >= current_timestamp - INTERVAL '10 days' and "+
-                "       variable in "+ variables + 
+                " where date between '"+startdate+"' and '"+enddate+"' "+
+                " and variable in "+ variables + 
                 " order by variable, date, time ";
     var result = {data: []};  
     sequelize.query(query, {type:Sequelize.QueryTypes.SELECT}).then(function(data) {
         result.data = data;
         res.json(result)
+    }).catch(function (error) {
+        console.log(error);
+        res.status(500).json(error);
     });
   }, 
 
   findByCoordinatesPag(req, res) {
+    console.log(req.params.latitude);
+    console.log(req.params.longitude);
     var adjusted = functions.findQuadrant(req.params.latitude,req.params.longitude);
     var latitude = adjusted.lat;
     var longitude = adjusted.lng;
     var variables = req.params.variables;
+    var startdate = req.params.startdate;
+    var enddate = req.params.enddate;
     if(req.params.page <= 0) {
       req.params.page = 1;
     } 
-
+    console.log(longitude);
+    console.log(latitude);
     var query = " select ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
                 " cast(date as date), time, variable "+
                 " from RASTER_DATA "+
-                " where date >= current_timestamp - INTERVAL '10 days' and "+
-                "       variable in "+ variables + 
+                " where date between '"+startdate+"' and '"+enddate+"' "+
+                " and variable in "+ variables + 
                 " order by variable, date, time LIMIT "+req.params.size+" OFFSET "+req.params.page;
     var queryCount = " select count(*),ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236) "+                
                 " from RASTER_DATA "+
-                " where date >= current_timestamp - INTERVAL '10 days' and "+
-                "       variable in "+ variables; 
+                " where date between '"+startdate+"' and '"+enddate+"' "+
+                " and variable in "+ variables; 
 
     var result = {data: [], count: 0, page: 1, pages: 1};  
     sequelize.query(query, {type:Sequelize.QueryTypes.SELECT}).then(function(data) {
