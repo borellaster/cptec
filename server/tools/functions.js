@@ -16,7 +16,7 @@ module.exports =  {
     }else if(lat < latMin){
         coord.lat = latMin;
     }else{
-        coord.lat = latMin + ((Math.floor((Math.abs(latMin) + lat) / scala) ) * scala ) + scala / 2;
+        coord.lat = latMin + ((Math.floor((Math.abs(latMin) + parseFloat(lat)) / scala) ) * scala ) + scala / 2;
     }
 
     if(lng > lngMax){
@@ -24,7 +24,7 @@ module.exports =  {
     }else if(lng < lngMin){
         coord.lng = lngMin;
     }else{
-        coord.lng = lngMin + ((Math.floor((Math.abs(lngMin) + lng) / scala)) * scala ) + scala / 2;
+        coord.lng = lngMin + ((Math.floor((Math.abs(lngMin) + parseFloat(lng)) / scala)) * scala ) + scala / 2;
     }
 
     return coord;

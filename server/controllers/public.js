@@ -30,11 +30,11 @@ module.exports = {
   }, 
 
   findByCoordinatesPag(req, res) {
-    console.log(req.params.latitude);
-    console.log(req.params.longitude);
     var adjusted = functions.findQuadrant(req.params.latitude,req.params.longitude);
     var latitude = adjusted.lat;
     var longitude = adjusted.lng;
+    //var latitude = req.params.latitude;
+    //var longitude = req.params.longitude;    
     var variables = req.params.variables;
     var startdate = req.params.startdate;
     var enddate = req.params.enddate;
