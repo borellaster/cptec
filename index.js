@@ -7,29 +7,32 @@ var app = require('express')(),
 	path = require('path'),
 	passport = require('passport'),
 	bodyParser = require('body-parser'),
+  setupHandlebars  = require('./server/setupHandlebars.js')(app),
+  setupPassport = require('./server/setupPassport'),  
 
 	/*API*/
-  	countries = require('./server/controllers/countries'),
-  	states = require('./server/controllers/states'),
-  	cities = require('./server/controllers/cities'),
-  	variables = require('./server/controllers/variables'),
-  	types = require('./server/controllers/types'),
-  	users = require('./server/controllers/users'),
-    requests = require('./server/controllers/requests'),
-  	public = require('./server/controllers/public');
-    /*Request Timer*/
-    require('./server/controllers/requestProcessing');
+  countries = require('./server/controllers/countries'),
+  states = require('./server/controllers/states'),
+  cities = require('./server/controllers/cities'),
+  variables = require('./server/controllers/variables'),
+  types = require('./server/controllers/types'),
+  users = require('./server/controllers/users'),
+   requests = require('./server/controllers/requests'),
+  public = require('./server/controllers/public');
+  /*Request Timer*/
+  require('./server/controllers/requestProcessing');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(session({ secret: '4564f6s4fdsfdfd', resave: false, saveUninitialized: false }))
 app.use(cookieParser());
 app.use(express.static('public'));
 
 
 app.use(flash());
-app.use(passport.initialize());
-app.use(passport.session());
+setupPassport(app);
+//app.use(passport.initialize());
+//app.use(passport.session());
 
 /*countries api*/
 app.get('/api/v1/countries/:page/:size', countries.findAll);
