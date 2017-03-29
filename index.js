@@ -33,11 +33,16 @@ app.use(flash());
 setupPassport(app);
 
 var isAuthenticated = function (req, res, next) {
+  var result = {data: []};
+  var obj = {};
   if (req.isAuthenticated()){
     return next();
+  }else {
+    obj.code = 401;
+    obj.message = "Não autorizado";
+    result.data = obj;
+    res.status(401).json(result);
   }
-  req.flash('error', 'You have to be logged in to access the page.')
-  res.redirect('/')
 }
 
 /*countries api*/
