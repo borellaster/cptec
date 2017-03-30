@@ -1,4 +1,6 @@
 'use strict';
+var bcrypt = require('bcrypt');
+
 module.exports = function(sequelize, DataTypes) {
   var user = sequelize.define('user', {
     name: DataTypes.STRING,
@@ -8,6 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     status: DataTypes.BOOLEAN
   },
     {
+      underscored: true,
       hooks: {
         beforeCreate: user => {
           const salt = bcrypt.genSaltSync();

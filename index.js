@@ -93,7 +93,7 @@ app.delete('/api/v1/variables/:id', isAuthenticated, variables.delete);
 app.get('/api/v1/users/:page/:size', isAuthenticated, users.findAll);
 app.get('/api/v1/users/search/:page/:size/:name', isAuthenticated, users.search);
 app.get('/api/v1/users/:id', isAuthenticated, users.findById);
-app.post('/api/v1/users', isAuthenticated, users.save);
+app.post('/api/v1/users', users.save);
 app.put('/api/v1/users/:id', isAuthenticated, users.update);
 app.delete('/api/v1/users/:id', isAuthenticated, users.delete);
 
