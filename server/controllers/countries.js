@@ -1,9 +1,5 @@
 country = require('../models/').country;
-
-var Sequelize = require('sequelize');
-var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/../config/config')[env];
-var sequelize = new Sequelize(config.url, config);
+var db = require('../models/index');
 
 module.exports = {
 
@@ -18,8 +14,8 @@ module.exports = {
                      }).then(function (countries) {
                       
       result.data = countries;
-      sequelize.query("select count(id) from \"countries\" " , { 
-                type:Sequelize.QueryTypes.SELECT}).then(function(count) {
+      db.sequelize.query("select count(id) from \"countries\" " , { 
+                type:db.Sequelize.QueryTypes.SELECT}).then(function(count) {
         result.count = parseInt(count[0].count);
         result.page = parseInt(req.params.page);
         result.pages = parseInt(Math.ceil(result.count / req.params.size));  
@@ -47,8 +43,8 @@ module.exports = {
                      }).then(function (countries) {
                       
       result.data = countries;
-      sequelize.query("select count(id) from \"countries\"  "+where , { 
-                type:Sequelize.QueryTypes.SELECT}).then(function(count) {
+      db.sequelize.query("select count(id) from \"countries\"  "+where , { 
+                type:db.Sequelize.QueryTypes.SELECT}).then(function(count) {
         result.count = parseInt(count[0].count);
         result.page = parseInt(req.params.page);
         result.pages = parseInt(Math.ceil(result.count / req.params.size));  
@@ -61,8 +57,8 @@ module.exports = {
 
   combo(req, res) {
     var result = {data: []};
-    sequelize.query("select id, name from \"countries\" order by name ", { 
-                type:Sequelize.QueryTypes.SELECT}).then(function(countries) {
+    db.sequelize.query("select id, name from \"countries\" order by name ", { 
+                type:db.Sequelize.QueryTypes.SELECT}).then(function(countries) {
         result.data = countries;  
         res.status(200).json(result);
     }).catch(function (error) {

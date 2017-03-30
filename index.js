@@ -6,9 +6,11 @@ var app = require('express')(),
 	http = require('http'),
 	path = require('path'),
 	passport = require('passport'),
-	bodyParser = require('body-parser'),
+	bodyParser = require('body-parser')
+
+  /*,
   setupHandlebars  = require('./server/setupHandlebars.js')(app),
-  setupPassport = require('./server/setupPassport'),  
+  setupPassport = require('./server/setupPassport'),  */
 
 	/*API*/
   countries = require('./server/controllers/countries'),
@@ -17,20 +19,29 @@ var app = require('express')(),
   variables = require('./server/controllers/variables'),
   types = require('./server/controllers/types'),
   users = require('./server/controllers/users'),
-   requests = require('./server/controllers/requests'),
-  public = require('./server/controllers/public');
+  requests = require('./server/controllers/requests'),
+  public = require('./server/controllers/public'),
+  autentication = require('./server/controllers/authorization'),
+  /*Authorization*/
+  authorization = require('./auth');
   /*Request Timer*/
   require('./server/controllers/requestProcessing');
 
+  
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({ secret: '4564f6s4fdsfdfd', resave: false, saveUninitialized: false }))
+//app.use(session({ secret: '4564f6s4fdsfdfd', resave: false, saveUninitialized: false }))
 app.use(cookieParser());
 app.use(express.static('public'));
 
+/*Authorization config*/
+const auth = authorization(app);
+app.use(auth.initialize());
+app.auth = auth;
 
 app.use(flash());
-setupPassport(app);
+//setupPassport(app);
 
 var isAuthenticated = function (req, res, next) {
   var result = {data: []};
@@ -46,7 +57,7 @@ var isAuthenticated = function (req, res, next) {
 }
 
 /*countries api*/
-app.get('/api/v1/countries/:page/:size', isAuthenticated, countries.findAll);
+app.get('/api/v1/countries/:page/:size', countries.findAll);
 app.get('/api/v1/countries/search/:page/:size/:name', isAuthenticated, countries.search);
 app.get('/api/v1/countries/:id', isAuthenticated, countries.findById);
 app.post('/api/v1/countries', isAuthenticated, countries.save);
@@ -102,6 +113,9 @@ app.post('/api/v1/requests', requests.save); //essa fica aberta pq o cara vai po
 app.put('/api/v1/requests/:id', isAuthenticated, requests.update);
 app.delete('/api/v1/requests/:id', isAuthenticated, requests.delete);
 
+/*login*/
+app.post('/api/v1/autentication', autentication.login); 
+
 /*Native Queries*/
 app.get('/api/v1/native/countries/wrapper', countries.combo);
 app.get('/api/v1/native/cities/wrapper/:name', cities.combo);
@@ -111,6 +125,9 @@ app.get('/api/v1/native/variables/wrapper', variables.combo);
 
 app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/', public.findByCoordinates);
 app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/:page/:size', public.findByCoordinatesPag);
+
+//ver aqui quando não for paginado, teria que ter um minimo de periodo para retornar os dados
+//mais que X anos, temos que bloquear e forçar para que façam uma requisição
 
 //set default port
 app.set('port', process.env.PORT || 8000);
