@@ -1,9 +1,6 @@
 variable = require('../models/').variable;
 
-var Sequelize = require('sequelize');
-var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/../config/config')[env];
-var sequelize = new Sequelize(config.url, config);
+var db = require('../models/index');
 
 module.exports = {
 
@@ -18,8 +15,8 @@ module.exports = {
                      }).then(function (variables) {
                       
       result.data = variables;
-      sequelize.query("select count(id) from \"variables\" " , { 
-                type:Sequelize.QueryTypes.SELECT}).then(function(count) {
+      db.sequelize.query("select count(id) from \"variables\" " , { 
+                type:db.Sequelize.QueryTypes.SELECT}).then(function(count) {
         result.count = parseInt(count[0].count);
         result.page = parseInt(req.params.page);
         result.pages = parseInt(Math.ceil(result.count / req.params.size));  
@@ -47,8 +44,8 @@ module.exports = {
                      }).then(function (variables) {
                       
       result.data = variables;
-      sequelize.query("select count(id) from \"variables\"  "+where , { 
-                type:Sequelize.QueryTypes.SELECT}).then(function(count) {
+      db.sequelize.query("select count(id) from \"variables\"  "+where , { 
+                type:db.Sequelize.QueryTypes.SELECT}).then(function(count) {
         result.count = parseInt(count[0].count);
         result.page = parseInt(req.params.page);
         result.pages = parseInt(Math.ceil(result.count / req.params.size));  
@@ -61,8 +58,8 @@ module.exports = {
 
   combo(req, res) {
     var result = {data: []};
-    sequelize.query("select id, description, nickname from \"variables\" order by id ", { 
-                type:Sequelize.QueryTypes.SELECT}).then(function(variables) {
+    db.sequelize.query("select id, description, nickname from \"variables\" order by id ", { 
+                type:db.Sequelize.QueryTypes.SELECT}).then(function(variables) {
         result.data = variables;  
         res.status(200).json(result);
     }).catch(function (error) {

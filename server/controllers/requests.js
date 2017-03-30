@@ -1,11 +1,7 @@
 request = require('../models/').request;
 type = require('../models/').type;
 point = require('../models/').point;
-
-var Sequelize = require('sequelize');
-var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/../config/config')[env];
-var sequelize = new Sequelize(config.url, config);
+var db = require('../models/index');
 
 module.exports = {
 
@@ -21,8 +17,8 @@ module.exports = {
                      }).then(function (requests) {
                       
       result.data = requests;
-      sequelize.query("select count(id) from \"requests\" " , { 
-                type:Sequelize.QueryTypes.SELECT}).then(function(count) {
+      db.sequelize.query("select count(id) from \"requests\" " , { 
+                type:db.Sequelize.QueryTypes.SELECT}).then(function(count) {
         result.count = parseInt(count[0].count);
         result.page = parseInt(req.params.page);
         result.pages = parseInt(Math.ceil(result.count / req.params.size));  
@@ -51,8 +47,8 @@ module.exports = {
                      }).then(function (requests) {
                       
       result.data = requests;
-      sequelize.query("select count(id) from \"requests\"  "+where , { 
-                type:Sequelize.QueryTypes.SELECT}).then(function(count) {
+      db.sequelize.query("select count(id) from \"requests\"  "+where , { 
+                type:db.Sequelize.QueryTypes.SELECT}).then(function(count) {
         result.count = parseInt(count[0].count);
         result.page = parseInt(req.params.page);
         result.pages = parseInt(Math.ceil(result.count / req.params.size));  

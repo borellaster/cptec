@@ -33,6 +33,6 @@ module.exports = function(){
 
   return {
     initialize: () => passport.initialize(),
-    authenticate: () => passport.authenticate('jwt', app.config.jwtSession),
+    authenticate: () => passport.authenticate('jwt', {session: false}),
   };
 };

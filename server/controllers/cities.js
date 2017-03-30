@@ -1,12 +1,6 @@
 city = require('../models/').city;
 state = require('../models/').state;
-
-var Sequelize = require('sequelize');
-var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/../config/config')[env];
-var sequelize = new Sequelize(config.url, config);
-var json2csv = require('json2csv');
-var fs = require('fs');
+var db = require('../models/index');
 
 module.exports = {
 
@@ -22,8 +16,8 @@ module.exports = {
                      }).then(function (cities) {
                       
       result.data = cities;
-      sequelize.query("select count(id) from \"cities\" " , { 
-                type:Sequelize.QueryTypes.SELECT}).then(function(count) {
+      db.sequelize.query("select count(id) from \"cities\" " , { 
+                type:db.Sequelize.QueryTypes.SELECT}).then(function(count) {
         result.count = parseInt(count[0].count);
         result.page = parseInt(req.params.page);
         result.pages = parseInt(Math.ceil(result.count / req.params.size));  
@@ -52,8 +46,8 @@ module.exports = {
                      }).then(function (cities) {
                       
       result.data = cities;
-      sequelize.query("select count(id) from \"cities\"  "+where , { 
-                type:Sequelize.QueryTypes.SELECT}).then(function(count) {
+      db.sequelize.query("select count(id) from \"cities\"  "+where , { 
+                type:db.Sequelize.QueryTypes.SELECT}).then(function(count) {
         result.count = parseInt(count[0].count);
         result.page = parseInt(req.params.page);
         result.pages = parseInt(Math.ceil(result.count / req.params.size));  
@@ -115,27 +109,4 @@ module.exports = {
       res.status(500).json(error);
     });
   },
-
-  /*testeJson2Csv(req, res) {
-    var fields = ['id', 'name', 'latitude', 'longitude', 'state.name'];
-    var result = {data: []};
-    city.findAll({include:state}).then(function (cities) {
-      result.data = cities;
-      var csv = json2csv({ data: result.data, fields: fields });
-      fs.writeFile('C:/file.csv', csv, function(err) {
-        if (err) throw err;
-        console.log('CSV file saved');
-      });  
-      var jsonData = JSON.stringify(result.data);
-      fs.writeFile('C:/file.json', jsonData, function(err) {
-        if (err) throw err;
-        console.log('JSON file saved');
-      });           
-      res.status(200).json(result);      
-    }).catch(function (error) {
-      res.status(500).json(error);
-    });
-  },*/
-
-
 };
