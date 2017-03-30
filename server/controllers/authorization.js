@@ -1,13 +1,14 @@
 user = require('../models/').user;
 var db = require('../models/index');
+var HttpStatus = require('http-status');
 
 module.exports = {
 
   login(req, res) {
-    if (req.body.email && req.body.password) {
-      const email = req.body.email;
+    if (req.body.username && req.body.password) {
+      const username = req.body.username;
       const password = req.body.password;      
-      user.findOne({ where: { email } })
+      user.findOne({ where: { username } })
       .then(user => {
         console.log(user.password);
         if (Users.isPassword(user.password, password)) {

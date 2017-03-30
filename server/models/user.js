@@ -6,13 +6,17 @@ module.exports = function(sequelize, DataTypes) {
     password: DataTypes.STRING,
     password_tmp: DataTypes.STRING,
     status: DataTypes.BOOLEAN
-  }, {
-    underscored: true,
-    classMethods: {
-      associate: function(models) {
-        
-      }
-    }
-  });
+  },
+    {
+      hooks: {
+        beforeCreate: user => {
+          const salt = bcrypt.genSaltSync();
+          user.set('password', bcrypt.hashSync(user.password, salt));
+        },
+      },
+      classMethods: {
+        isPassword: (encodedPassword, password) => bcrypt.compareSync(password, encodedPassword),
+      },
+    });
   return user;
 };
