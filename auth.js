@@ -12,7 +12,7 @@ var opts = {};
 module.exports = function(){
 
   const opts = {};
-  opts.secretOrKey = "mosaico@str";
+  opts.secretOrKey = "Libr##";
   opts.jwtFromRequest = ExtractJwt.fromAuthHeader(); 
 
   const strategy = new Strategy(opts, (payload, done) => {
