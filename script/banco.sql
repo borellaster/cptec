@@ -92,6 +92,7 @@ CREATE TABLE RASTER_DATA
   FILENAME TEXT,
   MODEL CHARACTER VARYING(20),
   MODEL_COUPLED CHARACTER VARYING(20),
+  SCENARIO CHARACTER VARYING(20),
   MODEL_RESOLUTION CHARACTER VARYING(10),
   ENSEMBLE CHARACTER VARYING(10),
   INTERVAL CHARACTER VARYING(10),
@@ -5834,8 +5835,7 @@ INSERT INTO TYPES(NAME, EXTENSION) VALUES ('JSON', '.json');
 
 
 /*Triggers*/
-/*Eta_MIROC5_20_climate_daily_PREC_19620104_0000_v1.tif*/
-/*ETA_MIROC5_15_forecast_HOURLY_TP2M_20101001_0000_V1.tif*/
+/*ETA_MIROC5_RCP4.5_15_FORECAST_HOURLY_TP2M_20101001_0000_v1.tif*/
 create or replace function raster_data_BI()returns trigger as $$
 declare 
 v_date text;
@@ -5843,19 +5843,20 @@ v_time text;
 v_version text;
 Begin
   new.model=split_part(new.filename,'_',1);
-  new.model_coupled=split_part(new.filename,'_',2);
-  new.model_resolution=split_part(new.filename,'_',3);
-  new.ensemble=split_part(new.filename,'_',4);
-  new.interval=split_part(new.filename,'_',5);
-  new.variable=split_part(new.filename,'_',6);
-  v_date=split_part(new.filename,'_',7);
+  new.scenario=split_part(new.filename,'_',2);
+  new.model_coupled=split_part(new.filename,'_',3);
+  new.model_resolution=split_part(new.filename,'_',4);
+  new.ensemble=split_part(new.filename,'_',5);
+  new.interval=split_part(new.filename,'_',6);
+  new.variable=split_part(new.filename,'_',7);
+  v_date=split_part(new.filename,'_',8);
   v_date=substring(v_date,1,4) || '-' || substring(v_date,5,2) || '-' || substring(v_date,7,2); 
   new.date= cast(v_date as date); 
-  v_time = split_part(new.filename,'_',8);
+  v_time = split_part(new.filename,'_',9);
   if (v_time <> '') then
   v_time=substring(v_time,1,2) || ':' || substring(v_time,3,2) || ':00';
   new.time=cast(v_time as time);
-  v_version=split_part(new.filename,'_',9);
+  v_version=split_part(new.filename,'_',10);
   new.version=substring(v_version,0,3);
   end if; 
   return new;
