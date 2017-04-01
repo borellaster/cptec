@@ -36,77 +36,61 @@ app.auth = auth;
 
 app.use(flash());
 
-  var isAuthenticated = function (req, res, next) {
-  	var result = {data: {'message': '', 'code': 401}};
-    /*if (req.isAuthenticated()){
-      	return next()    
-    }else{
-    	result.data.message = "Permissão não autorizada";
-      	res.status(401).json(result);
-    }*/
-	if (req.user){ 
-		return next();
-	} else {
-    	result.data.message = "Permissão não autorizada";
-      	res.status(401).json(result);
-	}    
-  }
-
 /*countries api*/
-app.get('/api/v1/countries/:page/:size', isAuthenticated, countries.findAll);
-app.get('/api/v1/countries/search/:page/:size/:name', isAuthenticated, countries.search);
-app.get('/api/v1/countries/:id', isAuthenticated, countries.findById);
-app.post('/api/v1/countries', isAuthenticated, countries.save);
-app.put('/api/v1/countries/:id', isAuthenticated, countries.update);
-app.delete('/api/v1/countries/:id', isAuthenticated, countries.delete);
+app.get('/api/v1/countries/:page/:size', app.auth.authenticate(), countries.findAll);
+app.get('/api/v1/countries/search/:page/:size/:name', app.auth.authenticate(), countries.search);
+app.get('/api/v1/countries/:id', app.auth.authenticate(), countries.findById);
+app.post('/api/v1/countries', app.auth.authenticate(), countries.save);
+app.put('/api/v1/countries/:id', app.auth.authenticate(), countries.update);
+app.delete('/api/v1/countries/:id', app.auth.authenticate(), countries.delete);
 
 /*states api*/
-app.get('/api/v1/states/:page/:size', isAuthenticated, states.findAll);
-app.get('/api/v1/states/search/:page/:size/:name', isAuthenticated, states.search);
-app.get('/api/v1/states/:id', isAuthenticated, states.findById);
-app.post('/api/v1/states', isAuthenticated, states.save);
-app.put('/api/v1/states/:id', isAuthenticated, states.update);
-app.delete('/api/v1/states/:id', isAuthenticated, states.delete);
+app.get('/api/v1/states/:page/:size', app.auth.authenticate(), states.findAll);
+app.get('/api/v1/states/search/:page/:size/:name', app.auth.authenticate(), states.search);
+app.get('/api/v1/states/:id', app.auth.authenticate(), states.findById);
+app.post('/api/v1/states', app.auth.authenticate(), states.save);
+app.put('/api/v1/states/:id', app.auth.authenticate(), states.update);
+app.delete('/api/v1/states/:id', app.auth.authenticate(), states.delete);
 
 /*cities api*/
-app.get('/api/v1/cities/:page/:size', isAuthenticated, cities.findAll);
-app.get('/api/v1/cities/search/:page/:size/:name', isAuthenticated, cities.search);
-app.get('/api/v1/cities/:id', isAuthenticated, cities.findById);
-app.post('/api/v1/cities', isAuthenticated, cities.save);
-app.put('/api/v1/cities/:id', isAuthenticated, cities.update);
-app.delete('/api/v1/cities/:id', isAuthenticated, cities.delete);
+app.get('/api/v1/cities/:page/:size', app.auth.authenticate(), cities.findAll);
+app.get('/api/v1/cities/search/:page/:size/:name', app.auth.authenticate(), cities.search);
+app.get('/api/v1/cities/:id', app.auth.authenticate(), cities.findById);
+app.post('/api/v1/cities', app.auth.authenticate(), cities.save);
+app.put('/api/v1/cities/:id', app.auth.authenticate(), cities.update);
+app.delete('/api/v1/cities/:id', app.auth.authenticate(), cities.delete);
 
 /*variables api*/
-app.get('/api/v1/variables/:page/:size', isAuthenticated, variables.findAll);
-app.get('/api/v1/variables/search/:page/:size/:name', isAuthenticated, variables.search);
-app.get('/api/v1/variables/:id', isAuthenticated, variables.findById);
-app.post('/api/v1/variables', isAuthenticated, variables.save);
-app.put('/api/v1/variables/:id', isAuthenticated, variables.update);
-app.delete('/api/v1/variables/:id', isAuthenticated, variables.delete);
+app.get('/api/v1/variables/:page/:size', app.auth.authenticate(), variables.findAll);
+app.get('/api/v1/variables/search/:page/:size/:name', app.auth.authenticate(), variables.search);
+app.get('/api/v1/variables/:id', app.auth.authenticate(), variables.findById);
+app.post('/api/v1/variables', app.auth.authenticate(), variables.save);
+app.put('/api/v1/variables/:id', app.auth.authenticate(), variables.update);
+app.delete('/api/v1/variables/:id', app.auth.authenticate(), variables.delete);
 
 /*users api*/
-app.get('/api/v1/users/:page/:size', isAuthenticated, users.findAll);
-app.get('/api/v1/users/search/:page/:size/:name', isAuthenticated, users.search);
-app.get('/api/v1/users/:id', isAuthenticated, users.findById);
+app.get('/api/v1/users/:page/:size', app.auth.authenticate(), users.findAll);
+app.get('/api/v1/users/search/:page/:size/:name', app.auth.authenticate(), users.search);
+app.get('/api/v1/users/:id', app.auth.authenticate(), users.findById);
 app.post('/api/v1/users', users.save);
-app.put('/api/v1/users/:id', isAuthenticated, users.update);
-app.delete('/api/v1/users/:id', isAuthenticated, users.delete);
+app.put('/api/v1/users/:id', app.auth.authenticate(), users.update);
+app.delete('/api/v1/users/:id', app.auth.authenticate(), users.delete);
 
 /*types api*/
-app.get('/api/v1/types/:page/:size', isAuthenticated, types.findAll);
-app.get('/api/v1/types/search/:page/:size/:name', isAuthenticated, types.search);
-app.get('/api/v1/types/:id', isAuthenticated, types.findById);
-app.post('/api/v1/types', isAuthenticated, types.save);
-app.put('/api/v1/types/:id', isAuthenticated, types.update);
-app.delete('/api/v1/types/:id', isAuthenticated, types.delete);
+app.get('/api/v1/types/:page/:size', app.auth.authenticate(), types.findAll);
+app.get('/api/v1/types/search/:page/:size/:name', app.auth.authenticate(), types.search);
+app.get('/api/v1/types/:id', app.auth.authenticate(), types.findById);
+app.post('/api/v1/types', app.auth.authenticate(), types.save);
+app.put('/api/v1/types/:id', app.auth.authenticate(), types.update);
+app.delete('/api/v1/types/:id', app.auth.authenticate(), types.delete);
 
 /*requests api*/
-app.get('/api/v1/requests/:page/:size', isAuthenticated, requests.findAll);
-app.get('/api/v1/requests/search/:page/:size/:name', isAuthenticated, requests.search);
-app.get('/api/v1/requests/:id', isAuthenticated, requests.findById);
+app.get('/api/v1/requests/:page/:size', app.auth.authenticate(), requests.findAll);
+app.get('/api/v1/requests/search/:page/:size/:name', app.auth.authenticate(), requests.search);
+app.get('/api/v1/requests/:id', app.auth.authenticate(), requests.findById);
 app.post('/api/v1/requests', requests.save); //essa fica aberta pq o cara vai poder gravar 
-app.put('/api/v1/requests/:id', isAuthenticated, requests.update);
-app.delete('/api/v1/requests/:id', isAuthenticated, requests.delete);
+app.put('/api/v1/requests/:id', app.auth.authenticate(), requests.update);
+app.delete('/api/v1/requests/:id', app.auth.authenticate(), requests.delete);
 
 /*login*/
 app.post('/api/v1/autentication', autentication.login); 
