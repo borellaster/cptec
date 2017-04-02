@@ -54,7 +54,6 @@ npm install
 
 
 ## Padrão Raster
-###ETA_MIROC5_15_forecast_HOURLY_TP2M_20101001_0000_V1.tif
 ###ETA_MIROC5_RCP4.5_15_FORECAST_HOURLY_TP2M_20101001_0000_v1.tif
 * 1-Model
 * 2-Model copupled
