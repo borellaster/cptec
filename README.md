@@ -14,10 +14,18 @@ Situação: Em andamento; Natureza: Pesquisa.
  
 * [PostgreSQL (at least v9.6.1)](https://www.postgresql.org/download/).
 
+## Criação do Banco de Dados
+Abra o pgAdmin
+```
+Criar um usuário chamado cptec e senha Cptec10
+Criar um banco de dados chamado cptec utilizando o usuário cptec
+Importar o arquivo script/banco.sql
+```
+
 ## Instalação
 
 Abra o Git Bash e entre com os comandos
------------
+---------------------------------------
 ```
 git clone https://github.com/borellaster/cptec.git
 cd cptec
