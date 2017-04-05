@@ -100,7 +100,7 @@ app.put('/api/v1/requests/:id', app.auth.authenticate(), requests.update);
 app.delete('/api/v1/requests/:id', app.auth.authenticate(), requests.delete);
 
 /*models api*/
-app.get('/api/v1/models/:page/:size', models.findAll);
+app.get('/api/v1/models/:page/:size', app.auth.authenticate(), models.findAll);
 app.get('/api/v1/models/search/:page/:size/:name', app.auth.authenticate(), models.search);
 app.get('/api/v1/models/:id', app.auth.authenticate(), models.findById);
 app.post('/api/v1/models', app.auth.authenticate(), models.save);
@@ -108,7 +108,7 @@ app.put('/api/v1/models/:id', app.auth.authenticate(), models.update);
 app.delete('/api/v1/models/:id', app.auth.authenticate(), models.delete);
 
 /*couples api*/
-app.get('/api/v1/couples/:page/:size', couples.findAll);
+app.get('/api/v1/couples/:page/:size', app.auth.authenticate(), couples.findAll);
 app.get('/api/v1/couples/search/:page/:size/:name', app.auth.authenticate(), couples.search);
 app.get('/api/v1/couples/:id', app.auth.authenticate(), couples.findById);
 app.post('/api/v1/couples', app.auth.authenticate(), couples.save);
@@ -116,7 +116,7 @@ app.put('/api/v1/couples/:id', app.auth.authenticate(), couples.update);
 app.delete('/api/v1/couples/:id', app.auth.authenticate(), couples.delete);
 
 /*scenarios api*/
-app.get('/api/v1/scenarios/:page/:size', scenarios.findAll);
+app.get('/api/v1/scenarios/:page/:size', app.auth.authenticate(), scenarios.findAll);
 app.get('/api/v1/scenarios/search/:page/:size/:name', app.auth.authenticate(), scenarios.search);
 app.get('/api/v1/scenarios/:id', app.auth.authenticate(), scenarios.findById);
 app.post('/api/v1/scenarios', app.auth.authenticate(), scenarios.save);
@@ -124,7 +124,7 @@ app.put('/api/v1/scenarios/:id', app.auth.authenticate(), scenarios.update);
 app.delete('/api/v1/scenarios/:id', app.auth.authenticate(), scenarios.delete);
 
 /*resolutions api*/
-app.get('/api/v1/resolutions/:page/:size', resolutions.findAll);
+app.get('/api/v1/resolutions/:page/:size', app.auth.authenticate(), resolutions.findAll);
 app.get('/api/v1/resolutions/search/:page/:size/:name', app.auth.authenticate(), resolutions.search);
 app.get('/api/v1/resolutions/:id', app.auth.authenticate(), resolutions.findById);
 app.post('/api/v1/resolutions', app.auth.authenticate(), resolutions.save);
@@ -132,7 +132,7 @@ app.put('/api/v1/resolutions/:id', app.auth.authenticate(), resolutions.update);
 app.delete('/api/v1/resolutions/:id', app.auth.authenticate(), resolutions.delete);
 
 /*ensembles api*/
-app.get('/api/v1/ensembles/:page/:size', ensembles.findAll);
+app.get('/api/v1/ensembles/:page/:size', app.auth.authenticate(), ensembles.findAll);
 app.get('/api/v1/ensembles/search/:page/:size/:name', app.auth.authenticate(), ensembles.search);
 app.get('/api/v1/ensembles/:id', app.auth.authenticate(), ensembles.findById);
 app.post('/api/v1/ensembles', app.auth.authenticate(), ensembles.save);
@@ -140,21 +140,34 @@ app.put('/api/v1/ensembles/:id', app.auth.authenticate(), ensembles.update);
 app.delete('/api/v1/ensembles/:id', app.auth.authenticate(), ensembles.delete);
 
 /*intervals api*/
-app.get('/api/v1/intervals/:page/:size', intervals.findAll);
+app.get('/api/v1/intervals/:page/:size', app.auth.authenticate(), intervals.findAll);
 app.get('/api/v1/intervals/search/:page/:size/:name', app.auth.authenticate(), intervals.search);
 app.get('/api/v1/intervals/:id', app.auth.authenticate(), intervals.findById);
 app.post('/api/v1/intervals', app.auth.authenticate(), intervals.save);
 app.put('/api/v1/intervals/:id', app.auth.authenticate(), intervals.update);
 app.delete('/api/v1/intervals/:id', app.auth.authenticate(), intervals.delete);
 
+/*PUBLIC ROUTES*/
 /*login*/
 app.post('/api/v1/autentication', autentication.login); 
-
 /*Native Queries*/
-app.get('/api/v1/native/countries/wrapper', countries.combo);
-app.get('/api/v1/native/cities/wrapper/:name', cities.combo);
-app.get('/api/v1/native/states/wrapper', states.combo);
-app.get('/api/v1/native/variables/wrapper', variables.combo);
+app.get('/api/v1/public/countries', countries.combo);
+app.get('/api/v1/public/cities/:name', cities.combo);
+app.get('/api/v1/public/states', states.combo);
+app.get('/api/v1/public/variables', variables.combo);
+
+/*models public*/
+app.get('/api/v1/public/models', models.combo);
+/*couple public*/
+app.get('/api/v1/public/couples', couples.combo);
+/*scenarios public*/
+app.get('/api/v1/public/scenarios', scenarios.combo);
+/*resolutions public*/
+app.get('/api/v1/public/resolutions', resolutions.combo);
+/*ensembles public*/
+app.get('/api/v1/public/ensembles', ensembles.combo);
+/*intervals public*/
+app.get('/api/v1/public/intervals', intervals.combo);
 
 
 app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/', public.findByCoordinates);
