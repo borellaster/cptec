@@ -15,6 +15,13 @@ variables = require('./server/controllers/variables'),
 types = require('./server/controllers/types'),
 users = require('./server/controllers/users'),
 requests = require('./server/controllers/requests'),
+models = require('./server/controllers/models'),
+couples = require('./server/controllers/couples'),
+scenarios = require('./server/controllers/scenarios'),
+resolutions = require('./server/controllers/resolutions'),
+ensembles = require('./server/controllers/ensembles'),
+intervals = require('./server/controllers/intervals'),
+requests = require('./server/controllers/requests'),
 public = require('./server/controllers/public'),
 autentication = require('./server/controllers/authorization'),
 /*Authorization*/
@@ -91,6 +98,54 @@ app.get('/api/v1/requests/:id', app.auth.authenticate(), requests.findById);
 app.post('/api/v1/requests', requests.save); //essa fica aberta pq o cara vai poder gravar 
 app.put('/api/v1/requests/:id', app.auth.authenticate(), requests.update);
 app.delete('/api/v1/requests/:id', app.auth.authenticate(), requests.delete);
+
+/*models api*/
+app.get('/api/v1/models/:page/:size', models.findAll);
+app.get('/api/v1/models/search/:page/:size/:name', app.auth.authenticate(), models.search);
+app.get('/api/v1/models/:id', app.auth.authenticate(), models.findById);
+app.post('/api/v1/models', app.auth.authenticate(), models.save);
+app.put('/api/v1/models/:id', app.auth.authenticate(), models.update);
+app.delete('/api/v1/models/:id', app.auth.authenticate(), models.delete);
+
+/*couples api*/
+app.get('/api/v1/couples/:page/:size', couples.findAll);
+app.get('/api/v1/couples/search/:page/:size/:name', app.auth.authenticate(), couples.search);
+app.get('/api/v1/couples/:id', app.auth.authenticate(), couples.findById);
+app.post('/api/v1/couples', app.auth.authenticate(), couples.save);
+app.put('/api/v1/couples/:id', app.auth.authenticate(), couples.update);
+app.delete('/api/v1/couples/:id', app.auth.authenticate(), couples.delete);
+
+/*scenarios api*/
+app.get('/api/v1/scenarios/:page/:size', scenarios.findAll);
+app.get('/api/v1/scenarios/search/:page/:size/:name', app.auth.authenticate(), scenarios.search);
+app.get('/api/v1/scenarios/:id', app.auth.authenticate(), scenarios.findById);
+app.post('/api/v1/scenarios', app.auth.authenticate(), scenarios.save);
+app.put('/api/v1/scenarios/:id', app.auth.authenticate(), scenarios.update);
+app.delete('/api/v1/scenarios/:id', app.auth.authenticate(), scenarios.delete);
+
+/*resolutions api*/
+app.get('/api/v1/resolutions/:page/:size', resolutions.findAll);
+app.get('/api/v1/resolutions/search/:page/:size/:name', app.auth.authenticate(), resolutions.search);
+app.get('/api/v1/resolutions/:id', app.auth.authenticate(), resolutions.findById);
+app.post('/api/v1/resolutions', app.auth.authenticate(), resolutions.save);
+app.put('/api/v1/resolutions/:id', app.auth.authenticate(), resolutions.update);
+app.delete('/api/v1/resolutions/:id', app.auth.authenticate(), resolutions.delete);
+
+/*ensembles api*/
+app.get('/api/v1/ensembles/:page/:size', ensembles.findAll);
+app.get('/api/v1/ensembles/search/:page/:size/:name', app.auth.authenticate(), ensembles.search);
+app.get('/api/v1/ensembles/:id', app.auth.authenticate(), ensembles.findById);
+app.post('/api/v1/ensembles', app.auth.authenticate(), ensembles.save);
+app.put('/api/v1/ensembles/:id', app.auth.authenticate(), ensembles.update);
+app.delete('/api/v1/ensembles/:id', app.auth.authenticate(), ensembles.delete);
+
+/*intervals api*/
+app.get('/api/v1/intervals/:page/:size', intervals.findAll);
+app.get('/api/v1/intervals/search/:page/:size/:name', app.auth.authenticate(), intervals.search);
+app.get('/api/v1/intervals/:id', app.auth.authenticate(), intervals.findById);
+app.post('/api/v1/intervals', app.auth.authenticate(), intervals.save);
+app.put('/api/v1/intervals/:id', app.auth.authenticate(), intervals.update);
+app.delete('/api/v1/intervals/:id', app.auth.authenticate(), intervals.delete);
 
 /*login*/
 app.post('/api/v1/autentication', autentication.login); 
