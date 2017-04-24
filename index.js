@@ -168,6 +168,8 @@ app.get('/api/v1/public/resolutions', resolutions.combo);
 app.get('/api/v1/public/ensembles', ensembles.combo);
 /*intervals public*/
 app.get('/api/v1/public/intervals', intervals.combo);
+/*types public*/
+app.get('/api/v1/public/types', types.combo);
 
 
 app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/', public.findByCoordinates);

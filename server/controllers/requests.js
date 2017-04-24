@@ -68,6 +68,7 @@ module.exports = {
   },
 
   save(req, res) {
+    console.log(req.body);
     request.create(req.body).then(function (object) {
         res.status(200).json(object);
     }).catch(function (error){

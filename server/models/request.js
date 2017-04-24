@@ -2,7 +2,8 @@
 module.exports = function(sequelize, DataTypes) {
   var request = sequelize.define('request', {
     name: DataTypes.STRING,
-    email: DataTypes.STRING,    
+    email: DataTypes.STRING,
+    variables: DataTypes.STRING,
     type_id: DataTypes.INTEGER
   }, {
     underscored: true,
