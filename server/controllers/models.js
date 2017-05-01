@@ -57,14 +57,14 @@ module.exports = {
 
   combo(req, res) {
     var result = {data: []};
-    db.sequelize.query("select id, name, nickname from \"models\" order by name ", { 
+    db.sequelize.query("select id, name, model, couple, scenario, resolution from \"models\" order by id ", { 
                 type:db.Sequelize.QueryTypes.SELECT}).then(function(models) {
         result.data = models;  
         res.status(200).json(result);
     }).catch(function (error) {
       res.status(500).json(error);
     });
-  },   
+  },  
 
   findById(req, res) {
     model.findById(req.params.id).then(function (model) {

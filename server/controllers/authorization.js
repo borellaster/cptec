@@ -16,6 +16,8 @@ module.exports = {
           const payload = { id: user.id };
           res.json({
             token: jwt.encode(payload, 'Libr##'),
+            name: user.name,
+            username: user.username
           });
         } else {
           res.sendStatus(HttpStatus.UNAUTHORIZED);
