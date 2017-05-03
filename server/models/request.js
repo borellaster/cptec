@@ -17,7 +17,8 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         request.belongsTo(models.type, { foreignKey: 'type_id'}),
         request.belongsTo(models.model, { foreignKey: 'model_id'}),
-        request.belongsTo(models.interval, { foreignKey: 'interval_id'})
+        request.belongsTo(models.interval, { foreignKey: 'interval_id'}),
+        request.hasMany(models.point,{ foreignKey: 'request_id'})        
       }
     }
   });
