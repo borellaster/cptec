@@ -14,7 +14,7 @@ var requestTimer = schedule.scheduleJob(rule, function(){
     db.sequelize.query("select id, name from \"countries\" order by name ", { 
    		type:db.Sequelize.QueryTypes.SELECT}).then(function(countries) {
         var csv = json2csv({ data: countries, fields: fields, del: ';'});
-		fs.writeFile('C:/req_1.csv', csv, function(err) {
+		fs.writeFile('C:/temp/req_2.csv', csv, function(err) {
 		  if (err) throw err;
 		  console.log('CSV file created');
 		});
