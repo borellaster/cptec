@@ -10,7 +10,8 @@ module.exports = function(sequelize, DataTypes) {
     status: DataTypes.INTEGER,
     type_id: DataTypes.INTEGER,
     model_id: DataTypes.INTEGER,
-    interval_id: DataTypes.INTEGER
+    interval_id: DataTypes.INTEGER,
+    location: DataTypes.GEOMETRY
   }, {
     underscored: true,
     classMethods: {

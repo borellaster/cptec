@@ -67,8 +67,12 @@ module.exports = {
     });
   },
 
-  save(req, res) {
+  save(req, res) {    
     request.create(req.body).then(function (object) {
+        /*for (var i = 0; i < req.body.points.length; i++) {
+          //req.body dataValues.id
+          console.log('duvido------------'+object.points[i].latitude);
+        }*/
         res.status(200).json(object);
     }).catch(function (error){
       res.status(500).json(error);

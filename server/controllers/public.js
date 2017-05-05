@@ -26,6 +26,19 @@ module.exports = {
     });
   }, 
 
+  /*
+select id, ST_AsText(location) as location 
+from requests
+
+select ST_VALUE(RAST, (select location from requests where id = 4)) as value,  
+cast(date as date), time, variable  
+from RASTER_DATA  
+where date between '2017-05-04' and '2017-05-04'  
+and variable in ('PSLM','PSLC','V10M','U10M','TP2M') 
+order by variable, date, time
+
+ */
+
   findByCoordinatesPag(req, res) {
     var adjusted = functions.findQuadrant(req.params.latitude,req.params.longitude);
     var latitude = adjusted.lat;
