@@ -12,7 +12,7 @@ module.exports = {
     city.findAll({offset: req.params.size * (req.params.page-1), 
                      limit: req.params.size, 
                      order: 'name',
-                     include: state 
+                     include: {all: true} 
                      }).then(function (cities) {
                       
       result.data = cities;
@@ -42,7 +42,7 @@ module.exports = {
                      limit: req.params.size, 
                      order: 'name',
                      where: {name: {$iLike: '%'+name+'%'}},
-                     include: state
+                     include: {all: true}
                      }).then(function (cities) {
                       
       result.data = cities;
@@ -79,7 +79,7 @@ module.exports = {
   },   
 
   findById(req, res) {
-    city.findById(req.params.id, {include: state}).then(function (city) {
+    city.findById(req.params.id, {include: {all: true}}).then(function (city) {
       res.status(200).json(city);
     }).catch(function (error){
       res.status(500).json(error);

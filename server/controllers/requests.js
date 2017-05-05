@@ -13,7 +13,7 @@ module.exports = {
     request.findAll({offset: req.params.size * (req.params.page-1), 
                      limit: req.params.size, 
                      order: 'name',
-                     include: type
+                     include: {all: true}
                      }).then(function (requests) {
                       
       result.data = requests;
@@ -43,7 +43,7 @@ module.exports = {
                      limit: req.params.size, 
                      order: 'name',
                      where: {name: {$iLike: '%'+name+'%'}},
-                     include: type
+                     include: {all: true}
                      }).then(function (requests) {
                       
       result.data = requests;
@@ -60,7 +60,7 @@ module.exports = {
   },  
 
   findById(req, res) {
-    request.findById(req.params.id, {include: type}).then(function (request) {
+    request.findById(req.params.id, {include: {all: true}}).then(function (request) {
       res.status(200).json(request);
     }).catch(function (error){
       res.status(500).json(error);

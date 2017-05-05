@@ -8,9 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     underscored: true,
     classMethods: {
       associate: function(models) {
-        point.belongsTo(models.request, { 
-          foreignKey: 'request_id'
-        });        
+        point.belongsTo(models.request, {foreignKey: 'request_id'})
       }
     }
   });

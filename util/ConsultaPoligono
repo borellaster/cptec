@@ -1,0 +1,4 @@
+Consulta por polígono/shape
+
+
+select x,y,val,st_X(geom) as latitude, st_Y(geom) as longitude from( select(st_pixelaspoints(( SELECT(ST_Union(ST_Clip(rast, ST_Transform((SELECT ST_GeomFromText('POLYGON((-54.931640625 -20.3034175184893, -50.185546875 -16.97274101999901, -50.2734375 -21.453068633086772, -54.931640625 -20.3034175184893))',4326) As wgs_geom), ST_SRID(rast) ) ) ) ) AS rast from raster_data WHERE ST_Intersects(rast, (SELECT ST_GeomFromText('POLYGON((-54.931640625 -20.3034175184893, -50.185546875 -16.97274101999901, -50.2734375 -21.453068633086772, -54.931640625 -20.3034175184893))',4236) As wgs_geom)) and (date>='2006-01-01' and date<='2006-01-02')),1)).*) r1
