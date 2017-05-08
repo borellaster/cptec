@@ -54,3 +54,20 @@ var requestTimer = schedule.scheduleJob(rule, function(){
     }).catch(function (error) {      
     });
 });
+
+/*
+
+var results = []
+async.doWhilst(function(callback) {
+    //some code
+    sequelize.query('some query').success(function(result) {
+        results = result;
+        callback();
+    });
+}, function() {
+    //use the results variable that is fetched from the database
+    //return true to continue looping or false to stop here
+}, function(err) {
+   //do some things when the loop finishes
+})
+*/
