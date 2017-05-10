@@ -9,7 +9,7 @@ var functions = require(__dirname + '/../tools/functions');
 var jsonfile = require('jsonfile');
 
 var rule = new schedule.RecurrenceRule();
-rule.minute = 54;
+rule.minute = 07;
 var fields = ['value', 'date', 'time', 'variable'];
 var fieldNames = ['Valor', 'Data', 'Hora', 'Variavel'];
 var result = {data: []}; 
@@ -20,9 +20,8 @@ var requestTimer = schedule.scheduleJob(rule, function(){
     rootPath = rootPath.substring(0, rootPath.length -24);
   
 
-    request.findAll({order: 'id', where: {status: 0}, include: {all: true}}).then(function (requests) {                         
-      for (var i = 0; i < requests.length; i++) {
-        var req = requests[i];
+    request.findAll({order: 'id', where: {status: 0}, include: {all: true}}).then(function (requests) {                      
+      requests.forEach(function (req) {
         var adjusted = functions.findQuadrant(req.location.coordinates[0], req.location.coordinates[1]);
         var latitude = adjusted.lat;
         var longitude = adjusted.lng; 
@@ -34,24 +33,28 @@ var requestTimer = schedule.scheduleJob(rule, function(){
         " and variable in ('"+ req.variables + "')" +
         " order by variable, date, time ";
         db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
-            console.log(req.type.extension);
-            if(req.type.extension = '.csv'){
+            if(req.type.extension == '.csv'){
                 var csv = json2csv({ data: rasters, fields: fields, fieldNames: fieldNames, del: ';'});
-                fs.writeFile(rootPath + 'req'+req.id+'.csv', csv, function(err) {
-                  if (err) throw err;
-                  console.log('req'+req.id+'.csv created');
+                fs.writeFileSync(rootPath + 'req'+req.id+'.csv', csv, function(err) {
+                    if (err) {
+                        throw err;
+                    }
                 });
-            } else if(req.type.extension = '.json'){
+            } else if(req.type.extension == '.json'){
                 var file = rootPath + 'req'+req.id+'.json';
                 jsonfile.writeFile(file, rasters, function (err) {
-                  console.log('req'+req.id+'.json created');
+                    if (err) {
+                        throw err;
+                    }
                 });
             }            
-        }).catch(function (error) {            
+        }).catch(function (error) { 
+
         });         
           
-      }
-    }).catch(function (error) {      
+      })
+    }).catch(function (error) {
+
     });
 });
 
