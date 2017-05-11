@@ -7,9 +7,11 @@ request = require('../models/').request;
 var dateFormat = require('dateformat');
 var functions = require(__dirname + '/../tools/functions');
 var jsonfile = require('jsonfile');
+var js2xmlparser = require("js2xmlparser");
+var zip = new require('node-zip')();
 
 var rule = new schedule.RecurrenceRule();
-rule.minute = 07;
+rule.minute = 36;
 var fields = ['value', 'date', 'time', 'variable'];
 var fieldNames = ['Valor', 'Data', 'Hora', 'Variavel'];
 var result = {data: []}; 
@@ -17,8 +19,55 @@ var result = {data: []};
 var requestTimer = schedule.scheduleJob(rule, function(){
 
     var rootPath = path.resolve(__dirname);
-    rootPath = rootPath.substring(0, rootPath.length -24);
-  
+    rootPath = rootPath.substring(0, rootPath.length -24);  
+
+    var obj = {
+        "firstName": "John",
+        "lastName": "Smith",
+        "dateOfBirth": new Date(1964, 7, 26),
+        "address": {
+            "@": {
+                "type": "home"
+            },
+            "streetAddress": "3212 22nd St",
+            "city": "Chicago",
+            "state": "Illinois",
+            "zip": 10000
+        },
+        "phone": [
+            {
+                "@": {
+                    "type": "home"
+                },
+                "#": "123-555-4567"
+            },
+            {
+                "@": {
+                    "type": "cell"
+                },
+                "#": "890-555-1234"
+            },
+            {
+                "@": {
+                    "type": "work"
+                },
+                "#": "567-555-8901"
+            }
+        ],
+        "email": "john@smith.com"
+    };
+     
+    var xml = js2xmlparser.parse("person", obj); 
+    var file = rootPath + 'req1.xml';
+    fs.writeFile(file, xml, function(err) {
+        if (err) {
+            throw err;
+        }
+    }); 
+
+    zip.file(file, xml);
+    var data = zip.generate({base64:false,compression:'DEFLATE'});
+    fs.writeFileSync(rootPath +'req1.zip', data, 'binary');              
 
     request.findAll({order: 'id', where: {status: 0}, include: {all: true}}).then(function (requests) {                      
       requests.forEach(function (req) {
@@ -34,8 +83,9 @@ var requestTimer = schedule.scheduleJob(rule, function(){
         " order by variable, date, time ";
         db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
             if(req.type.extension == '.csv'){
+                var file = rootPath + 'req'+req.id+'.csv';
                 var csv = json2csv({ data: rasters, fields: fields, fieldNames: fieldNames, del: ';'});
-                fs.writeFileSync(rootPath + 'req'+req.id+'.csv', csv, function(err) {
+                fs.writeFileSync(file, csv, function(err) {
                     if (err) {
                         throw err;
                     }
@@ -47,7 +97,15 @@ var requestTimer = schedule.scheduleJob(rule, function(){
                         throw err;
                     }
                 });
-            }            
+            } else if(req.type.extension == '.xml'){
+                var xml = js2xmlparser.parse("person", obj);
+                var file = rootPath + 'req'+req.id+'.xml';
+                fs.writeFile(file, xml, function(err) {
+                    if (err) {
+                        throw err;
+                    }
+                });                
+            }
         }).catch(function (error) { 
 
         });         
