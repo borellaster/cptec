@@ -99,7 +99,7 @@ module.exports = {
     }).catch(function (error){
       res.status(500).json(error);
     });
-  }
+  },
 
   process(req, res) {    
     request.findById(req.params.id, {include: {all: true}}).then(function (req) {
