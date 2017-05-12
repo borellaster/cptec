@@ -12,6 +12,8 @@ var js2xmlparser = require("js2xmlparser");
 var zip = new require('node-zip')();
 var json2csv = require('json2csv');
 var fs = require('fs');
+var fields = ['value', 'date', 'time', 'variable'];
+var fieldNames = ['Valor', 'Data', 'Hora', 'Variavel'];
 
 module.exports = {
 
