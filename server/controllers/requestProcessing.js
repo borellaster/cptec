@@ -18,46 +18,11 @@ var result = {data: []};
 
 var requestTimer = schedule.scheduleJob(rule, function(){
 
-    var rootPath = path.resolve(__dirname);
-    rootPath = rootPath.substring(0, rootPath.length -24);  
+    /*var rootPath = path.resolve(__dirname);
+    rootPath = rootPath.substring(0, rootPath.length -24);  */
 
-    var obj = {
-        "firstName": "John",
-        "lastName": "Smith",
-        "dateOfBirth": new Date(1964, 7, 26),
-        "address": {
-            "@": {
-                "type": "home"
-            },
-            "streetAddress": "3212 22nd St",
-            "city": "Chicago",
-            "state": "Illinois",
-            "zip": 10000
-        },
-        "phone": [
-            {
-                "@": {
-                    "type": "home"
-                },
-                "#": "123-555-4567"
-            },
-            {
-                "@": {
-                    "type": "cell"
-                },
-                "#": "890-555-1234"
-            },
-            {
-                "@": {
-                    "type": "work"
-                },
-                "#": "567-555-8901"
-            }
-        ],
-        "email": "john@smith.com"
-    };
-     
-    var xml = js2xmlparser.parse("person", obj); 
+   
+    /*var xml = js2xmlparser.parse("person", obj); 
     var file = rootPath + 'req1.xml';
     fs.writeFile(file, xml, function(err) {
         if (err) {
@@ -67,9 +32,9 @@ var requestTimer = schedule.scheduleJob(rule, function(){
 
     zip.file(file, xml);
     var data = zip.generate({base64:false,compression:'DEFLATE'});
-    fs.writeFileSync(rootPath +'req1.zip', data, 'binary');              
+    fs.writeFileSync(rootPath +'req1.zip', data, 'binary');*/
 
-    request.findAll({order: 'id', where: {status: 0}, include: {all: true}}).then(function (requests) {                      
+    /*request.findAll({order: 'id', where: {status: 0}, include: {all: true}}).then(function (requests) {                      
       requests.forEach(function (req) {
         var adjusted = functions.findQuadrant(req.location.coordinates[0], req.location.coordinates[1]);
         var latitude = adjusted.lat;
@@ -113,22 +78,5 @@ var requestTimer = schedule.scheduleJob(rule, function(){
       })
     }).catch(function (error) {
 
-    });
+    });*/
 });
-
-/*
-
-var results = []
-async.doWhilst(function(callback) {
-    //some code
-    sequelize.query('some query').success(function(result) {
-        results = result;
-        callback();
-    });
-}, function() {
-    //use the results variable that is fetched from the database
-    //return true to continue looping or false to stop here
-}, function(err) {
-   //do some things when the loop finishes
-})
-*/
