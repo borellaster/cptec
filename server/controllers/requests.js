@@ -143,9 +143,8 @@ module.exports = {
         }).catch(function (error) { 
 
         });          
-      })      
     }).catch(function (error){
-      res.status(500).json(error);
+      
     });
   },  
 
