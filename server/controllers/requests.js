@@ -115,7 +115,7 @@ module.exports = {
         " to_char(date, 'YYYY-MM-DD') as date, time, variable "+
         " from RASTER_DATA "+
         " where date between '"+dateFormat(req.start_date, "yyyy-mm-dd h:MM:ss")+"' and '"+dateFormat(req.end_date, "yyyy-mm-dd h:MM:ss")+"' "+
-        " and variable in ('"+ req.variables + "')" +
+        " and variable in ("+ req.variables + ")" +
         " order by variable, date, time ";
         db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
             if(req.type.extension == '.csv'){
@@ -134,7 +134,7 @@ module.exports = {
                     }
                 });
             } else if(req.type.extension == '.xml'){
-                var xml = js2xmlparser.parse("person", obj);
+                var xml = js2xmlparser.parse("data", rasters);
                 var file = rootPath + 'req'+req.id+'.xml';
                 fs.writeFile(file, xml, function(err) {
                     if (err) {
