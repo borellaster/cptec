@@ -1,4 +1,5 @@
 request = require('../models/').request;
+configuration = require('../models/').configuration;
 type = require('../models/').type;
 point = require('../models/').point;
 var db = require('../models/index');
@@ -14,6 +15,10 @@ var json2csv = require('json2csv');
 var fs = require('fs');
 var fields = ['value', 'date', 'time', 'variable'];
 var fieldNames = ['Valor', 'Data', 'Hora', 'Variavel'];
+var file = "";
+
+/*ENVIAR EMAIL*/
+var mailer = require('nodemailer');
 
 module.exports = {
 
@@ -119,7 +124,7 @@ module.exports = {
         " order by variable, date, time ";
         db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
             if(req.type.extension == '.csv'){
-                var file = rootPath + 'req'+req.id+'.csv';
+                file = rootPath + 'req'+req.id+'.csv';
                 var csv = json2csv({ data: rasters, fields: fields, fieldNames: fieldNames, del: ';'});
                 fs.writeFileSync(file, csv, function(err) {
                     if (err) {
@@ -127,7 +132,7 @@ module.exports = {
                     }
                 });
             } else if(req.type.extension == '.json'){
-                var file = rootPath + 'req'+req.id+'.json';
+                file = rootPath + 'req'+req.id+'.json';
                 jsonfile.writeFile(file, rasters, function (err) {
                     if (err) {
                         throw err;
@@ -135,7 +140,7 @@ module.exports = {
                 });
             } else if(req.type.extension == '.xml'){
                 var xml = js2xmlparser.parse("data", rasters);
-                var file = rootPath + 'req'+req.id+'.xml';
+                file = rootPath + 'req'+req.id+'.xml';
                 fs.writeFile(file, xml, function(err) {
                     if (err) {
                         throw err;
@@ -144,7 +149,36 @@ module.exports = {
             }
         }).catch(function (error) { 
 
-        });          
+        }); 
+
+        configuration.findById(1).then(function (configuration) {
+          mailer.SMTP = {
+              host: configuration.smtp, 
+              port: configuration.port,
+              use_authentication: true, 
+              user: configuration.mail, 
+              pass: configuration.password
+          }; 
+
+          fs.readFile(file, function (err, data) {
+              mailer.send_mail({       
+                  sender: configuration.mail,
+                  to: req.email,
+                  subject: 'Requisição',
+                  body: 'testando som...',
+                  attachments: [{'filename': 'attachment'+req.type.extension, 'content': data}]
+              }), function(err, success) {
+                  if (err) {
+
+                  }
+              }
+          });                             
+        }).catch(function (error){
+          
+        });
+        
+
+
     }).catch(function (error){
       
     });

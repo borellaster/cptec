@@ -22,6 +22,7 @@ resolutions = require('./server/controllers/resolutions'),
 ensembles = require('./server/controllers/ensembles'),
 intervals = require('./server/controllers/intervals'),
 requests = require('./server/controllers/requests'),
+configurations = require('./server/controllers/configurations'),
 public = require('./server/controllers/public'),
 autentication = require('./server/controllers/authorization'),
 /*Authorization*/
@@ -146,6 +147,14 @@ app.get('/api/v1/intervals/:id', app.auth.authenticate(), intervals.findById);
 app.post('/api/v1/intervals', app.auth.authenticate(), intervals.save);
 app.put('/api/v1/intervals/:id', app.auth.authenticate(), intervals.update);
 app.delete('/api/v1/intervals/:id', app.auth.authenticate(), intervals.delete);
+
+/*configurations api*/
+app.get('/api/v1/configurations/:page/:size', configurations.findAll);
+app.get('/api/v1/configurations/search/:page/:size/:name', app.auth.authenticate(), configurations.search);
+app.get('/api/v1/configurations/:id', app.auth.authenticate(), configurations.findById);
+app.post('/api/v1/configurations', app.auth.authenticate(), configurations.save);
+app.put('/api/v1/configurations/:id', app.auth.authenticate(), configurations.update);
+app.delete('/api/v1/configurations/:id', app.auth.authenticate(), configurations.delete);
 
 /*PUBLIC ROUTES*/
 /*login*/
