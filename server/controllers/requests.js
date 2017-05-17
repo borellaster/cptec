@@ -10,15 +10,17 @@ var dateFormat = require('dateformat');
 var functions = require(__dirname + '/../tools/functions');
 var jsonfile = require('jsonfile');
 var js2xmlparser = require("js2xmlparser");
-var zip = new require('node-zip')();
+var JSZip = require("jszip");;
 var json2csv = require('json2csv');
 var fs = require('fs');
 var fields = ['value', 'date', 'time', 'variable'];
 var fieldNames = ['Valor', 'Data', 'Hora', 'Variavel'];
 var file = "";
+var output = "";
 
 /*ENVIAR EMAIL*/
-var mailer = require('nodemailer');
+var http = require('http');
+var nodemailer = require('nodemailer');
 
 module.exports = {
 
@@ -125,64 +127,84 @@ module.exports = {
         db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
             if(req.type.extension == '.csv'){
                 file = rootPath + 'req'+req.id+'.csv';
-                var csv = json2csv({ data: rasters, fields: fields, fieldNames: fieldNames, del: ';'});
-                fs.writeFileSync(file, csv, function(err) {
-                    if (err) {
-                        throw err;
-                    }
+                output = json2csv({ data: rasters, fields: fields, fieldNames: fieldNames, del: ';'});
+                fs.writeFileSync(file, output, function(err) {
+                  if (err) {
+                      throw err;
+                  }
                 });
             } else if(req.type.extension == '.json'){
                 file = rootPath + 'req'+req.id+'.json';
-                jsonfile.writeFile(file, rasters, function (err) {
-                    if (err) {
-                        throw err;
-                    }
+                output = JSON.stringify(rasters);
+                jsonfile.writeFileSync(file, rasters, function (err) {
+                  if (err) {
+                      throw err;
+                  }
                 });
             } else if(req.type.extension == '.xml'){
-                var xml = js2xmlparser.parse("data", rasters);
+                output = js2xmlparser.parse("data", rasters);
                 file = rootPath + 'req'+req.id+'.xml';
-                fs.writeFile(file, xml, function(err) {
-                    if (err) {
-                        throw err;
-                    }
-                });                
-            }
+                fs.writeFileSync(file, output, function(err) {
+                  if (err) {
+                      throw err;
+                  }
+                });
+            } 
+            var zip = new JSZip();
+            zip.file('Requisicao_'+req.id+req.type.extension, output);
+            zip
+            .generateNodeStream({type:'nodebuffer',streamFiles:true})
+            .pipe(fs.createWriteStream(rootPath+'Requisicao_'+req.id+'.zip'))
+            .on('finish', function () {
+                console.log(rootPath+'Requisicao_'+req.id+'.zip written.');
+            });  
+            fs.unlinkSync(file);
+            res.status(200).json(req.body);
         }).catch(function (error) { 
-
+          res.status(500).json(error);
         }); 
 
         configuration.findById(1).then(function (configuration) {
-          mailer.SMTP = {
-              host: configuration.smtp, 
-              port: configuration.port,
-              use_authentication: true, 
-              user: configuration.mail, 
-              pass: configuration.password
-          }; 
+          res.writeHead(200, {'Content-Type': 'text/plain'});
 
-          fs.readFile(file, function (err, data) {
-              mailer.send_mail({       
-                  sender: configuration.mail,
-                  to: req.email,
-                  subject: 'Requisição',
-                  body: 'testando som...',
-                  attachments: [{'filename': 'attachment'+req.type.extension, 'content': data}]
-              }), function(err, success) {
-                  if (err) {
+          var fromEmail = configuration.mail;
+          var toEmail = req.email;
 
-                  }
+          var transporter = nodemailer.createTransport({
+            host: configuration.smtp,
+            port: configuration.port,
+            secure: configuration.ssl,
+            debug: true,
+              auth: {
+                user: configuration.mail,
+                pass: configuration.password
               }
-          });                             
+          });
+           transporter.sendMail({
+              from: fromEmail,
+              to: toEmail,
+              subject: 'Requisição CPTEC',
+              text: '',
+              html: 'Sua requisicão encontra-se no link abaixo.<br><br> http://localhost/file.zip'
+          }, function(error, response){
+              if(error){
+                  console.log('Falha ao enviar email');
+                  console.dir({success: false, existing: false, sendError: true});
+                  console.dir(error);
+              }else{
+                  console.log('Email enviado com sucesso');
+                  console.dir({success: true, existing: false, sendError: false});
+                  console.dir(response);
+              }
+          });
+           res.status(200);
         }).catch(function (error){
-          
+          res.status(500).json(error);
         });
-        
-
-
+        res.status(200);
     }).catch(function (error){
-      
+      res.status(500).json(error);
     });
-  },  
-
+  }
 
 };
