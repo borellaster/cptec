@@ -1,3 +1,9 @@
+Save blob into database
+
+https://gist.github.com/saumyapatel/bd29a46533a726960c10c79b1b8b4445
+
+
+
 sql nativo..
 
   raw(req, res) {

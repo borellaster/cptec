@@ -1,5 +1,6 @@
 country = require('../models/').country;
 var db = require('../models/index');
+var fs = require('fs');
 
 module.exports = {
 
