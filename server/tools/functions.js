@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 module.exports =  {
 
   findQuadrant: function (lat, lng) {

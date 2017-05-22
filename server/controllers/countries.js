@@ -1,6 +1,7 @@
 country = require('../models/').country;
 var db = require('../models/index');
 var fs = require('fs');
+var base64 = require('file-base64');
 
 module.exports = {
 
@@ -69,6 +70,9 @@ module.exports = {
 
   findById(req, res) {
     country.findById(req.params.id).then(function (country) {
+      var base64String = country.file;
+      base64.decode(base64String, 'C:/Lighthouse.new.jpg', function(err, output) {        
+      });
       res.status(200).json(country);
     }).catch(function (error){
       res.status(500).json(error);
@@ -76,10 +80,13 @@ module.exports = {
   },
 
   save(req, res) {
-    country.create(req.body).then(function (object) {
+    base64.encode(req.body.file, function(err, base64String) {      
+      req.body.file = base64String; 
+      country.create(req.body).then(function (object) {
         res.status(200).json(object);
-    }).catch(function (error){
-      res.status(500).json(error);
+      }).catch(function (error){
+        res.status(500).json(error);
+      });      
     });
   },
 

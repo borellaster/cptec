@@ -5,7 +5,8 @@ module.exports = function(sequelize, DataTypes) {
     nickname: DataTypes.STRING,
     latitude: DataTypes.DOUBLE,
     longitude: DataTypes.DOUBLE,
-    zoom: DataTypes.INTEGER
+    zoom: DataTypes.INTEGER,
+    file: DataTypes.STRING
   }, {
     underscored: true,
     classMethods: {
