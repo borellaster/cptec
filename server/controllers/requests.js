@@ -21,6 +21,7 @@ var output = "";
 /*ENVIAR EMAIL*/
 var http = require('http');
 var nodemailer = require('nodemailer');
+var base64 = require('file-base64');
 
 module.exports = {
 
@@ -86,6 +87,16 @@ module.exports = {
     });
   },
 
+  findByIdDownload(req, res) {
+    var result = {data: []};
+    request.findById(req.params.id, {include: {all: true}}).then(function (request) {
+      result.data = request;
+      res.status(200).json(result);
+    }).catch(function (error){
+      res.status(500).json(error);
+    });
+  },  
+
   save(req, res) {    
     request.create(req.body).then(function (object) {
         res.status(200).json(object);
@@ -111,39 +122,39 @@ module.exports = {
   },
 
   process(req, res) {    
-    request.findById(req.params.id, {include: {all: true}}).then(function (req) {
+    request.findById(req.params.id, {include: {all: true}}).then(function (requisicao) {
         var rootPath = path.resolve(__dirname);
         rootPath = rootPath.substring(0, rootPath.length -24);        
-        var adjusted = functions.findQuadrant(req.location.coordinates[0], req.location.coordinates[1]);
+        var adjusted = functions.findQuadrant(requisicao.location.coordinates[0], requisicao.location.coordinates[1]);
         var latitude = adjusted.lat;
         var longitude = adjusted.lng; 
 
         var query = " select ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
         " to_char(date, 'YYYY-MM-DD') as date, time, variable "+
         " from RASTER_DATA "+
-        " where date between '"+dateFormat(req.start_date, "yyyy-mm-dd h:MM:ss")+"' and '"+dateFormat(req.end_date, "yyyy-mm-dd h:MM:ss")+"' "+
-        " and variable in ("+ req.variables + ")" +
+        " where date between '"+dateFormat(requisicao.start_date, "yyyy-mm-dd h:MM:ss")+"' and '"+dateFormat(requisicao.end_date, "yyyy-mm-dd h:MM:ss")+"' "+
+        " and variable in ("+ requisicao.variables + ")" +
         " order by variable, date, time ";
         db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
-            if(req.type.extension == '.csv'){
-                file = rootPath + 'req'+req.id+'.csv';
+            if(requisicao.type.extension == '.csv'){
+                file = rootPath + 'req'+requisicao.id+'.csv';
                 output = json2csv({ data: rasters, fields: fields, fieldNames: fieldNames, del: ';'});
                 fs.writeFileSync(file, output, function(err) {
                   if (err) {
                       throw err;
                   }
                 });
-            } else if(req.type.extension == '.json'){
-                file = rootPath + 'req'+req.id+'.json';
+            } else if(requisicao.type.extension == '.json'){
+                file = rootPath + 'req'+requisicao.id+'.json';
                 output = JSON.stringify(rasters);
                 jsonfile.writeFileSync(file, rasters, function (err) {
                   if (err) {
                       throw err;
                   }
                 });
-            } else if(req.type.extension == '.xml'){
+            } else if(requisicao.type.extension == '.xml'){
                 output = js2xmlparser.parse("data", rasters);
-                file = rootPath + 'req'+req.id+'.xml';
+                file = rootPath + 'req'+requisicao.id+'.xml';
                 fs.writeFileSync(file, output, function(err) {
                   if (err) {
                       throw err;
@@ -151,14 +162,23 @@ module.exports = {
                 });
             } 
             var zip = new JSZip();
-            zip.file('Requisicao_'+req.id+req.type.extension, output);
+            zip.file('Requisicao_'+requisicao.id+requisicao.type.extension, output);
             zip
             .generateNodeStream({type:'nodebuffer',streamFiles:true})
-            .pipe(fs.createWriteStream(rootPath+'Requisicao_'+req.id+'.zip'))
+            .pipe(fs.createWriteStream(rootPath+'Requisicao_'+requisicao.id+'.zip'))
             .on('finish', function () {
-                console.log(rootPath+'Requisicao_'+req.id+'.zip written.');
+                console.log(rootPath+'Requisicao_'+requisicao.id+'.zip written.');
+                base64.encode(rootPath+'Requisicao_'+requisicao.id+'.zip', function(err, base64String) {  
+                  var query = "UPDATE requests SET file = '"+base64String+"' WHERE id = "+requisicao.id;
+                  db.sequelize.query(query, {type:db.Sequelize.QueryTypes.BULKUPDATE}).then(function(reqUpdate) {
+                    console.log(reqUpdate);
+                  }).catch(function (error){
+              
+                  });      
+                });
             });  
             fs.unlinkSync(file);
+
             res.status(200).json(req.body);
         }).catch(function (error) { 
           res.status(500).json(error);
@@ -168,7 +188,7 @@ module.exports = {
           res.writeHead(200, {'Content-Type': 'text/plain'});
 
           var fromEmail = configuration.mail;
-          var toEmail = req.email;
+          var toEmail = requisicao.email;
 
           var transporter = nodemailer.createTransport({
             host: configuration.smtp,

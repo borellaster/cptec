@@ -1,7 +1,5 @@
 country = require('../models/').country;
 var db = require('../models/index');
-var fs = require('fs');
-var base64 = require('file-base64');
 
 module.exports = {
 

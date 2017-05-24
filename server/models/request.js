@@ -11,7 +11,8 @@ module.exports = function(sequelize, DataTypes) {
     type_id: DataTypes.INTEGER,
     model_id: DataTypes.INTEGER,
     interval_id: DataTypes.INTEGER,
-    location: DataTypes.GEOMETRY
+    location: DataTypes.GEOMETRY,
+    file: DataTypes.STRING
   }, {
     underscored: true,
     classMethods: {
