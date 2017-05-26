@@ -8,7 +8,8 @@ module.exports = function(sequelize, DataTypes) {
     port: DataTypes.INTEGER,
     password: DataTypes.STRING,
     ssl: DataTypes.BOOLEAN,
-    tls: DataTypes.BOOLEAN
+    tls: DataTypes.BOOLEAN,
+    link: DataTypes.STRING
   }, {
     underscored: true,
     classMethods: {

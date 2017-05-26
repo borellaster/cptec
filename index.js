@@ -181,7 +181,7 @@ app.get('/api/v1/public/intervals', intervals.combo);
 /*types public*/
 app.get('/api/v1/public/types', types.combo);
 /*process public*/
-app.get('/api/v1/public/requests/:id', requests.process);
+app.get('/api/v1/public/requests/process/:id', requests.process);
 
 
 app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/', public.findByCoordinates);

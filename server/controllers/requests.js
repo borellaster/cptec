@@ -171,18 +171,20 @@ module.exports = {
                 base64.encode(rootPath+'Requisicao_'+requisicao.id+'.zip', function(err, base64String) {  
                   var query = "UPDATE requests SET file = '"+base64String+"' WHERE id = "+requisicao.id;
                   db.sequelize.query(query, {type:db.Sequelize.QueryTypes.BULKUPDATE}).then(function(reqUpdate) {
-                    console.log(reqUpdate);
+                  
                   }).catch(function (error){
               
-                  });      
+                  });                        
                 });
             });  
             fs.unlinkSync(file);
+
 
             res.status(200).json(req.body);
         }).catch(function (error) { 
           res.status(500).json(error);
         }); 
+
 
         configuration.findById(1).then(function (configuration) {
           res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -205,7 +207,7 @@ module.exports = {
               to: toEmail,
               subject: 'Requisição CPTEC',
               text: '',
-              html: 'Sua requisicão encontra-se no link abaixo.<br><br> http://localhost/file.zip'
+              html: 'Sua requisicão encontra-se no link abaixo.<br><br> '+ configuration.link+requisicao.id
           }, function(error, response){
               if(error){
                   console.log('Falha ao enviar email');
@@ -220,7 +222,8 @@ module.exports = {
            res.status(200);
         }).catch(function (error){
           res.status(500).json(error);
-        });
+        });          
+
         res.status(200);
     }).catch(function (error){
       res.status(500).json(error);
