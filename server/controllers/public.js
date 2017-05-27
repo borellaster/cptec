@@ -48,9 +48,8 @@ order by variable, date, time
     var enddate = req.params.enddate;
     if(req.params.page <= 0) {
       req.params.page = 1;
-    } 
-    console.log(longitude);
-    console.log(latitude);
+    }
+    
     var query = " select ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
                 " cast(date as date), time, variable "+
                 " from RASTER_DATA "+

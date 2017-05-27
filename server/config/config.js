@@ -1,8 +1,7 @@
 module.exports = {
 	development: {
   	url: 'postgres://cptec:Cptec10@localhost:5432/cptec',
-  	dialect: 'postgres',
-    logging: false
+  	dialect: 'postgres'
   },
 	production: {
   	url: process.env.DATABASE_URL,

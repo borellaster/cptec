@@ -191,6 +191,10 @@ module.exports = {
 
           var fromEmail = configuration.mail;
           var toEmail = requisicao.email;
+          var conteudo = "Olá "+requisicao.name;
+          conteudo += "<br><br>Informamos que a sua requisição está disponível.";
+          conteudo += "<br>Clique no link abaixo para ser direcionado até a área de download";
+          conteudo += "<br><br>"+configuration.link+requisicao.id;
 
           var transporter = nodemailer.createTransport({
             host: configuration.smtp,
@@ -202,12 +206,12 @@ module.exports = {
                 pass: configuration.password
               }
           });
-           transporter.sendMail({
+          transporter.sendMail({
               from: fromEmail,
               to: toEmail,
               subject: 'Requisição CPTEC',
               text: '',
-              html: 'Sua requisicão encontra-se no link abaixo.<br><br> '+ configuration.link+requisicao.id
+              html: conteudo
           }, function(error, response){
               if(error){
                   console.log('Falha ao enviar email');
