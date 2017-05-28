@@ -1,3 +1,4 @@
+model = require('../models/').model;
 var db = require('../models/index');
 var functions = require(__dirname + '/../tools/functions');
 
@@ -26,26 +27,25 @@ module.exports = {
     });
   }, 
 
-  /*
-select id, ST_AsText(location) as location 
-from requests
-
-select ST_VALUE(RAST, (select location from requests where id = 4)) as value,  
-cast(date as date), time, variable  
-from RASTER_DATA  
-where date between '2017-05-04' and '2017-05-04'  
-and variable in ('PSLM','PSLC','V10M','U10M','TP2M') 
-order by variable, date, time
-
- */
-
   findByCoordinatesPag(req, res) {
+    var modelSearch = undefined;
+    model.findById(req.params.id).then(function (model) {
+      modelSearch = model;
+    }).catch(function (error){
+      
+    });
     var adjusted = functions.findQuadrant(req.params.latitude,req.params.longitude);
     var latitude = adjusted.lat;
     var longitude = adjusted.lng;
     var variables = req.params.variables;
     var startdate = req.params.startdate;
     var enddate = req.params.enddate;
+    var where = " where 1=1 ";
+    where += " and date between '"+startdate+"' and '"+enddate+"' ";
+    where += " and variable in "+ variables;
+    where += " and upper(model) = upper('"+modelSearch.name+"') ";
+    where += " and upper(scenario) = upper('"+modelSearch.scenario+"') ";
+    where += " and upper(model_coupled) = upper('"+modelSearch.couple+"') ";
     if(req.params.page <= 0) {
       req.params.page = 1;
     }
