@@ -5986,9 +5986,9 @@ v_time text;
 v_version text;
 Begin
   new.model=split_part(new.filename,'_',1);
-  new.scenario=split_part(new.filename,'_',2);
-  new.model_coupled=split_part(new.filename,'_',3);
-  new.model_resolution=split_part(new.filename,'_',4);
+  new.model_coupled=split_part(new.filename,'_',2);
+  new.model_resolution=split_part(new.filename,'_',3);
+  new.scenario=split_part(new.filename,'_',4);
   new.ensemble=split_part(new.filename,'_',5);
   new.interval=split_part(new.filename,'_',6);
   new.variable=split_part(new.filename,'_',7);
