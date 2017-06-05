@@ -87,9 +87,9 @@ module.exports = {
     });
   },
 
-  findByIdDownload(req, res) {
+  findByHashDownload(req, res) {
     var result = {data: []};
-    request.findById(req.params.id, {include: {all: true}}).then(function (request) {
+    request.findOne({ where: {hash: req.params.hash}, include: {all: true}}).then(function (request) {
       result.data = request;
       res.status(200).json(result);
     }).catch(function (error){
@@ -194,7 +194,7 @@ module.exports = {
           var conteudo = "Olá "+requisicao.name;
           conteudo += "<br><br>Informamos que a sua requisição está disponível.";
           conteudo += "<br>Clique no link abaixo para ser direcionado até a área de download";
-          conteudo += "<br><br>"+configuration.link+requisicao.id;
+          conteudo += "<br><br>"+configuration.link+requisicao.hash;
 
           var transporter = nodemailer.createTransport({
             host: configuration.smtp,

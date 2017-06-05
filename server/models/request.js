@@ -1,4 +1,6 @@
 'use strict';
+var sha1 = require('sha1');
+
 module.exports = function(sequelize, DataTypes) {
   var request = sequelize.define('request', {
     name: DataTypes.STRING,
@@ -12,9 +14,16 @@ module.exports = function(sequelize, DataTypes) {
     model_id: DataTypes.INTEGER,
     interval_id: DataTypes.INTEGER,
     location: DataTypes.GEOMETRY,
-    file: DataTypes.STRING
+    file: DataTypes.STRING,
+    hash: DataTypes.STRING
   }, {
     underscored: true,
+    hooks: {
+      beforeCreate: request => {
+        var hash = sha1(request.name + new Date());
+        request.set('hash', hash);
+      },
+    },    
     classMethods: {
       associate: function(models) {
         request.belongsTo(models.type, { foreignKey: 'type_id'}),

@@ -164,7 +164,7 @@ app.get('/api/v1/public/countries', countries.combo);
 app.get('/api/v1/public/cities/:name', cities.combo);
 app.get('/api/v1/public/states', states.combo);
 app.get('/api/v1/public/variables', variables.combo);
-app.get('/api/v1/public/requests/:id', requests.findByIdDownload);
+app.get('/api/v1/public/requests/:hash', requests.findByHashDownload);
 
 /*models public*/
 app.get('/api/v1/public/models', models.combo);

@@ -41,22 +41,18 @@ module.exports = {
         where += " and date between '"+startdate+"' and '"+enddate+"' ";
         where += " and variable in "+ variables;
         where += " and upper(model) = upper('"+modelSearch.model+"') ";
-        where += " and upper(scenario) = upper('"+modelSearch.couple+"') ";
-        where += " and upper(model_coupled) = upper('"+modelSearch.resolution+"') ";
+        //where += " and upper(scenario) = upper('"+modelSearch.scenario+"') ";
+        where += " and upper(model_resolution) = upper('"+modelSearch.resolution+"') ";
         if(req.params.page <= 0) {
           req.params.page = 1;
         }
         
         var query = " select ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
                     " cast(date as date), time, variable "+
-                    " from RASTER_DATA "+
-                    " where date between '"+startdate+"' and '"+enddate+"' "+
-                    " and variable in "+ variables + 
+                    " from RASTER_DATA "+where+
                     " order by variable, date, time LIMIT "+req.params.size+" OFFSET "+req.params.page;
         var queryCount = " select count(*),ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236) "+                
-                    " from RASTER_DATA "+
-                    " where date between '"+startdate+"' and '"+enddate+"' "+
-                    " and variable in "+ variables; 
+                    " from RASTER_DATA "+where; 
 
         var result = {data: [], count: 0, page: 1, pages: 1};  
         db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(data) {
@@ -75,3 +71,19 @@ module.exports = {
   },   
 
 };
+
+
+/*
+
+        var query = " select ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
+                    " cast(date as date), time, variable "+
+                    " from RASTER_DATA "+
+                    " where date between '"+startdate+"' and '"+enddate+"' "+
+                    " and variable in "+ variables + 
+                    " order by variable, date, time LIMIT "+req.params.size+" OFFSET "+req.params.page;
+        var queryCount = " select count(*),ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236) "+                
+                    " from RASTER_DATA "+
+                    " where date between '"+startdate+"' and '"+enddate+"' "+
+                    " and variable in "+ variables;
+
+*/
