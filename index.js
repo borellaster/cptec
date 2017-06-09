@@ -182,6 +182,10 @@ app.get('/api/v1/public/intervals', intervals.combo);
 app.get('/api/v1/public/types', types.combo);
 /*process public*/
 app.get('/api/v1/public/requests/process/:id', requests.process);
+/*years public*/
+app.get('/api/v1/public/years', public.findYears);
+/*months public*/
+app.get('/api/v1/public/months', public.findMonths);
 
 
 app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/', public.findByCoordinates);

@@ -68,7 +68,46 @@ module.exports = {
       
     });
 
-  },   
+  }, 
+
+  findYears(req, res) {
+    var query = " select DISTINCT(EXTRACT(year from date)) as year from raster_data order by 1 ";
+    var result = {data: []};  
+    db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(data) {
+        result.data = data;
+        res.json(result)
+    }).catch(function (error) {
+        console.log(error);
+        res.status(500).json(error);
+    });
+  },
+
+  findMonths(req, res) {
+    var query = " select DISTINCT(EXTRACT(month from date)) as month, "+
+                "  case "+
+                "      when EXTRACT(month from date) = 1 then 'Janeiro' "+
+                "      when EXTRACT(month from date) = 2 then 'Fevereiro' "+
+                "      when EXTRACT(month from date) = 3 then 'Março' "+
+                "      when EXTRACT(month from date) = 4 then 'Abril' "+
+                "      when EXTRACT(month from date) = 5 then 'Maio' "+
+                "      when EXTRACT(month from date) = 6 then 'Junho' "+
+                "      when EXTRACT(month from date) = 7 then 'Julho' "+
+                "      when EXTRACT(month from date) = 8 then 'Agosto' "+
+                "      when EXTRACT(month from date) = 9 then 'Setembro' "+
+                "      when EXTRACT(month from date) = 10 then 'Outubro' "+
+                "      when EXTRACT(month from date) = 11 then 'Novembro' "+
+                "      when EXTRACT(month from date) = 12 then 'Dezembro' "+
+                "  end as nome "+
+                "  from raster_data order by 1 ";
+    var result = {data: []};  
+    db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(data) {
+        result.data = data;
+        res.json(result)
+    }).catch(function (error) {
+        console.log(error);
+        res.status(500).json(error);
+    });
+  },      
 
 };
 
