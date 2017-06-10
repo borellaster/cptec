@@ -35,10 +35,13 @@ module.exports = {
         var latitude = adjusted.lat;
         var longitude = adjusted.lng;
         var variables = req.params.variables;
-        var startdate = req.params.startdate;
-        var enddate = req.params.enddate;
+        var startmonth = req.params.startmonth;
+        var startyear = req.params.startyear;
+        var endmonth = req.params.endmonth;
+        var endyear = req.params.endyear;
         var where = " where 1=1 ";
-        where += " and date between '"+startdate+"' and '"+enddate+"' ";
+        where += " and extract(month from date) between "+startmonth+" and "+endmonth;
+        where += " and extract(year from date) between "+startyear+" and "+endyear;
         where += " and variable in "+ variables;
         where += " and upper(model) = upper('"+modelSearch.model+"') ";
         //where += " and upper(scenario) = upper('"+modelSearch.scenario+"') ";
@@ -50,7 +53,7 @@ module.exports = {
         var query = " select ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
                     " cast(date as date), time, variable "+
                     " from RASTER_DATA "+where+
-                    " order by variable, date, time LIMIT "+req.params.size+" OFFSET "+req.params.page;
+                    " order by date, time LIMIT "+req.params.size+" OFFSET "+req.params.page;
         var queryCount = " select count(*),ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236) "+                
                     " from RASTER_DATA "+where; 
 
@@ -110,19 +113,3 @@ module.exports = {
   },      
 
 };
-
-
-/*
-
-        var query = " select ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
-                    " cast(date as date), time, variable "+
-                    " from RASTER_DATA "+
-                    " where date between '"+startdate+"' and '"+enddate+"' "+
-                    " and variable in "+ variables + 
-                    " order by variable, date, time LIMIT "+req.params.size+" OFFSET "+req.params.page;
-        var queryCount = " select count(*),ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236) "+                
-                    " from RASTER_DATA "+
-                    " where date between '"+startdate+"' and '"+enddate+"' "+
-                    " and variable in "+ variables;
-
-*/

@@ -190,6 +190,7 @@ app.get('/api/v1/public/months', public.findMonths);
 
 app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/', public.findByCoordinates);
 app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/:id/:page/:size', public.findByCoordinatesPag);
+app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startmonth/:startyear/:endmonth/:endyear/:id/:page/:size', public.findByCoordinatesPag);
 
 //ver aqui quando não for paginado, teria que ter um minimo de periodo para retornar os dados
 //mais que X anos, temos que bloquear e forçar para que façam uma requisição

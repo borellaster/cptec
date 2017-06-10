@@ -5973,7 +5973,7 @@ INSERT INTO INTERVALS(NAME, NICKNAME) VALUES ('MENSAL', 'MONTHLY');
 
 
 /*Configurations*/
-INSERT INTO CONFIGURATIONS(NAME, MAIL, SMTP, POP, PORT, PASSWORD, SSL, TLS) VALUES ('CONFIGURAÇÃO PADRÃO', 'naoresponda@pbasoftware.com.br', 'smtp.pbasoftware.com.br', 'pop.pbasoftware.com.br', 587, 'PBA506718', false, false);
+INSERT INTO CONFIGURATIONS(NAME, MAIL, SMTP, POP, PORT, PASSWORD, SSL, TLS) VALUES ('CONFIGURAÇÃO PADRÃO', 'naoresponda@pbasoftware.com.br', 'smtp.kinghost.net', 'pop.kinghost.net', 587, 'PBA506718', false, false);
 
 /*Users*/
 INSERT INTO USERS(NAME, USERNAME, PASSWORD, STATUS) VALUES ('FELIPE BORELLA', 'felipe@pbasoftware.com.br', '$2a$10$boCeCk4wCOYjIJZPFX9WLens9rmh5u.2gY.51MvtiDRqd8C6Yk122', true);
