@@ -13,3 +13,7 @@ ALTER TABLE public.requests DROP COLUMN end_date;
 ALTER TABLE public.variables ADD COLUMN active boolean;
 
 ALTER TABLE public.variables ALTER COLUMN active TYPE character varying (1);
+
+ALTER TABLE public.requests ADD COLUMN utilizacao TEXT;
+
+ALTER TABLE public.requests ADD COLUMN instituicao TEXT;

@@ -17,7 +17,9 @@ module.exports = function(sequelize, DataTypes) {
     interval_id: DataTypes.INTEGER,
     location: DataTypes.GEOMETRY,
     file: DataTypes.STRING,
-    hash: DataTypes.STRING
+    hash: DataTypes.STRING,
+    utilizacao: DataTypes.STRING,
+    instituicao: DataTypes.STRING
   }, {
     underscored: true,
     hooks: {
