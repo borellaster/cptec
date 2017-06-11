@@ -53,7 +53,7 @@ module.exports = {
         var query = " select ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
                     " cast(date as date), time, variable "+
                     " from RASTER_DATA "+where+
-                    " order by date, time LIMIT "+req.params.size+" OFFSET "+req.params.page;
+                    " order by date, time LIMIT "+req.params.size+" OFFSET "+(req.params.page -1) * req.params.size;
         var queryCount = " select count(*),ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236) "+                
                     " from RASTER_DATA "+where; 
 

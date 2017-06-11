@@ -129,11 +129,17 @@ module.exports = {
         var latitude = adjusted.lat;
         var longitude = adjusted.lng; 
 
+        var where = " where 1=1 ";
+        where += " and extract(month from date) between "+requisicao.start_month+" and "+requisicao.end_month;
+        where += " and extract(year from date) between "+requisicao.start_year+" and "+requisicao.end_year;
+        where += " and variable in ("+ requisicao.variables + ")";
+        where += " and upper(model) = upper('"+requisicao.model.model+"') ";
+        where += " and upper(model_resolution) = upper('"+requisicao.model.resolution+"') ";        
+
         var query = " select ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
         " to_char(date, 'YYYY-MM-DD') as date, time, variable "+
         " from RASTER_DATA "+
-        " where date between '"+dateFormat(requisicao.start_date, "yyyy-mm-dd h:MM:ss")+"' and '"+dateFormat(requisicao.end_date, "yyyy-mm-dd h:MM:ss")+"' "+
-        " and variable in ("+ requisicao.variables + ")" +
+        where + 
         " order by variable, date, time ";
         db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
             if(requisicao.type.extension == '.csv'){
