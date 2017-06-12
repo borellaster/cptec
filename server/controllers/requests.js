@@ -144,26 +144,32 @@ module.exports = {
         db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
             if(requisicao.type.extension == '.csv'){
                 file = rootPath + 'req'+requisicao.id+'.csv';
+                console.log(rootPath);
                 output = json2csv({ data: rasters, fields: fields, fieldNames: fieldNames, del: ';'});
                 fs.writeFileSync(file, output, function(err) {
                   if (err) {
-                      throw err;
+                    console.log(err);
+                      //throw err;
                   }
                 });
             } else if(requisicao.type.extension == '.json'){
                 file = rootPath + 'req'+requisicao.id+'.json';
+                console.log(rootPath);
                 output = JSON.stringify(rasters);
                 jsonfile.writeFileSync(file, rasters, function (err) {
                   if (err) {
-                      throw err;
+                    console.log(err);
+                      //throw err;
                   }
                 });
             } else if(requisicao.type.extension == '.xml'){
                 output = js2xmlparser.parse("data", rasters);
                 file = rootPath + 'req'+requisicao.id+'.xml';
+                console.log(rootPath);
                 fs.writeFileSync(file, output, function(err) {
                   if (err) {
-                      throw err;
+                    console.log(err);
+                      //throw err;
                   }
                 });
             } 
