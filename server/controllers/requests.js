@@ -4,7 +4,7 @@ type = require('../models/').type;
 point = require('../models/').point;
 var db = require('../models/index');
 
-/*PROCESSAMENTO*/
+/*process*/
 var path = require('path');
 var dateFormat = require('dateformat');
 var functions = require(__dirname + '/../tools/functions');
@@ -18,10 +18,13 @@ var fieldNames = ['Valor', 'Data', 'Hora', 'Variavel'];
 var file = "";
 var output = "";
 
-/*ENVIAR EMAIL*/
+/*send mail*/
 var http = require('http');
 var nodemailer = require('nodemailer');
 var base64 = require('file-base64');
+
+/*report*/
+var Report = require('fluentReports').Report;
 
 module.exports = {
 
@@ -148,7 +151,18 @@ module.exports = {
                 output = JSON.stringify(rasters);
             } else if(requisicao.type.extension == '.xml'){
                 output = js2xmlparser.parse("data", rasters);
-            } 
+            }
+
+            /*report*/
+            var data = [{name: 'Elijah', age: 18}, {name: 'Abraham', age: 22}, {name: 'Gavin', age: 28}];
+            // Create a Report  
+            var rpt = new Report(rootPath+'Requisicao_'+requisicao.id+'.pdf')        
+                  .pageHeader(["Employee Ages"])
+                  .data(data)
+                  .detail([['name', 200],['age', 50]])
+                  .render();
+
+
             var zip = new JSZip();
             zip.file('Requisicao_'+requisicao.id+requisicao.type.extension, output);
             zip
