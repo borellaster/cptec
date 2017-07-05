@@ -57,7 +57,7 @@ module.exports = {
 
   combo(req, res) {
     var result = {data: []};
-    db.sequelize.query("select id, name, model, couple, scenario, resolution from \"models\" order by id ", { 
+    db.sequelize.query("select id, name, model, couple, scenario, resolution, start_year, end_year from \"models\" order by id ", { 
                 type:db.Sequelize.QueryTypes.SELECT}).then(function(models) {
         result.data = models;  
         res.status(200).json(result);
