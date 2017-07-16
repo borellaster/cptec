@@ -2,7 +2,8 @@
 module.exports = function(sequelize, DataTypes) {
   var interval = sequelize.define('interval', {
     name: DataTypes.STRING,
-    nickname: DataTypes.STRING
+    nickname: DataTypes.STRING,
+    sequence: DataTypes.INTEGER
   }, {
     underscored: true,
     classMethods: {
