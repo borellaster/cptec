@@ -80,7 +80,7 @@ app.delete('/api/v1/variables/:id', app.auth.authenticate(), variables.delete);
 app.get('/api/v1/users/:page/:size', app.auth.authenticate(), users.findAll);
 app.get('/api/v1/users/search/:page/:size/:name', app.auth.authenticate(), users.search);
 app.get('/api/v1/users/:id', app.auth.authenticate(), users.findById);
-app.post('/api/v1/users', users.save);
+app.post('/api/v1/users', app.auth.authenticate(), users.save);
 app.put('/api/v1/users/:id', app.auth.authenticate(), users.update);
 app.delete('/api/v1/users/:id', app.auth.authenticate(), users.delete);
 
