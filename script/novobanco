@@ -1,0 +1,17 @@
+CREATE TABLE RASTER_DATA9
+(
+  ID BIGSERIAL NOT NULL,
+  RAST RASTER,
+  FILENAME TEXT,
+  VARIABLE CHARACTER VARYING(10),
+  CONSTRAINT RASTER_DATA_PKEY9 PRIMARY KEY (ID)
+)
+WITH (
+  OIDS=FALSE
+);
+
+
+
+query para inserir os dados da tabela velha na nova:
+
+insert into raster_data9 (rast, filename, variable) select rast, filename, variable from raster_data where id=7685;
