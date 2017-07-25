@@ -23,6 +23,7 @@ ensembles = require('./server/controllers/ensembles'),
 intervals = require('./server/controllers/intervals'),
 requests = require('./server/controllers/requests'),
 configurations = require('./server/controllers/configurations'),
+mails = require('./server/controllers/mails'),
 public = require('./server/controllers/public'),
 autentication = require('./server/controllers/authorization'),
 /*Authorization*/
@@ -186,6 +187,8 @@ app.get('/api/v1/public/requests/process/:id', requests.process);
 app.get('/api/v1/public/years', public.findYears);
 /*months public*/
 app.get('/api/v1/public/months', public.findMonths);
+/*sendmail*/
+app.post('/api/v1/public/mails', mails.send);
 
 
 app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/', public.findByCoordinates);
