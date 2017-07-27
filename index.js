@@ -23,6 +23,7 @@ ensembles = require('./server/controllers/ensembles'),
 intervals = require('./server/controllers/intervals'),
 requests = require('./server/controllers/requests'),
 configurations = require('./server/controllers/configurations'),
+modelfreqs = require('./server/controllers/modelfreqs'),
 mails = require('./server/controllers/mails'),
 public = require('./server/controllers/public'),
 autentication = require('./server/controllers/authorization'),
@@ -155,7 +156,15 @@ app.get('/api/v1/configurations/search/:page/:size/:name', app.auth.authenticate
 app.get('/api/v1/configurations/:id', app.auth.authenticate(), configurations.findById);
 app.post('/api/v1/configurations', app.auth.authenticate(), configurations.save);
 app.put('/api/v1/configurations/:id', app.auth.authenticate(), configurations.update);
-app.delete('/api/v1/configurations/:id', app.auth.authenticate(), configurations.delete);
+//app.delete('/api/v1/configurations/:id', app.auth.authenticate(), configurations.delete);
+
+/*modelfreqs api*/
+app.get('/api/v1/modelfreqs/:page/:size', modelfreqs.findAll);
+app.get('/api/v1/modelfreqs/search/:page/:size/:name', app.auth.authenticate(), modelfreqs.search);
+app.get('/api/v1/modelfreqs/:id', app.auth.authenticate(), modelfreqs.findById);
+app.post('/api/v1/modelfreqs', app.auth.authenticate(), modelfreqs.save);
+app.put('/api/v1/modelfreqs/:id', app.auth.authenticate(), modelfreqs.update);
+app.delete('/api/v1/modelfreqs/:id', app.auth.authenticate(), modelfreqs.delete);
 
 /*PUBLIC ROUTES*/
 /*login*/
