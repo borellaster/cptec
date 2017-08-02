@@ -28,7 +28,8 @@ WITH (
 );
 ALTER TABLE MODELS_FREQ OWNER TO CPTEC;
 
-/*RASTER DATA*/
+
+/*RASTER DATA 1*/
 CREATE TABLE RASTER_DATA_1
 (
   ID BIGSERIAL NOT NULL,
@@ -51,5 +52,40 @@ WITH (
 );
 ALTER TABLE RASTER_DATA_1 OWNER TO CPTEC;
 
+/*RASTER DATA 1*/
+CREATE TABLE RASTER_DATA_2
+(
+  ID BIGSERIAL NOT NULL,
+  DATE DATE,
+  TIME TIME,
+  RAST RASTER,
+  FILENAME TEXT,
+  MODEL CHARACTER VARYING(20),
+  MODEL_COUPLED CHARACTER VARYING(20),
+  SCENARIO CHARACTER VARYING(20),
+  MODEL_RESOLUTION CHARACTER VARYING(10),
+  ENSEMBLE CHARACTER VARYING(10),
+  INTERVAL CHARACTER VARYING(10),
+  VARIABLE CHARACTER VARYING(10),
+  VERSION CHARACTER VARYING(2),
+  CONSTRAINT RASTER_DATA_2_PKEY PRIMARY KEY (ID)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE RASTER_DATA_2 OWNER TO CPTEC;
 
---abaixo as demais tabelas....
+
+/*procedure raster_data_1*/
+create trigger raster_data_BI
+before insert
+on raster_data_1
+for each row
+execute procedure raster_data_BI();
+
+/*procedure raster_data_2*/
+create trigger raster_data_BI
+before insert
+on raster_data_2
+for each row
+execute procedure raster_data_BI();
