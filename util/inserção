@@ -5,3 +5,7 @@ raster2pgsql -s 4236 -I -C -M /home/mosaico/Eta_15_forecast_daily_OCIS_20170116_
 from existing table
 
 raster2pgsql -a -s 4326 -I -M -F -C C:\Eta_15_forecast_daily_OCIS_20170106_0000_v1.tif public.raster_data | psql -U cptec -d cptec -h localhost -p 5432
+
+for new tables
+
+raster2pgsql -a -s 4326 -I -M -F -C /home/mosaico/PrevisõesClima/TP2M/Eta_MIROC5_20_RCP4.5_climate_daily_*.tif public.raster_data_1 | psql -U cptec -d cptec -h localhost -p 5432
