@@ -25,7 +25,7 @@ var nodemailer = require('nodemailer');
 var base64 = require('file-base64');
 
 /*report*/
-var Report = require('fluentReports').Report;
+//var Report = require('fluentReports').Report;
 
 module.exports = {
 
@@ -170,13 +170,13 @@ module.exports = {
               }
 
               /*report*/
-              var data = [{name: 'Elijah', age: 18}, {name: 'Abraham', age: 22}, {name: 'Gavin', age: 28}];
+              //var data = [{name: 'Elijah', age: 18}, {name: 'Abraham', age: 22}, {name: 'Gavin', age: 28}];
               // Create a Report  
-              var rpt = new Report(rootPath+'Requisicao_'+requisicao.id+'.pdf')        
-                    .pageHeader(["Employee Ages"])
-                    .data(data)
-                    .detail([['name', 200],['age', 50]])
-                    .render();
+              //var rpt = new Report(rootPath+'Requisicao_'+requisicao.id+'.pdf')        
+              //      .pageHeader(["Employee Ages"])
+              //      .data(data)
+              //      .detail([['name', 200],['age', 50]])
+              //      .render();
 
 
               var zip = new JSZip();
