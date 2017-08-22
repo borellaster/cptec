@@ -691,3 +691,7 @@ before insert
 on raster_data_22
 for each row
 execute procedure raster_data_BI();
+
+
+
+INSERT INTO TYPES(NAME, EXTENSION) VALUES ('GEOJSON', '.geojson');
