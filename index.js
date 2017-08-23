@@ -97,8 +97,8 @@ app.delete('/api/v1/types/:id', app.auth.authenticate(), types.delete);
 /*requests api*/
 app.get('/api/v1/requests/:page/:size', app.auth.authenticate(), requests.findAll);
 app.get('/api/v1/requests/search/:page/:size/:name', app.auth.authenticate(), requests.search);
-app.get('/api/v1/requests/:id', app.auth.authenticate(), requests.findById);
-app.post('/api/v1/requests', requests.save); //essa fica aberta pq o cara vai poder gravar 
+app.get('/api/v1/requests/:id', requests.findById); //app.auth.authenticate() autenticar esta
+app.post('/api/v1/requests', requests.save); //aberta para o usuário
 app.put('/api/v1/requests/:id', app.auth.authenticate(), requests.update);
 app.delete('/api/v1/requests/:id', app.auth.authenticate(), requests.delete);
 

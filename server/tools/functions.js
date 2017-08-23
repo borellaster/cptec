@@ -32,4 +32,24 @@ module.exports =  {
     return coord;
   },
 
+  generateReport: function (path, req) {
+    var contactInfo = function(rpt, data) {
+        rpt.print([
+        data.name,
+        data.add1,
+        data.add2,
+        [data.city, data.state.abbr, data.zip].join(' ')
+      ], {x:80});
+    };
+
+    var resultReport = new Report(path+'Requisicao_'+req.id+'.pdf')        
+          .pageHeader(["Requisição"])
+          .data(output)
+          .detail([['name', 200],['age', 50]])
+          .render();
+
+
+    return coord;
+  },
+
 };

@@ -16,8 +16,8 @@ var JSZip = require("jszip");
 var archiver = require("archiver");
 var json2csv = require('json2csv');
 var fs = require('fs');
-var fields = ['value', 'date', 'time', 'variable'];
-var fieldNames = ['Valor', 'Data', 'Hora', 'Variavel'];
+var fields = ['value', 'date', 'time', 'variable','lat','lng'];
+var fieldNames = ['Valor', 'Data', 'Hora', 'Variavel','Latitude','Longitude'];
 var file = "";
 var output = "";
 
@@ -148,15 +148,6 @@ module.exports = {
         where += " and upper(model_resolution) = upper('"+requisicao.model.resolution+"') ";
         where += " and upper(model_coupled) = upper('"+requisicao.model.couple+"') ";
         where += " and upper(scenario) = upper('"+requisicao.model.scenario+"') ";
-
-        //discover table by model and frequence.
-        /*var sqlModelFreq = "select name from \"models_freq\" ";
-        sqlModelFreq += "   where model_id = "+requisicao.model_id;
-        sqlModelFreq += "   and interval_id = "+requisicao.interval_id;
-        db.sequelize.query(sqlModelFreq , { 
-                  type:db.Sequelize.QueryTypes.SELECT}).then(function(name) {
-          console.log(name);
-        });*/
 
         modelfreq.findAll({limit: 1,
                          where: {model_id: requisicao.model_id, interval_id: requisicao.interval_id},
