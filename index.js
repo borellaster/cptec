@@ -198,12 +198,9 @@ app.get('/api/v1/public/years', public.findYears);
 app.post('/api/v1/public/mails', mails.send);
 
 
-app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/', public.findByCoordinates);
-app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/:id/:page/:size', public.findByCoordinatesPag);
-app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startmonth/:startyear/:endmonth/:endyear/:id/:page/:size', public.findByCoordinatesPag);
-
-//ver aqui quando não for paginado, teria que ter um minimo de periodo para retornar os dados
-//mais que X anos, temos que bloquear e forçar para que façam uma requisição
+//app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/', public.findByCoordinates);
+//app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/:id/:page/:size', public.findByCoordinatesPag);
+//app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startmonth/:startyear/:endmonth/:endyear/:id/:page/:size', public.findByCoordinatesPag);
 
 //set default port
 app.set('port', process.env.PORT || 8000);

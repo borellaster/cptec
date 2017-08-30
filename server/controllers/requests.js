@@ -101,7 +101,7 @@ module.exports = {
     }).catch(function (error){
       res.status(500).json(error);
     });
-  },  
+  }, 
 
   save(req, res) {    
     request.create(req.body).then(function (object) {
