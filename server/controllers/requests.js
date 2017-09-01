@@ -131,11 +131,11 @@ module.exports = {
     request.findById(req.params.id, {include: {all: true}}).then(function (requisicao) {
         var rootPath = path.resolve(__dirname);
         rootPath = rootPath.substring(0, rootPath.length -24);  
-        var rpt = new Report(rootPath+'Requisicao_'+requisicao.id+'.pdf')        
-              .pageHeader(["Requisição"])
-              .data(output)
-              .detail([['name', 200],['age', 50]])
-              .render();
+        //var rpt = new Report(rootPath+'Requisicao_'+requisicao.id+'.pdf')        
+        //      .pageHeader(["Requisição"])
+        //      .data(output)
+        //      .detail([['name', 200],['age', 50]])
+        //      .render();
         var adjusted = functions.findQuadrant(requisicao.location.coordinates[0], requisicao.location.coordinates[1]);
         var latitude = adjusted.lat;
         var longitude = adjusted.lng; 
@@ -152,14 +152,32 @@ module.exports = {
         modelfreq.findAll({limit: 1,
                          where: {model_id: requisicao.model_id, interval_id: requisicao.interval_id},
                          }).then(function (modelfreqs) {
-          console.log(modelfreqs[0].name);
-          var query = " select ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
-          " to_char(date, 'YYYY-MM-DD') as date, time, variable, "+
-          latitude + " as lat, "+
-          longitude + " as lng "+
-          " from "+ modelfreqs[0].name + " "+
-          where + 
-          " order by variable, date, time ";
+          console.log("new table -> "+modelfreqs[0].name);
+          var query = "";
+
+          if(requisicao.query_type == 'DE'){
+            var poligono = "";
+            var tmp = "";
+            for(var i = 0; i < requisicao.location.coordinates[0].length;i++){
+              tmp = requisicao.location.coordinates[0][i];
+              tmp = tmp[0] + " " + tmp[1]+ ",";
+              poligono += tmp;
+            }
+            poligono = poligono.substring(0, poligono.length -1);
+            query = " SELECT value, to_char(date, 'YYYY-MM-DD') as date, time, variable "+
+                    " FROM "+ modelfreqs[0].name + " "+
+                    " INNER JOIN ST_GeomFromText('POLYGON(("+poligono+"))',4236) AS geom  ON ST_Intersects(rast, ST_GeomFromText('POLYGON(("+poligono+"))',4236)), "+
+                    " ST_ValueCount(ST_Clip(rast,geom),1) AS pvc";
+          }else{
+            query = " SELECT ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
+                    " to_char(date, 'YYYY-MM-DD') as date, time, variable, "+
+                    latitude + " as lat, "+
+                    longitude + " as lng "+
+                    " FROM "+ modelfreqs[0].name + " ";
+          }
+
+          query += where + " order by variable, date, time ";
+
           db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
               if(requisicao.type.extension == '.csv'){
                 output = json2csv({ data: rasters, fields: fields, fieldNames: fieldNames, del: ';'});
@@ -259,8 +277,9 @@ module.exports = {
               
               // append a file from string
               archive.append(output, { name: 'Requisicao_'+requisicao.id+requisicao.type.extension});
-              var file1 = rootPath+'Requisicao_'+requisicao.id+'.pdf';
-              archive.append(fs.createReadStream(file1), { name: 'Requisicao_'+requisicao.id+'.pdf' });
+              //PDF FILE
+              //var file1 = rootPath+'Requisicao_'+requisicao.id+'.pdf';
+              //archive.append(fs.createReadStream(file1), { name: 'Requisicao_'+requisicao.id+'.pdf' });
 
               // finalize the archive (ie we are done appending files but streams have to finish yet)
               archive.finalize();
