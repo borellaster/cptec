@@ -192,8 +192,8 @@ app.get('/api/v1/public/intervals', intervals.combo);
 app.get('/api/v1/public/types', types.combo);
 /*process public*/
 app.get('/api/v1/public/requests/process/:id', requests.process);
-/*years public*/
-app.get('/api/v1/public/years', public.findYears);
+/*years public
+app.get('/api/v1/public/years', public.findYears);*/
 /*sendmail*/
 app.post('/api/v1/public/mails', mails.send);
 

@@ -784,3 +784,7 @@ execute procedure raster_data_BI();
 
 INSERT INTO TYPES(NAME, EXTENSION) VALUES ('GEOJSON', '.geojson');
 
+ALTER TABLE public.configurations ADD COLUMN link_visualization character varying(255);
+
+ALTER TABLE public.configurations ADD COLUMN link_api character varying(255);
+
