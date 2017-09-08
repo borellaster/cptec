@@ -49,3 +49,17 @@ where 1=1  and extract(month from date) between 1 and 12 and extract(year from d
 and variable in ('TP2M') and upper(model) = upper('ETA')  and upper(model_resolution) = upper('20')  and upper(model_coupled) = upper('MIROC5')  and upper(scenario) = upper('HISTORICAL')  
 GROUP BY value, date, time, variable
 order by variable, date, time
+
+
+====
+
+
+select * 
+from
+( 
+select(st_pixelaspoints(( 
+SELECT(ST_Union(ST_Clip(rast, ST_Transform((SELECT ST_GeomFromText('POLYGON((-54.58007812499999 -19.559790136497398,-54.58007812499999 -14.689881366618762,-44.12109374999999 -14.689881366618762,-44.12109374999999 -19.559790136497398,-54.58007812499999 -19.559790136497398))',4326) As wgs_geom), ST_SRID(rast) ) ) ) ) AS rast),1)).*, variable, date
+from raster_data_3 
+WHERE  ST_Intersects(rast, (SELECT ST_GeomFromText('POLYGON((-54.58007812499999 -19.559790136497398,-54.58007812499999 -14.689881366618762,-44.12109374999999 -14.689881366618762,-44.12109374999999 -19.559790136497398,-54.58007812499999 -19.559790136497398))',4236) As wgs_geom)) 
+              and (date>='2006-01-01' and date<='2006-01-02')
+group by variable, date) r1
