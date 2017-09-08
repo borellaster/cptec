@@ -176,6 +176,8 @@ app.get('/api/v1/public/states', states.combo);
 app.get('/api/v1/public/variables', variables.combo);
 app.get('/api/v1/public/requests/:hash', requests.findByHashDownload);
 
+app.get('/api/v1/public/:model/:model_id/:interval/:interval_id/:start_month/:start_year/:end_month/:end_year/:variable/:latitude/:longitude', public.findByFilter);
+
 /*models public*/
 app.get('/api/v1/public/models', models.combo);
 /*couple public*/
