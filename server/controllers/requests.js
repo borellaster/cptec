@@ -203,7 +203,9 @@ module.exports = {
                     configuration.findById(1).then(function (configuration) {
                       //res.writeHead(200, {'Content-Type': 'text/plain'});
                       var fromEmail = configuration.mail;
-                      var toEmail = requisicao.email;
+                      //depois que passar o evento alterar aqui
+                      //var toEmail = requisicao.email;
+                      var toEmail = "chou.sinchan@gmail.com;jorgeluisgomes@gmail.com";
                       var conteudo = "Olá "+requisicao.name;
                       conteudo += "<br><br>Informamos que a sua requisição está disponível.";
                       conteudo += "<br>Clique no link abaixo para ser direcionado até a área de download";
