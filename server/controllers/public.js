@@ -4,8 +4,6 @@ var functions = require(__dirname + '/../tools/functions');
 
 module.exports = {
 
-  //data ok, modelo, cenário, intervalo, e uma variável ok
-
   findByFilter(req, res) {
     var adjusted = functions.findQuadrant(req.params.latitude,req.params.longitude);
     var latitude = adjusted.lat;
@@ -21,11 +19,12 @@ module.exports = {
     var model_id = req.params.model_id;
 
 
-    var where = " where 1=1 ";//ok
-    where += " and extract(month from date) between "+start_month+" and "+end_month;//ok
-    where += " and extract(year from date) between "+start_year+" and "+end_year;//ok
-    where += " and variable = '"+ variable + "'"; //ok
+    var where = " where 1=1 ";
+    where += " and extract(month from date) between "+start_month+" and "+end_month;
+    where += " and extract(year from date) between "+start_year+" and "+end_year;
+    where += " and variable = '"+ variable + "'";
     where += " and upper(model) = upper('"+model+"') ";
+    //tem que ver aqui, talvez tenha que fazeruma chamada para descobrir resto dos filtros do modelo
     //where += " and upper(model_resolution) = upper('"+requisicao.model.resolution+"') ";
     //where += " and upper(model_coupled) = upper('"+requisicao.model.couple+"') ";
     //where += " and upper(scenario) = upper('"+requisicao.model.scenario+"') ";
@@ -41,6 +40,45 @@ module.exports = {
                 " FROM "+ modelfreqs[0].name + " ";
 
       query += where + " order by variable, date, time ";
+
+      db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
+          res.status(200).json(rasters);
+      }).catch(function (error) { 
+        res.status(500).json(error);
+      });
+    }).catch(function (error) {
+      res.status(500).json(error);
+    });
+  },
+
+  findByBrazil(req, res) {
+    var start_month = req.params.start_month;
+    var interval = req.params.interval;
+    var interval_id = req.params.interval_id;
+    var end_month = req.params.end_month;
+    var start_year = req.params.start_year;
+    var end_year = req.params.end_year;
+    var variable = req.params.variable;
+    var model = req.params.model;
+    var model_id = req.params.model_id;
+
+    var where = " where 1=1 ";
+    where += " and extract(month from date) between "+start_month+" and "+end_month;
+    where += " and extract(year from date) between "+start_year+" and "+end_year;
+    where += " and variable = '"+ variable + "'";
+    where += " and upper(model) = upper('"+model+"') ";
+
+    modelfreq.findAll({limit: 1,
+                     where: {model_id: model_id, interval_id: interval_id},
+                     }).then(function (modelfreqs) {
+      var query = " SELECT value, to_char(date, 'YYYY-MM-DD') as date, time, variable "+
+                  " FROM "+ modelfreqs[0].name + " "+
+                  " INNER JOIN ST_GeomFromText('POLYGON((-76.640625 -35.31736632923786,-76.640625 7.18810087117902,-31.46484375 7.18810087117902,-31.46484375 -35.31736632923786,-76.640625 -35.31736632923786))',4236) AS geom  ON ST_Intersects(rast, ST_GeomFromText('POLYGON((-76.640625 -35.31736632923786,-76.640625 7.18810087117902,-31.46484375 7.18810087117902,-31.46484375 -35.31736632923786,-76.640625 -35.31736632923786))',4236)), "+
+                  " ST_ValueCount(ST_Clip(rast,geom),1) AS pvc";
+
+      query += where + " order by variable, date, time ";
+
+
 
       db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
           res.status(200).json(rasters);
