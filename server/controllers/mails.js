@@ -21,6 +21,9 @@ module.exports = {
           auth: {
             user: configuration.mail,
             pass: configuration.password
+          },
+          tls: {
+              rejectUnauthorized: false
           }
       });
       transporter.sendMail({
@@ -31,6 +34,7 @@ module.exports = {
           html: conteudo
       }, function(error, response){
           if(error){
+              console.log(error);
               console.log('Falha ao enviar email');
               res.status(500).json('Falha ao enviar email');
           }else{
