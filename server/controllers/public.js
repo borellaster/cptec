@@ -61,7 +61,7 @@ module.exports = {
     var model = req.params.model;
     var model_id = req.params.model_id;
 
-    var where = " where 1=1 ";
+    var where = "";
     where += " and extract(month from date) between "+start_month+" and "+end_month;
     where += " and extract(year from date) between "+start_year+" and "+end_year;
     where += " and variable = '"+ variable + "'";
@@ -70,14 +70,19 @@ module.exports = {
     modelfreq.findAll({limit: 1,
                      where: {model_id: model_id, interval_id: interval_id},
                      }).then(function (modelfreqs) {
-      var query = " SELECT ST_AsText(geom) as point, value, to_char(date, 'YYYY-MM-DD') as date, time, variable "+
+      /*var query = " SELECT st_X(geom) as latitude, st_Y(geom) as longitude, value, to_char(date, 'YYYY-MM-DD') as date, time, variable "+
                   " FROM "+ modelfreqs[0].name + " "+
                   " INNER JOIN ST_GeomFromText('POLYGON((-76.640625 -35.31736632923786,-76.640625 7.18810087117902,-31.46484375 7.18810087117902,-31.46484375 -35.31736632923786,-76.640625 -35.31736632923786))',4236) AS geom  ON ST_Intersects(rast, ST_GeomFromText('POLYGON((-76.640625 -35.31736632923786,-76.640625 7.18810087117902,-31.46484375 7.18810087117902,-31.46484375 -35.31736632923786,-76.640625 -35.31736632923786))',4236)), "+
-                  " ST_ValueCount(ST_Clip(rast,geom),1) AS pvc";
-
-      query += where + " order by variable, date, time ";
-
-
+                  " ST_ValueCount(ST_Clip(rast,geom),1) AS pvc";*/
+      var query = " select st_X(geom) as latitude, st_Y(geom) as longitude, val, ";
+          query+= "  variable, to_char(date, 'YYYY-MM-DD') as date ";
+          query+= " from ";
+          query+= " ( ";
+          query+= " select(st_pixelaspoints(( ";
+          query+= " SELECT(ST_Union(ST_Clip(rast, ST_Transform((SELECT ST_GeomFromText('POLYGON((-76.640625 -35.31736632923786, -76.640625 7.18810087117902, -31.46484375 7.18810087117902, -31.46484375 -35.31736632923786, -76.640625 -35.31736632923786))',4236) As wgs_geom), ST_SRID(rast) ) ) ) ) AS rast),1)).*, variable, date ";
+          query+= " FROM "+ modelfreqs[0].name;
+          query+= " WHERE ST_Intersects(rast, (SELECT ST_GeomFromText('POLYGON((-76.640625 -35.31736632923786, -76.640625 7.18810087117902, -31.46484375 7.18810087117902, -31.46484375 -35.31736632923786, -76.640625 -35.31736632923786))',4236) As wgs_geom)) ";
+          query+= where + " group by variable, date) r1 ";
 
       db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
           res.status(200).json(rasters);
