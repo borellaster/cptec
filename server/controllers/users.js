@@ -69,6 +69,7 @@ module.exports = {
 
   findById(req, res) {
     user.findById(req.params.id).then(function (user) {
+      user.password = null;
       res.status(200).json(user);
     }).catch(function (error){
       res.status(500).json(error);
