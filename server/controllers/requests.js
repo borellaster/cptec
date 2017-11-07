@@ -25,6 +25,9 @@ var output = "";
 var http = require('http');
 var nodemailer = require('nodemailer');
 var base64 = require('file-base64');
+var JSONB = require('json-buffer')
+var Buffer = require('buffer').Buffer;
+var base64Binario = require('base-64');
 
 /*report*/
 var Report = require('fluentreports').Report;
@@ -188,6 +191,10 @@ module.exports = {
               } else if(requisicao.type.extension == '.geojson'){
                 var geo = geojson.parse(rasters, {Point: ['lat', 'lng']}); 
                 output = JSON.stringify(geo);
+              } else if(requisicao.type.extension == '.bin'){
+                var str = JSONB.stringify(rasters);
+                var encodedData = base64Binario.encode(str);
+                output = encodedData;
               }
 
               var out = fs.createWriteStream(rootPath+'Requisicao_'+requisicao.id+'.zip');
@@ -204,8 +211,8 @@ module.exports = {
                       //res.writeHead(200, {'Content-Type': 'text/plain'});
                       var fromEmail = configuration.mail;
                       //depois que passar o evento alterar aqui
-                      //var toEmail = requisicao.email;
-                      var toEmail = "chou.sinchan@gmail.com;jorgeluisgomes@gmail.com;angelamazzonettofw@gmail.com";
+                      var toEmail = requisicao.email;
+                      //var toEmail = "chou.sinchan@gmail.com;jorgeluisgomes@gmail.com;angelamazzonettofw@gmail.com";
                       var conteudo = "Olá "+requisicao.name;
                       conteudo += "<br><br>Informamos que a sua requisição está disponível.";
                       conteudo += "<br>Clique no link abaixo para ser direcionado até a área de download";

@@ -39,6 +39,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static('public'));
 
+app.use('/api', express.static(__dirname + '/public/apidoc'));
+
 /*Authorization config*/
 const auth = authorization(app);
 app.use(auth.initialize());
@@ -179,6 +181,8 @@ app.get('/api/v1/public/requests/:hash', requests.findByHashDownload);
 app.get('/api/v1/public/:model/:model_id/:interval/:interval_id/:start_month/:start_year/:end_month/:end_year/:variable/:latitude/:longitude', public.findByFilter);
 app.get('/api/v1/public/:model/:model_id/:interval/:interval_id/:start_month/:start_year/:end_month/:end_year/:variable', public.findByBrazil);
 
+
+
 /*models public*/
 app.get('/api/v1/public/models', models.combo);
 /*couple public*/
@@ -200,10 +204,6 @@ app.get('/api/v1/public/years', public.findYears);*/
 /*sendmail*/
 app.post('/api/v1/public/mails', mails.send);
 
-
-//app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/', public.findByCoordinates);
-//app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startdate/:enddate/:id/:page/:size', public.findByCoordinatesPag);
-//app.get('/api/v1/public/json/:longitude/:latitude/:variables/:startmonth/:startyear/:endmonth/:endyear/:id/:page/:size', public.findByCoordinatesPag);
 
 //set default port
 app.set('port', process.env.PORT || 8000);

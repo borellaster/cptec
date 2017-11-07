@@ -17,6 +17,7 @@
   "dependencies": {
     "archiver": "^2.0.0",
     "async": "^2.4.0",
+    "base-64": "^0.1.0",
     "bcrypt": "~1.0.2",
     "body-parser": "^1.15.2",
     "connect-flash": "^0.1.1",
@@ -32,7 +33,9 @@
     "gulp": "^3.9.1",
     "gulp-jade": "^1.1.0",
     "http-status": "^1.0.1",
+    "js-binary": "^1.1.0",
     "js2xmlparser": "^3.0.0",
+    "json-buffer": "^3.0.0",
     "json2csv": "^3.7.3",
     "jsonfile": "^3.0.0",
     "jszip": "^3.1.3",

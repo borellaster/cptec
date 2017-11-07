@@ -104,3 +104,124 @@ module.exports = {
 
 
 };
+
+/*Documentacao*/
+/**
+ * @api {get} /states Find all
+ * @apiGroup States
+ * @apiSuccess {Object[]} State list
+ * @apiSuccess {Number} state.id id
+ * @apiSuccess {String} state.name name
+ * @apiSuccess {String} state.nickname nickname
+ * @apiSuccess {Number} state.longitude longitude
+ * @apiSuccess {Number} state.latitude latitude
+ * @apiSuccess {Date} state.updated_at Last update
+ * @apiSuccess {Date} state.created_at Register date
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    [{
+ *      "id": 1,
+ *      "name": "Brasil",
+ *      "nickname": "BR",
+ *      "longitude": -50,
+ *      "latitude": -60,
+ *      "updated_at": "2016-02-10T15:46:51.778Z",
+ *      "created_at": "2016-02-10T15:46:51.778Z"
+ *    }]
+ * @apiErrorExample {json} List error
+ *    HTTP/1.1 500 Internal Server Error
+ */
+
+ /**
+ * @api {get} /states/:id Find a state
+ * @apiGroup States
+ * @apiParam {id} id State id
+ * @apiSuccess {Number} state.id id
+ * @apiSuccess {String} state.name name
+ * @apiSuccess {String} state.nickname nickname
+ * @apiSuccess {Number} state.longitude longitude
+ * @apiSuccess {Number} state.latitude latitude
+ * @apiSuccess {Date} state.updated_at Last update
+ * @apiSuccess {Date} state.created_at Register date
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "id": 1,
+ *      "name": "Brasil",
+ *      "nickname": "BR",
+ *      "longitude": -50,
+ *      "latitude": -60,
+ *      "updated_at": "2016-02-10T15:46:51.778Z",
+ *      "created_at": "2016-02-10T15:46:51.778Z"
+ *    }
+ * @apiErrorExample {json} State not found
+ *    HTTP/1.1 404 Not Found
+ * @apiErrorExample {json} Find error
+ *    HTTP/1.1 500 Internal Server Error
+ */
+
+ /**
+ * @api {post} /states Register a new state
+ * @apiGroup States
+ * @apiParamExample {json} Input
+ *    {
+ *      "name": "Brasil",
+ *      "nickname": "BR",
+ *      "longitude": -50,
+ *      "latitude": -60
+ *    }
+ * @apiSuccess {Number} state.id id
+ * @apiSuccess {String} state.name name
+ * @apiSuccess {String} state.nickname nickname
+ * @apiSuccess {Number} state.longitude longitude
+ * @apiSuccess {Number} state.latitude latitude
+ * @apiSuccess {Date} state.updated_at Last update
+ * @apiSuccess {Date} state.created_at Register date
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 200 OK
+ *    {
+ *      "id": 1,
+ *      "name": "Brasil",
+ *      "nickname": "BR",
+ *      "longitude": -50,
+ *      "latitude": -60,
+ *      "updated_at": "2016-02-10T15:46:51.778Z",
+ *      "created_at": "2016-02-10T15:46:51.778Z"
+ *    }
+ * @apiErrorExample {json} Register error
+ *    HTTP/1.1 500 Internal Server Error
+ */
+
+/**
+ * @api {put} /states/:id Update a state
+ * @apiGroup States
+ * @apiParam {Number} state.id id
+ * @apiParam {String} state.name name
+ * @apiParam {String} state.nickname nickname
+ * @apiParam {Number} state.longitude longitude
+ * @apiParam {Number} state.latitude latitude
+ * @apiParamExample {json} Input
+ *    {
+ *      "name": "Brasil",
+ *      "nickname": "BR",
+ *      "longitude": -50,
+ *      "latitude": -60
+ *    }
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 204 No Content
+ * @apiErrorExample {json} Update error
+ *    HTTP/1.1 500 Internal Server Error
+ */
+
+
+/**
+ * @api {delete} /states/:id Remove a state
+ * @apiGroup States
+ * @apiParam {id} id State id
+ * @apiSuccessExample {json} Success
+ *    HTTP/1.1 204 No Content
+ * @apiErrorExample {json} Delete error
+ *    HTTP/1.1 500 Internal Server Error
+ */
+
+

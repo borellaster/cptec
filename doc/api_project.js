@@ -1,0 +1,1 @@
+define({  "name": "Documentação",  "version": "0.0.1",  "description": "Api Node.js para o CPTEC Toolkit",  "title": "CPTEC Documentação da API",  "sampleUrl": false,  "defaultVersion": "0.0.0",  "apidoc": "0.3.0",  "generator": {    "name": "apidoc",    "time": "2017-11-07T01:08:19.721Z",    "url": "http://apidocjs.com",    "version": "0.17.6"  }});
