@@ -152,10 +152,11 @@ module.exports = {
         where += " and upper(model_coupled) = upper('"+requisicao.model.couple+"') ";
         where += " and upper(scenario) = upper('"+requisicao.model.scenario+"') ";
 
-        modelfreq.findAll({limit: 1,
+        modelfreq.findAll({limit: 1, include: {all: true}, 
                          where: {model_id: requisicao.model_id, interval_id: requisicao.interval_id},
                          }).then(function (modelfreqs) {
           console.log("new table -> "+modelfreqs[0].name);
+          console.log("correct_days value -> "+modelfreqs[0].model.correct_days);
           var query = "";
 
           if(requisicao.query_type == 'DE'){
@@ -182,8 +183,11 @@ module.exports = {
           query += where + " order by variable, date, time ";
 
           db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
+              if(modelfreqs[0].model.correct_days == 'S'){
+                rasters = functions.ajustaDatas(rasters);
+              }
               if(requisicao.type.extension == '.csv'){
-                output = json2csv({ data: rasters, fields: fields, fieldNames: fieldNames, del: ';'});
+                output = json2csv({data: rasters, fields: fields, fieldNames: fieldNames, del: ';'});
               } else if(requisicao.type.extension == '.json'){
                 output = JSON.stringify(rasters);
               } else if(requisicao.type.extension == '.xml'){
@@ -211,8 +215,8 @@ module.exports = {
                       //res.writeHead(200, {'Content-Type': 'text/plain'});
                       var fromEmail = configuration.mail;
                       //depois que passar o evento alterar aqui
-                      //var toEmail = requisicao.email;
-                      var toEmail = "chou.sinchan@gmail.com;jorgeluisgomes@gmail.com;angelamazzonettofw@gmail.com";
+                      var toEmail = requisicao.email;
+                      //var toEmail = "chou.sinchan@gmail.com;jorgeluisgomes@gmail.com;angelamazzonettofw@gmail.com";
                       var conteudo = "Olá "+requisicao.name;
                       conteudo += "<br><br>Informamos que a sua requisição está disponível.";
                       conteudo += "<br>Clique no link abaixo para ser direcionado até a área de download";

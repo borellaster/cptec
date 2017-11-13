@@ -1,6 +1,27 @@
 var fs = require('fs');
 
 module.exports =  {
+/*Ano bissexto carrega o dia 29 normalmente. 
+Dia 29 de ano que não é bissexto vira 31 de Janeiro. 
+Dia 30 de Fevereiro sempre vai ser 31 de Março*/
+
+  ajustaDatas: function (data) {
+    var dataReturn = [];
+    for (var i = 0; i < data.length; i++) {
+        var item = data[i]; 
+        if(item.date.includes("03-31")){
+            item.date = item.date.replace("03-31", "02-30") + " changed..";    
+        }
+        dataReturn.push(item)
+    }
+    //console.log(dataReturn);
+
+    return dataReturn;
+  },
+
+  isBissexto: function(year){
+    return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+  },
 
   findQuadrant: function (lat, lng) {
     var latMin = -35.05;

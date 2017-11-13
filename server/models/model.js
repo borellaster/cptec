@@ -7,7 +7,8 @@ module.exports = function(sequelize, DataTypes) {
     scenario: DataTypes.STRING,
     resolution: DataTypes.STRING,
     start_year: DataTypes.INTEGER,
-    end_year: DataTypes.INTEGER
+    end_year: DataTypes.INTEGER,
+    correct_days: DataTypes.STRING
   }, {
     underscored: true,
     classMethods: {
