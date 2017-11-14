@@ -1,26 +1,36 @@
 var fs = require('fs');
 
+var isBissexto = function(year){
+    return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+}
+
+
 module.exports =  {
-/*Ano bissexto carrega o dia 29 normalmente. 
-Dia 29 de ano que não é bissexto vira 31 de Janeiro. 
-Dia 30 de Fevereiro sempre vai ser 31 de Março*/
+
+  isBissexto: isBissexto,
 
   ajustaDatas: function (data) {
     var dataReturn = [];
     for (var i = 0; i < data.length; i++) {
-        var item = data[i]; 
+        var item = data[i];
+        var year = item.date.substring(0,4);
         if(item.date.includes("03-31")){
-            item.date = item.date.replace("03-31", "02-30") + " changed..";    
+            item.date = item.date.replace("03-31", "02-30");
+            item.date = item.date.replace("/", "-");
+            item.date = item.date.replace("/", "-");
+            item.date = item.date.replace("/", "-");
+        } else {
+            if(!isBissexto(year)){
+                item.date = item.date.replace("01-31", "02/29");
+                item.date = item.date.replace("/", "-");
+                item.date = item.date.replace("/", "-");
+                item.date = item.date.replace("/", "-");
+            }
         }
         dataReturn.push(item)
     }
-    //console.log(dataReturn);
 
     return dataReturn;
-  },
-
-  isBissexto: function(year){
-    return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
   },
 
   findQuadrant: function (lat, lng) {
