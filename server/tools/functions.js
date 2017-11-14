@@ -2,12 +2,16 @@ var fs = require('fs');
 
 var isBissexto = function(year){
     return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
-}
+};
 
+function customSort(a, b) {
+    return new Date(a.date).getTime() - new Date(b.date).getTime();
+};
 
 module.exports =  {
 
   isBissexto: isBissexto,
+  customSort: customSort,
 
   ajustaDatas: function (data) {
     var dataReturn = [];
@@ -27,10 +31,10 @@ module.exports =  {
                 item.date = item.date.replace("/", "-");
             }
         }
-        dataReturn.push(item)
+        dataReturn.push(item);
     }
 
-    return dataReturn;
+    return dataReturn.sort(customSort);
   },
 
   findQuadrant: function (lat, lng) {
