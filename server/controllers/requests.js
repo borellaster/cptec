@@ -31,6 +31,7 @@ var base64Binario = require('base-64');
 
 /*report*/
 var Report = require('fluentreports').Report;
+var htmlToPdf = require('html-to-pdf');
 
 module.exports = {
 
@@ -136,9 +137,11 @@ module.exports = {
         rootPath = rootPath.substring(0, rootPath.length -24);  
         //var rpt = new Report(rootPath+'Requisicao_'+requisicao.id+'.pdf')        
         //      .pageHeader(["Requisição"])
-        //      .data(output)
+        //     .data(output)
         //      .detail([['name', 200],['age', 50]])
         //      .render();
+
+
         var adjusted = functions.findQuadrant(requisicao.location.coordinates[0], requisicao.location.coordinates[1]);
         var latitude = adjusted.lat;
         var longitude = adjusted.lng; 
@@ -216,7 +219,7 @@ module.exports = {
                       var fromEmail = configuration.mail;
                       //depois que passar o evento alterar aqui
                       var toEmail = requisicao.email;
-                      //var toEmail = "chou.sinchan@gmail.com;jorgeluisgomes@gmail.com;angelamazzonettofw@gmail.com";
+                      //var toEmail = "chou.sinchan@gmail.com;jorgeluisgomes@gmail.com;angelamazzonettofw@gmail.com;diegodjc@gmail.com";
                       var conteudo = "Olá "+requisicao.name;
                       conteudo += "<br><br>Informamos que a sua requisição está disponível.";
                       conteudo += "<br>Clique no link abaixo para ser direcionado até a área de download";
@@ -302,74 +305,6 @@ module.exports = {
 
               // finalize the archive (ie we are done appending files but streams have to finish yet)
               archive.finalize();
-
-              /*var zip = new JSZip();
-              var ext = requisicao.type.extension;
-              if(ext == ".geojson"){
-                ext = ".json";
-              }
-              zip.file('Requisicao_'+requisicao.id+ext, output);
-              zip
-              .generateNodeStream({type:'nodebuffer',streamFiles:true})
-              .pipe(fs.createWriteStream(rootPath+'Requisicao_'+requisicao.id+'.zip'))
-              .on('finish', function () {
-                  console.log(rootPath+'Requisicao_'+requisicao.id+'.zip written.');
-                  base64.encode(rootPath+'Requisicao_'+requisicao.id+'.zip', function(err, base64String) {  
-                    var query = "UPDATE requests SET file = '"+base64String+"' WHERE id = "+requisicao.id;
-                    db.sequelize.query(query, {type:db.Sequelize.QueryTypes.BULKUPDATE}).then(function(reqUpdate) {
-                      configuration.findById(1).then(function (configuration) {
-                        //res.writeHead(200, {'Content-Type': 'text/plain'});
-                        var fromEmail = configuration.mail;
-                        var toEmail = requisicao.email;
-                        var conteudo = "Olá "+requisicao.name;
-                        conteudo += "<br><br>Informamos que a sua requisição está disponível.";
-                        conteudo += "<br>Clique no link abaixo para ser direcionado até a área de download";
-                        conteudo += "<br><br>"+configuration.link+requisicao.hash + "<br>";
-                        conteudo += "<br>Quando os dados forem utilizados para trabalhos acadêmicos e publicações utilizar nas referências bibliográficas a fonte dos dados CPTEC/INPE da seguinte forma “Dados gerados pelo CPTEC/INPE” e as referências bibliográficas:<br>";
-                        conteudo += "<br>1. Chou, S.C, Lyra, A. , Mourão, C. , Dereczynski, C. , Pilotto, I. , Gomes, J. , Bustamante, J. , Tavares, P. , Silva, A. , Rodrigues, D. , Campos, D. , Chagas, D. , Sueiro, G. , Siqueira, G. , Nobre, P. and Marengo, J. (2014) Evaluation of the Eta Simulations Nested in Three Global Climate Models. American Journal of Climate Change, 3, 438-454. doi:10.4236/ajcc.2014.35039. http://www.scirp.org/journal/PaperInformation.aspx?PaperID=52887#.VakHg_lViko<br>";
-                        conteudo += "<br>2. Chou, S.C, Lyra, A. , Mourão, C. , Dereczynski, C. , Pilotto, I. , Gomes, J. , Bustamante, J. , Tavares, P. , Silva, A. , Rodrigues, D. , Campos, D. , Chagas, D. , Sueiro, G. , Siqueira, G. and Marengo, J. (2014) Assessment of Climate Change over South America under RCP 4.5 and 8.5 Downscaling Scenarios. American Journal of Climate Change,3, 512-527. doi: 10.4236/ajcc.2014.35043. http://www.scirp.org/journal/PaperInformation.aspx?PaperID=52877#.VakIh_lVikp<br>";
-                        conteudo += "<br>3. Lyra, A., Tavares, P., Chou, S.C., Sueiro, G., Dereczynski, C.P., Sondermann, M., Silva, A., Marengo, J., Giarolla, A. 2017.  Climate change projections over three metropolitan regions in Southeast Brazil using the non-hydrostatic Eta regional climate model at 5-km resolution Theor Appl Climatol. doi:10.1007/s00704-017-2067-z.  https://link.springer.com/article/10.1007/s00704-017-2067-z<br>";
-                        conteudo += "<br>Executive Summary:  http://unfccc.int/resource/docs/natc/branc3es.pdf<br>" ;   
-                        conteudo += "<br>Volume 1: http://unfccc.int/resource/docs/natc/branc3v1.pdf<br>" ;
-                        conteudo += "<br>Volume 2: http://unfccc.int/resource/docs/natc/branc3v2.pdf<br>" ;
-                        conteudo += "<br>Volume 3: http://unfccc.int/resource/docs/natc/branc3v3.pdf<br>" ;
- 
-                        var transporter = nodemailer.createTransport({
-                          host: configuration.smtp,
-                          port: configuration.port,
-                          secure: configuration.ssl,
-                          debug: true,
-                            auth: {
-                              user: configuration.mail,
-                              pass: configuration.password
-                            }
-                        });
-                        transporter.sendMail({
-                            from: fromEmail,
-                            to: toEmail,
-                            subject: 'Requisição CPTEC',
-                            text: '',
-                            html: conteudo
-                        }, function(error, response){
-                            if(error){
-                                console.log('Falha ao enviar email');
-                                console.dir({success: false, existing: false, sendError: true});
-                                console.dir(error);
-                            }else{
-                                console.log('Email enviado com sucesso');
-                                console.dir({success: true, existing: false, sendError: false});
-                                console.dir(response);
-                            }
-                        });
-                         res.status(200);
-                      }).catch(function (error){
-                        res.status(500).json(error);
-                      }); 
-                    }).catch(function (error){
-                
-                    });                        
-                  });
-              });*/
 
               res.status(200).json(req.body);
           }).catch(function (error) { 
