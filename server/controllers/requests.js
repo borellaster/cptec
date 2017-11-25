@@ -31,7 +31,8 @@ var base64Binario = require('base-64');
 
 /*report*/
 var Report = require('fluentreports').Report;
-var htmlToPdf = require('html-to-pdf');
+var PDFDocument, doc;
+PDFDocument = require('pdfkit'); 
 
 module.exports = {
 
@@ -135,11 +136,35 @@ module.exports = {
     request.findById(req.params.id, {include: {all: true}}).then(function (requisicao) {
         var rootPath = path.resolve(__dirname);
         rootPath = rootPath.substring(0, rootPath.length -24);  
-        //var rpt = new Report(rootPath+'Requisicao_'+requisicao.id+'.pdf')        
-        //      .pageHeader(["Requisição"])
-        //     .data(output)
-        //      .detail([['name', 200],['age', 50]])
-        //      .render();
+        doc = new PDFDocument;
+        doc.pipe(fs.createWriteStream(rootPath+'Requisicao_'+requisicao.id+'.pdf'));
+        doc.fontSize(18).text('Resumo da Requisição', 100, 80);
+
+        doc.fontSize(14).text('');
+        doc.fontSize(14).text('Nome: '+requisicao.name, {width: 410, align: 'left'});
+        doc.fontSize(14).text('E-mail: '+requisicao.email, {width: 410, align: 'left'});
+        doc.fontSize(14).text('Cenário Climático: '+requisicao.model.name, {width: 410, align: 'left'});
+        doc.fontSize(14).text('Frequência: '+requisicao.interval.name, {width: 410, align: 'left'});
+        if(requisicao.query_type == 'CO'){
+          doc.fontSize(14).text('Tipo de Requisição: Por ponto', {width: 410, align: 'left'});
+        }else if(requisicao.query_type == 'CI'){
+          doc.fontSize(14).text('Tipo de Requisição: Por cidade', {width: 410, align: 'left'});
+        }else{
+          doc.fontSize(14).text('Tipo de Requisição: Por área retangular no mapa', {width: 410, align: 'left'});
+        }
+        var variablesWithouAspa = requisicao.variables.replace("'", "");
+        variablesWithouAspa = variablesWithouAspa.replace("'", "");
+        variablesWithouAspa = variablesWithouAspa.replace("'", "");
+        variablesWithouAspa = variablesWithouAspa.replace("'", "");
+        var periodo = requisicao.start_month + "-" + requisicao.start_year +"/";
+        periodo += requisicao.end_month + "-" + requisicao.end_year;
+        
+        doc.fontSize(14).text('Variáveis: '+variablesWithouAspa, {width: 410, align: 'left'});
+        doc.fontSize(14).text('Período: '+periodo, {width: 410, align: 'left'});
+        doc.fontSize(14).text('Utilização do dado: '+requisicao.utilizacao, {width: 410, align: 'left'});
+        doc.fontSize(14).text('Instituição: '+requisicao.instituicao, {width: 410, align: 'left'});
+        doc.fontSize(14).text('Saída: '+requisicao.type.name, {width: 410, align: 'left'});
+        doc.end();
 
 
         var adjusted = functions.findQuadrant(requisicao.location.coordinates[0], requisicao.location.coordinates[1]);
@@ -300,8 +325,8 @@ module.exports = {
               // append a file from string
               archive.append(output, { name: 'Requisicao_'+requisicao.id+requisicao.type.extension});
               //PDF FILE
-              //var file1 = rootPath+'Requisicao_'+requisicao.id+'.pdf';
-              //archive.append(fs.createReadStream(file1), { name: 'Requisicao_'+requisicao.id+'.pdf' });
+              var file1 = rootPath+'Requisicao_'+requisicao.id+'.pdf';
+              archive.append(fs.createReadStream(file1), { name: 'Requisicao_'+requisicao.id+'.pdf' });
 
               // finalize the archive (ie we are done appending files but streams have to finish yet)
               archive.finalize();
