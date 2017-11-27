@@ -166,8 +166,16 @@ module.exports = {
         doc.fontSize(14).text('Saída: '+requisicao.type.name, {width: 410, align: 'left'});
         doc.end();
 
+        var adjusted = undefined;
+        console.log("model resolution -> "+requisicao.model.resolution);
+        if(requisicao.model.resolution == "5"){
+          adjusted = functions.findQuadrantFive(requisicao.location.coordinates[0], requisicao.location.coordinates[1]);
+        }else if(requisicao.model.resolution == "20"){
+          adjusted = functions.findQuadrantTwenty(requisicao.location.coordinates[0], requisicao.location.coordinates[1]);
+        }else{
+          adjusted = functions.findQuadrant(requisicao.location.coordinates[0], requisicao.location.coordinates[1]);
+        }
 
-        var adjusted = functions.findQuadrant(requisicao.location.coordinates[0], requisicao.location.coordinates[1]);
         var latitude = adjusted.lat;
         var longitude = adjusted.lng; 
 
