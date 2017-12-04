@@ -4,6 +4,7 @@ module.exports = function(sequelize, DataTypes) {
     description: DataTypes.STRING,
     nickname: DataTypes.STRING,
     type: DataTypes.STRING,
+    sequence: DataTypes.INTEGER,
     active: DataTypes.STRING
   }, {
     underscored: true,
