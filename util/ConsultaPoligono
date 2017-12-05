@@ -28,7 +28,7 @@ where 1=1  and extract(month from date) between 1 and 12 and extract(year from d
 order by variable, date, time
 
 
-+++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++ ESTA É O SQL CORRETO PARA PESQUISA POR POLÍGONO __________________________
 select x,y,val,st_X(geom) as latitude, st_Y(geom) as longitude from( select(st_pixelaspoints(( SELECT(ST_Union(ST_Clip(rast, ST_Transform((SELECT ST_GeomFromText('POLYGON((-54.931640625 -20.3034175184893, -50.185546875 -16.97274101999901, -50.2734375 -21.453068633086772, -54.931640625 -20.3034175184893))',4326) As wgs_geom), ST_SRID(rast)))))
 from raster_data_3
 
