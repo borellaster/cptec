@@ -7,7 +7,7 @@ ST_Astiff((
 SELECT(ST_Union(ST_Clip(rast, ST_Transform((SELECT ST_GeomFromText('POLYGON((-54.58007812499999 -19.559790136497398,-54.58007812499999 -14.689881366618762,-44.12109374999999 -14.689881366618762,-44.12109374999999 -19.559790136497398,-54.58007812499999 -19.559790136497398))',4326) As wgs_geom), ST_SRID(rast) ) ) ) ) AS rast
 from raster_data
 WHERE  ST_Intersects(rast, (SELECT ST_GeomFromText('POLYGON((-54.58007812499999 -19.559790136497398,-54.58007812499999 -14.689881366618762,-44.12109374999999 -14.689881366618762,-44.12109374999999 -19.559790136497398,-54.58007812499999 -19.559790136497398))',4236) As wgs_geom)) 
-              and (date>='2071-01-01' and date<='2071-01-02') and variable = 'PREC'
+               and extract(month from date) between 1 and 12 and extract(year from date) between 2006 and 2006 and variable in ('TP2M') and upper(model) = upper('ETA')  and upper(model_resolution) = upper('20')  and upper(model_coupled) = upper('MIROC5')  and upper(scenario) = upper('RCP4.5')
 group by variable, date
 
 
