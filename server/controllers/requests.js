@@ -110,6 +110,30 @@ module.exports = {
 
   save(req, res) {    
     request.create(req.body).then(function (object) {
+      /*console.log(object);
+        if(object.query_type == 'DE'){
+          var query = "select create_tif ('/Users/borella/Documents/requisicao.tif', ";
+           query+=   "   'POLYGON((-75.673828125 -34.30714385628803,-75.673828125 6.315298538330033,-33.486328125 6.315298538330033,-33.486328125 -34.30714385628803,-75.673828125 -34.30714385628803))', ";
+                 query+=   "1,";
+                 query+=   "12,";
+                 query+=   "2005,";
+                query+=   " 2005,";
+                 query+=   "'TP2M',";
+                 query+=   "'ETA',";
+                 query+=   "'20',";
+                 query+=   "'MIROC5',";
+                 query+=   "'HISTORICAL',";
+                 query+=   "'duvido'";
+                query+=   ");";
+          db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(tif) {
+            res.status(200).json(object);
+          }).catch(function (error){
+            console.log('TIFEEEEE ERRO--->'+tif);
+          }); 
+          
+        }else{
+          res.status(200).json(object);
+        }*/
         res.status(200).json(object);
     }).catch(function (error){
       res.status(500).json(error);

@@ -11,14 +11,23 @@ group by variable))
 ) ) As v(oid,tiff);
 
 
-select lo_export (173236, '/Users/borella/Documents/Mestrado/Projeto/duvido.tif');
+select lo_export (173259, '/Users/borella/Documents/Mestrado/Projeto/duvido.tif');
 
 
-SELECT lo_unlink(173236);
+SELECT lo_unlink(173259);
 
 
 
 MEU QUE FUNCIONA
+
+ALTER DATABASE cptec SET postgis.gdal_enabled_drivers TO 'GTiff PNG JPEG';
+ALTER SYSTEM SET postgis.gdal_enabled_drivers TO 'GTiff PNG JPEG';
+SELECT pg_reload_conf();
+SET postgis.gdal_enabled_drivers TO 'GTiff PNG JPEG';
+SET postgis.gdal_enabled_drivers = default;
+SET postgis.gdal_enabled_drivers = 'ENABLE_ALL';
+
+
 
 SELECT oid, lowrite(lo_open(oid, 131072), tiff) As num_bytes
 FROM
@@ -26,6 +35,6 @@ FROM
 ST_Astiff((SELECT(ST_Union(ST_Clip(rast, ST_Transform((SELECT ST_GeomFromText('POLYGON((-57.12890625 -31.653381399663985,-57.12890625 -28.92163128242129,-53.26171875 -28.92163128242129,-53.26171875 -31.653381399663985,-57.12890625 -31.653381399663985))',4326) As wgs_geom), ST_SRID(rast) ) ) ) ) AS rast
 from raster_data
 WHERE  ST_Intersects(rast, (SELECT ST_GeomFromText('POLYGON((-57.12890625 -31.653381399663985,-57.12890625 -28.92163128242129,-53.26171875 -28.92163128242129,-53.26171875 -31.653381399663985,-57.12890625 -31.653381399663985))',4236) As wgs_geom)) 
-and extract(month from date) between 1 and 12 and extract(year from date) between 2005 and 2005 and variable in ('TP2M') and upper(model) = upper('ETA')  and upper(model_resolution) = upper('20')  and upper(model_coupled) = upper('MIROC5')  and upper(scenario) = upper('HISTORICAL')
+and extract(month from date) between 1 and 12 and extract(year from date) between 2000 and 2005 and variable in ('TP2M') and upper(model) = upper('ETA')  and upper(model_resolution) = upper('20')  and upper(model_coupled) = upper('MIROC5')  and upper(scenario) = upper('HISTORICAL')
 group by variable))
 ) ) As v(oid,tiff);
