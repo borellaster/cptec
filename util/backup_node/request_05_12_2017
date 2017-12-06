@@ -204,23 +204,19 @@ module.exports = {
               poligono += tmp;
             }
             poligono = poligono.substring(0, poligono.length -1);
-            if(requisicao.type.extension == '.tif'){
-
-            }else{
-              query = " SELECT value, to_char(date, 'YYYY-MM-DD') as date, time, variable "+
+            query = " SELECT value, to_char(date, 'YYYY-MM-DD') as date, time, variable "+
                     " FROM "+ modelfreqs[0].name + " "+
                     " INNER JOIN ST_GeomFromText('POLYGON(("+poligono+"))',4236) AS geom  ON ST_Intersects(rast, ST_GeomFromText('POLYGON(("+poligono+"))',4236)), "+
                     " ST_ValueCount(ST_Clip(rast,geom),1) AS pvc";
-              query += where + " order by variable, date, time ";
-            }
           }else{
             query = " SELECT ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
                     " to_char(date, 'YYYY-MM-DD') as date, time, variable, "+
                     latitude + " as lat, "+
                     longitude + " as lng "+
                     " FROM "+ modelfreqs[0].name + " ";
-            query += where + " order by variable, date, time ";                    
           }
+
+          query += where + " order by variable, date, time ";
 
           db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
               if(modelfreqs[0].model.correct_days == 'S'){
