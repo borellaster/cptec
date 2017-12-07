@@ -89,7 +89,7 @@ module.exports = {
           }
           poligono = poligono.substring(0, poligono.length -1);
 
-          var query = "select create_tif ('/Users/borella/Documents/requisicao.tif', ";
+          var query = "select create_tif ('"+rootPath+"Requisicao_"+requisicao.id+".tif', ";
           query+= "'POLYGON(("+poligono+"))', ";
           query+= requisicao.start_month+",";
           query+= requisicao.end_month+",";
