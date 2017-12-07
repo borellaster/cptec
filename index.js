@@ -21,7 +21,7 @@ scenarios = require('./server/controllers/scenarios'),
 resolutions = require('./server/controllers/resolutions'),
 ensembles = require('./server/controllers/ensembles'),
 intervals = require('./server/controllers/intervals'),
-requests = require('./server/controllers/requests'),
+requestsTiff = require('./server/controllers/requests_tiff'),
 configurations = require('./server/controllers/configurations'),
 modelfreqs = require('./server/controllers/modelfreqs'),
 mails = require('./server/controllers/mails'),
@@ -199,6 +199,8 @@ app.get('/api/v1/public/intervals', intervals.combo);
 app.get('/api/v1/public/types', types.combo);
 /*process public*/
 app.get('/api/v1/public/requests/process/:id', requests.process);
+/*process public tif*/
+app.get('/api/v1/public/requests/process/tiff/:id', requestsTiff.process);
 /*years public
 app.get('/api/v1/public/years', public.findYears);*/
 /*sendmail*/

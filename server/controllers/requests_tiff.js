@@ -9,15 +9,9 @@ var db = require('../models/index');
 var path = require('path');
 var dateFormat = require('dateformat');
 var functions = require(__dirname + '/../tools/functions');
-var jsonfile = require('jsonfile');
-var js2xmlparser = require("js2xmlparser");
-var geojson = require('geojson');
 var JSZip = require("jszip");
 var archiver = require("archiver");
-var json2csv = require('json2csv');
 var fs = require('fs');
-var fields = ['value', 'date', 'time', 'variable','lat','lng'];
-var fieldNames = ['Valor', 'Data', 'Hora', 'Variavel','Latitude','Longitude'];
 var file = "";
 var output = "";
 
@@ -35,102 +29,6 @@ var PDFDocument, doc;
 PDFDocument = require('pdfkit'); 
 
 module.exports = {
-
-  findAll(req, res) {
-    var result = {data: [], count: 0, page: 1, pages: 1};
-    if(req.params.page <= 0) {
-      req.params.page = 1;
-    }
-    request.findAll({offset: req.params.size * (req.params.page-1), 
-                     limit: req.params.size, 
-                     order: 'name',
-                     include: {all: true}
-                     }).then(function (requests) {
-                      
-      result.data = requests;
-      db.sequelize.query("select count(id) from \"requests\" " , { 
-                type:db.Sequelize.QueryTypes.SELECT}).then(function(count) {
-        result.count = parseInt(count[0].count);
-        result.page = parseInt(req.params.page);
-        result.pages = parseInt(Math.ceil(result.count / req.params.size));  
-        res.status(200).json(result);
-      });      
-    }).catch(function (error) {
-      res.status(500).json(error);
-    });
-  },
-
-  search(req, res) {
-    var result = {data: [], count: 0, page: 1, pages: 1};
-    var name="%", where="";
-    if(req.params.page <= 0) {
-      req.params.page = 1;
-    }
-    if(req.params.name != undefined){
-      name = req.params.name;
-      where = " where name ilike '%"+name+"%' "; 
-    }
-    request.findAll({offset: req.params.size * (req.params.page-1), 
-                     limit: req.params.size, 
-                     order: 'name',
-                     where: {name: {$iLike: '%'+name+'%'}},
-                     include: {all: true}
-                     }).then(function (requests) {
-                      
-      result.data = requests;
-      db.sequelize.query("select count(id) from \"requests\"  "+where , { 
-                type:db.Sequelize.QueryTypes.SELECT}).then(function(count) {
-        result.count = parseInt(count[0].count);
-        result.page = parseInt(req.params.page);
-        result.pages = parseInt(Math.ceil(result.count / req.params.size));  
-        res.status(200).json(result);
-      });      
-    }).catch(function (error) {
-      res.status(500).json(error);
-    });
-  },  
-
-  findById(req, res) {
-    request.findById(req.params.id, {include: {all: true}}).then(function (request) {
-      res.status(200).json(request);
-    }).catch(function (error){
-      res.status(500).json(error);
-    });
-  },
-
-  findByHashDownload(req, res) {
-    var result = {data: []};
-    request.findOne({ where: {hash: req.params.hash}, include: {all: true}}).then(function (request) {
-      result.data = request;
-      res.status(200).json(result);
-    }).catch(function (error){
-      res.status(500).json(error);
-    });
-  }, 
-
-  save(req, res) {    
-    request.create(req.body).then(function (object) {
-      res.status(200).json(object);
-    }).catch(function (error){
-      res.status(500).json(error);
-    });
-  },
-
-  update(req, res) {    
-    request.update(req.body,{where: {id: req.params.id}}).then(function (updatedRecords) {
-      res.status(200).json(req.body);
-    }).catch(function (error){
-      res.status(500).json(error);
-    });
-  },
-
-  delete(req, res) {
-    request.destroy({where: {id: req.params.id}}).then(function (deletedRecords) {
-      res.status(200).json(deletedRecords);
-    }).catch(function (error){
-      res.status(500).json(error);
-    });
-  },
 
   process(req, res) {    
     request.findById(req.params.id, {include: {all: true}}).then(function (requisicao) {
@@ -166,19 +64,6 @@ module.exports = {
         doc.fontSize(14).text('Saída: '+requisicao.type.name, {width: 410, align: 'left'});
         doc.end();
 
-        var adjusted = undefined;
-        console.log("model resolution -> "+requisicao.model.resolution);
-        if(requisicao.model.resolution == "5"){
-          adjusted = functions.findQuadrantFive(requisicao.location.coordinates[0], requisicao.location.coordinates[1]);
-        }else if(requisicao.model.resolution == "20"){
-          adjusted = functions.findQuadrantTwenty(requisicao.location.coordinates[0], requisicao.location.coordinates[1]);
-        }else{
-          adjusted = functions.findQuadrant(requisicao.location.coordinates[0], requisicao.location.coordinates[1]);
-        }
-
-        var latitude = adjusted.lat;
-        var longitude = adjusted.lng; 
-
         var where = " where 1=1 ";
         where += " and extract(month from date) between "+requisicao.start_month+" and "+requisicao.end_month;
         where += " and extract(year from date) between "+requisicao.start_year+" and "+requisicao.end_year;
@@ -194,69 +79,42 @@ module.exports = {
           console.log("new table -> "+modelfreqs[0].name);
           console.log("correct_days value -> "+modelfreqs[0].model.correct_days);
           var query = "";
-
-          if(requisicao.query_type == 'DE'){
-            var poligono = "";
-            var tmp = "";
-            for(var i = 0; i < requisicao.location.coordinates[0].length;i++){
-              tmp = requisicao.location.coordinates[0][i];
-              tmp = tmp[0] + " " + tmp[1]+ ",";
-              poligono += tmp;
-            }
-            poligono = poligono.substring(0, poligono.length -1);
-            if(requisicao.type.extension == '.tif'){
-
-            }else{
-              query = " SELECT value, to_char(date, 'YYYY-MM-DD') as date, time, variable "+
-                    " FROM "+ modelfreqs[0].name + " "+
-                    " INNER JOIN ST_GeomFromText('POLYGON(("+poligono+"))',4236) AS geom  ON ST_Intersects(rast, ST_GeomFromText('POLYGON(("+poligono+"))',4236)), "+
-                    " ST_ValueCount(ST_Clip(rast,geom),1) AS pvc";
-              query += where + " order by variable, date, time ";
-            }
-          }else{
-            query = " SELECT ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+
-                    " to_char(date, 'YYYY-MM-DD') as date, time, variable, "+
-                    latitude + " as lat, "+
-                    longitude + " as lng "+
-                    " FROM "+ modelfreqs[0].name + " ";
-            query += where + " order by variable, date, time ";                    
+          
+          var poligono = "";
+          var tmp = "";
+          for(var i = 0; i < requisicao.location.coordinates[0].length;i++){
+            tmp = requisicao.location.coordinates[0][i];
+            tmp = tmp[0] + " " + tmp[1]+ ",";
+            poligono += tmp;
           }
+          poligono = poligono.substring(0, poligono.length -1);
 
-          db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
-              if(modelfreqs[0].model.correct_days == 'S'){
-                rasters = functions.ajustaDatas(rasters);
-              }
-              if(requisicao.type.extension == '.csv'){
-                output = json2csv({data: rasters, fields: fields, fieldNames: fieldNames, del: ';'});
-              } else if(requisicao.type.extension == '.json'){
-                output = JSON.stringify(rasters);
-              } else if(requisicao.type.extension == '.xml'){
-                output = js2xmlparser.parse("data", rasters);
-              } else if(requisicao.type.extension == '.geojson'){
-                var geo = geojson.parse(rasters, {Point: ['lat', 'lng']}); 
-                output = JSON.stringify(geo);
-              } else if(requisicao.type.extension == '.bin'){
-                var str = JSONB.stringify(rasters);
-                var encodedData = base64Binario.encode(str);
-                output = encodedData;
-              }
-
+          var query = "select create_tif ('/Users/borella/Documents/requisicao.tif', ";
+          query+= "'POLYGON(("+poligono+"))', ";
+          query+= requisicao.start_month+",";
+          query+= requisicao.end_month+",";
+          query+= requisicao.start_year+",";
+          query+= requisicao.end_year+",";
+          query+= requisicao.variables+",";
+          query+= "'"+requisicao.model.model+"',";
+          query+= "'"+requisicao.model.resolution+"',";
+          query+= "'"+requisicao.model.couple+"',";
+          query+= "'"+requisicao.model.scenario+"',";
+          query+=   "'tif'";
+          query+=   ");";
+          db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(tif) {
               var out = fs.createWriteStream(rootPath+'Requisicao_'+requisicao.id+'.zip');
               var archive = archiver('zip', {
-                  zlib: { level: 9 } // Sets the compression level.
+                  zlib: { level: 9 }
               });
 
-              // listen for all archive data to be written
               out.on('close', function() {
                 base64.encode(rootPath+'Requisicao_'+requisicao.id+'.zip', function(err, base64String) {  
                   var query = "UPDATE requests SET file = '"+base64String+"' WHERE id = "+requisicao.id;
                   db.sequelize.query(query, {type:db.Sequelize.QueryTypes.BULKUPDATE}).then(function(reqUpdate) {
                     configuration.findById(1).then(function (configuration) {
-                      //res.writeHead(200, {'Content-Type': 'text/plain'});
                       var fromEmail = configuration.mail;
-                      //depois que passar o evento alterar aqui
                       var toEmail = requisicao.email;
-                      //var toEmail = "chou.sinchan@gmail.com;jorgeluisgomes@gmail.com;angelamazzonettofw@gmail.com;diegodjc@gmail.com";
                       var conteudo = "Olá "+requisicao.name;
                       conteudo += "<br><br>Informamos que a sua requisição está disponível.";
                       conteudo += "<br>Clique no link abaixo para ser direcionado até a área de download";
@@ -315,41 +173,26 @@ module.exports = {
                 console.log('archiver has been finalized and the out file descriptor has closed.');
               });
 
-              // good practice to catch warnings (ie stat failures and other non-blocking errors)
               archive.on('warning', function(err) {
                 if (err.code === 'ENOENT') {
-                    // log warning
                 } else {
-                    // throw error
                     throw err;
                 }
               });
 
-              // good practice to catch this error explicitly
               archive.on('error', function(err) {
                 throw err;
               });
 
-              // pipe archive data to the file
               archive.pipe(out);
-
+              archive.append(output, { name: 'Requisicao_'+requisicao.id+".tif"});
               
-              // append a file from string
-              archive.append(output, { name: 'Requisicao_'+requisicao.id+requisicao.type.extension});
-              //PDF FILE
               var file1 = rootPath+'Requisicao_'+requisicao.id+'.pdf';
               archive.append(fs.createReadStream(file1), { name: 'Requisicao_'+requisicao.id+'.pdf' });
-
-              // finalize the archive (ie we are done appending files but streams have to finish yet)
               archive.finalize();
-
-              res.status(200).json(req.body);
-          }).catch(function (error) { 
-            res.status(500).json(error);
+          }).catch(function (error){
+            
           }); 
-
-
-         
         }).catch(function (error) {
           res.status(500).json(error);
         });
