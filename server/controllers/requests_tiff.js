@@ -185,7 +185,9 @@ module.exports = {
               });
 
               archive.pipe(out);
-              archive.append(output, { name: 'Requisicao_'+requisicao.id+".tif"});
+              //archive.append(output, { name: 'Requisicao_'+requisicao.id+".tif"});
+              var fileTiff = rootPath+'Requisicao_'+requisicao.id+'.tif';
+              archive.append(fs.createReadStream(fileTiff), { name: 'Requisicao_'+requisicao.id+'.tif' });
               
               var file1 = rootPath+'Requisicao_'+requisicao.id+'.pdf';
               archive.append(fs.createReadStream(file1), { name: 'Requisicao_'+requisicao.id+'.pdf' });

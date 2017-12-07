@@ -4,15 +4,9 @@ INSERT INTO TYPES(NAME, EXTENSION) VALUES ('GEOTIFF', '.tif');
 create or replace function create_tif(
       p_path text, 
       p_polygon text, 
-      p_start_month integer,
-      p_end_month integer,
-      p_start_year integer,
-      p_end_year integer,
-      p_variables text,
-      p_model text,
-      p_resolution text,
-      p_coupled text,
-      p_scenario text,
+      p_start_month integer, p_end_month integer,
+      p_start_year integer, p_end_year integer,
+      p_variables text, p_model text, p_resolution text, p_coupled text, p_scenario text,
       p_out text) RETURNS void
  as
  $$
