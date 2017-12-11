@@ -70,10 +70,6 @@ module.exports = {
     modelfreq.findAll({limit: 1,
                      where: {model_id: model_id, interval_id: interval_id},
                      }).then(function (modelfreqs) {
-      /*var query = " SELECT st_X(geom) as latitude, st_Y(geom) as longitude, value, to_char(date, 'YYYY-MM-DD') as date, time, variable "+
-                  " FROM "+ modelfreqs[0].name + " "+
-                  " INNER JOIN ST_GeomFromText('POLYGON((-76.640625 -35.31736632923786,-76.640625 7.18810087117902,-31.46484375 7.18810087117902,-31.46484375 -35.31736632923786,-76.640625 -35.31736632923786))',4236) AS geom  ON ST_Intersects(rast, ST_GeomFromText('POLYGON((-76.640625 -35.31736632923786,-76.640625 7.18810087117902,-31.46484375 7.18810087117902,-31.46484375 -35.31736632923786,-76.640625 -35.31736632923786))',4236)), "+
-                  " ST_ValueCount(ST_Clip(rast,geom),1) AS pvc";*/
       var query = " select st_X(geom) as latitude, st_Y(geom) as longitude, val, ";
           query+= "  variable, to_char(date, 'YYYY-MM-DD') as date ";
           query+= " from ";

@@ -16,8 +16,10 @@ var JSZip = require("jszip");
 var archiver = require("archiver");
 var json2csv = require('json2csv');
 var fs = require('fs');
-var fields = ['value', 'date', 'time', 'variable','lat','lng'];
-var fieldNames = ['Valor', 'Data', 'Hora', 'Variavel','Latitude','Longitude'];
+
+var fields = ['date', 'time', 'lat', 'lng', 'value'];
+var fieldNames = ['Data', 'Hora', 'Latitude', 'Longitude', 'Valor'];
+
 var file = "";
 var output = "";
 
@@ -207,11 +209,22 @@ module.exports = {
             if(requisicao.type.extension == '.tif'){
 
             }else{
-              query = " SELECT value, to_char(date, 'YYYY-MM-DD') as date, time, variable "+
+              query = " select st_X(geom) as lat, st_Y(geom) as lng, val as value, ";
+              query+= "  variable, to_char(date, 'YYYY-MM-DD') as date, variable, time ";
+              query+= " from ";
+              query+= " ( ";
+              query+= " select(st_pixelaspoints(( ";
+              query+= " SELECT(ST_Union(ST_Clip(rast, ST_Transform((SELECT ST_GeomFromText('POLYGON(("+poligono+"))',4236) As wgs_geom), ST_SRID(rast) ) ) ) ) AS rast),1)).*, variable, date ";
+              query+= " FROM "+ modelfreqs[0].name;
+              query+= " WHERE ST_Intersects(rast, (SELECT ST_GeomFromText('POLYGON(("+poligono+"))',4236) As wgs_geom)) ";
+              query+= where.substring(10, where.length) + " group by variable, date) r1 ";
+
+
+              /*query = " SELECT value, to_char(date, 'YYYY-MM-DD') as date, time, variable "+
                     " FROM "+ modelfreqs[0].name + " "+
                     " INNER JOIN ST_GeomFromText('POLYGON(("+poligono+"))',4236) AS geom  ON ST_Intersects(rast, ST_GeomFromText('POLYGON(("+poligono+"))',4236)), "+
                     " ST_ValueCount(ST_Clip(rast,geom),1) AS pvc";
-              query += where + " order by variable, date, time ";
+              query += where + " order by variable, date, time ";*/
             }
           }else{
             query = " SELECT ST_VALUE(RAST, ST_SETSRID(ST_MAKEPOINT("+longitude+", "+latitude+"), 4236)) as value, "+

@@ -61,8 +61,8 @@ module.exports = {
                 type:db.Sequelize.QueryTypes.SELECT}).then(function(models) {
         result.data = models; 
         //cp /Users/borella/Documents/teste.key /Users/borella/Documents/Mestrado/
-        var shell = require('shelljs');
-        shell.exec('pgsql2shp -f "/Users/borella/Documents/teste.shp" -h localhost -p 5432 -u cptec -P Cptec10 cptec "select * from raster_data where id =1 "');
+        //var shell = require('shelljs');
+        //shell.exec('pgsql2shp -f "/Users/borella/Documents/teste.shp" -h localhost -p 5432 -u cptec -P Cptec10 cptec "select * from raster_data where id =1 "');
  
         res.status(200).json(result);
     }).catch(function (error) {
