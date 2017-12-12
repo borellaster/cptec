@@ -17,9 +17,6 @@ var archiver = require("archiver");
 var json2csv = require('json2csv');
 var fs = require('fs');
 
-var fields = ['date', 'time', 'lat', 'lng', 'value'];
-var fieldNames = ['Data', 'Hora', 'Latitude', 'Longitude', 'Valor'];
-
 var file = "";
 var output = "";
 
@@ -214,10 +211,10 @@ module.exports = {
               query+= " from ";
               query+= " ( ";
               query+= " select(st_pixelaspoints(( ";
-              query+= " SELECT(ST_Union(ST_Clip(rast, ST_Transform((SELECT ST_GeomFromText('POLYGON(("+poligono+"))',4236) As wgs_geom), ST_SRID(rast) ) ) ) ) AS rast),1)).*, variable, date ";
+              query+= " SELECT(ST_Union(ST_Clip(rast, ST_Transform((SELECT ST_GeomFromText('POLYGON(("+poligono+"))',4236) As wgs_geom), ST_SRID(rast) ) ) ) ) AS rast),1)).*, variable, date, time ";
               query+= " FROM "+ modelfreqs[0].name;
               query+= " WHERE ST_Intersects(rast, (SELECT ST_GeomFromText('POLYGON(("+poligono+"))',4236) As wgs_geom)) ";
-              query+= where.substring(10, where.length) + " group by variable, date) r1 ";
+              query+= where.substring(10, where.length) + " group by variable, date, time) r1 ";
 
 
               /*query = " SELECT value, to_char(date, 'YYYY-MM-DD') as date, time, variable "+
@@ -240,6 +237,9 @@ module.exports = {
                 rasters = functions.ajustaDatas(rasters);
               }
               if(requisicao.type.extension == '.csv'){
+
+                var fields = ['date', 'time', 'lat', 'lng', 'value'];
+                var fieldNames = ['Data', 'Hora', 'Latitude', 'Longitude', variablesWithouAspa];
                 output = json2csv({data: rasters, fields: fields, fieldNames: fieldNames, del: ';'});
               } else if(requisicao.type.extension == '.json'){
                 output = JSON.stringify(rasters);
@@ -265,9 +265,7 @@ module.exports = {
                   var query = "UPDATE requests SET file = '"+base64String+"' WHERE id = "+requisicao.id;
                   db.sequelize.query(query, {type:db.Sequelize.QueryTypes.BULKUPDATE}).then(function(reqUpdate) {
                     configuration.findById(1).then(function (configuration) {
-                      //res.writeHead(200, {'Content-Type': 'text/plain'});
                       var fromEmail = configuration.mail;
-                      //depois que passar o evento alterar aqui
                       var toEmail = requisicao.email;
                       //var toEmail = "chou.sinchan@gmail.com;jorgeluisgomes@gmail.com;angelamazzonettofw@gmail.com;diegodjc@gmail.com";
                       var conteudo = "Olá "+requisicao.name;
