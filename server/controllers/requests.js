@@ -43,7 +43,8 @@ module.exports = {
     request.findAll({offset: req.params.size * (req.params.page-1), 
                      limit: req.params.size, 
                      order: 'name',
-                     include: {all: true}
+                     include: {all: true},
+                     attributes: {exclude: ['file']}
                      }).then(function (requests) {
                       
       result.data = requests;
