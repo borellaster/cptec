@@ -137,6 +137,7 @@ module.exports = {
         var rootPath = path.resolve(__dirname);
         rootPath = rootPath.substring(0, rootPath.length -24);  
         doc = new PDFDocument;
+        console.log('ROOT PATH '+ rootPath);
         doc.pipe(fs.createWriteStream(rootPath+'Requisicao_'+requisicao.id+'.pdf'));
         doc.fontSize(18).text('Resumo da Requisição', 100, 80);
 
