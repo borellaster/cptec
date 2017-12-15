@@ -115,7 +115,7 @@ module.exports = {
                     configuration.findById(1).then(function (configuration) {
                       var fromEmail = configuration.mail;
                       //var toEmail = requisicao.email;
-                      var toEmail = requisicao.email+ ";chou.sinchan@gmail.com;jorgeluisgomes@gmail.com;angelamazzonettofw@gmail.com;diegodjc@gmail.com";
+                      var toEmail = requisicao.email+ ";projeta@inpe.br";
                       var conteudo = "Olá "+requisicao.name;
                       conteudo += "<br><br>Informamos que a sua requisição está disponível.";
                       conteudo += "<br>Clique no link abaixo para ser direcionado até a área de download";

@@ -268,7 +268,7 @@ module.exports = {
                   db.sequelize.query(query, {type:db.Sequelize.QueryTypes.BULKUPDATE}).then(function(reqUpdate) {
                     configuration.findById(1).then(function (configuration) {
                       var fromEmail = configuration.mail;
-                      var toEmail = requisicao.email+ ";chou.sinchan@gmail.com;jorgeluisgomes@gmail.com;angelamazzonettofw@gmail.com;diegodjc@gmail.com";
+                      var toEmail = requisicao.email+ ";projeta@inpe.br";
                       //var toEmail = requisicao.email;
                       var conteudo = "Olá "+requisicao.name;
                       conteudo += "<br><br>Informamos que a sua requisição está disponível.";
