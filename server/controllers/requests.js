@@ -42,7 +42,7 @@ module.exports = {
     }
     request.findAll({offset: req.params.size * (req.params.page-1), 
                      limit: req.params.size, 
-                     order: 'name',
+                     order: 'id desc',
                      include: {all: true},
                      attributes: {exclude: ['file']}
                      }).then(function (requests) {
@@ -72,7 +72,7 @@ module.exports = {
     }
     request.findAll({offset: req.params.size * (req.params.page-1), 
                      limit: req.params.size, 
-                     order: 'name',
+                     order: 'id desc',
                      where: {name: {$iLike: '%'+name+'%'}},
                      include: {all: true}
                      }).then(function (requests) {

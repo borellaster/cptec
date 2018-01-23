@@ -28,7 +28,7 @@ module.exports = {
     //where += " and upper(model_coupled) = upper('"+requisicao.model.couple+"') ";
     //where += " and upper(scenario) = upper('"+requisicao.model.scenario+"') ";
 
-    modelfreq.findAll({limit: 1,
+    modelfreq.findAll({limit: 1, include: {all: true},
                      where: {model_id: model_id, interval_id: interval_id},
                      }).then(function (modelfreqs) {
       console.log("new table -> "+modelfreqs[0].name);
@@ -41,6 +41,10 @@ module.exports = {
       query += where + " order by variable, date, time ";
 
       db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
+          //res.status(200).json(rasters);
+          if(modelfreqs[0].model.correct_days == 'S'){
+            rasters = functions.ajustaDatas(rasters);
+          }
           res.status(200).json(rasters);
       }).catch(function (error) { 
         res.status(500).json(error);
@@ -67,9 +71,10 @@ module.exports = {
     where += " and variable = '"+ variable + "'";
     where += " and upper(model) = upper('"+model+"') ";
 
-    modelfreq.findAll({limit: 1,
+    modelfreq.findAll({limit: 1, include: {all: true},
                      where: {model_id: model_id, interval_id: interval_id},
                      }).then(function (modelfreqs) {
+
       var query = " select st_X(geom) as latitude, st_Y(geom) as longitude, val, ";
           query+= "  variable, to_char(date, 'YYYY-MM-DD') as date ";
           query+= " from ";
@@ -81,6 +86,9 @@ module.exports = {
           query+= where + " group by variable, date) r1 ";
 
       db.sequelize.query(query, {type:db.Sequelize.QueryTypes.SELECT}).then(function(rasters) {
+          if(modelfreqs[0].model.correct_days == 'S'){
+            rasters = functions.ajustaDatas(rasters);
+          }
           res.status(200).json(rasters);
       }).catch(function (error) { 
         res.status(500).json(error);
