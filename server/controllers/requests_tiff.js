@@ -46,7 +46,7 @@ module.exports = {
         if(requisicao.query_type == 'CO'){
           doc.fontSize(14).text('Tipo de Requisição: Por ponto', {width: 410, align: 'left'});
         }else if(requisicao.query_type == 'CI'){
-          doc.fontSize(14).text('Tipo de Requisição: Por cidade', {width: 410, align: 'left'});
+          doc.fontSize(14).text('Tipo de Requisição: Por município', {width: 410, align: 'left'});
         }else{
           doc.fontSize(14).text('Tipo de Requisição: Por área retangular no mapa', {width: 410, align: 'left'});
         }
